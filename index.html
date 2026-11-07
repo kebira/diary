@@ -2,381 +2,522 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>나의 일기장</title>
 <style>
-  :root {
-    --main: #87a58a;      /* 세이지 그린 (주조색) */
-    --sub: #f3ebdd;       /* 웜 베이지 (보조색) */
-    --bg: #fbf9f5;
-    --text: #3b3b36;
-    --muted: #8b8a82;
-    --card: #ffffff;
-    --shadow: 0 1px 3px rgba(0,0,0,0.05);
+  :root{
+    --sage:#8a9a7b; --sage-d:#6f7e62; --beige:#f3ede2;
+    --bg:#fbfaf6; --card:#ffffff; --text:#333; --muted:#8a8478; --line:#e6e0d3;
   }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#1f2320; --text:#e8e6df; --muted:#9a9a90; --card:#2a2e2a; --sub:#3a3a30; --shadow:0 1px 3px rgba(0,0,0,0.3); }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#1d1f1b; --card:#262923; --text:#e8e4da; --muted:#a09a8c; --line:#3a3d35; --beige:#3a352b; --sage:#9fb08f; --sage-d:#b5c4a8; }
   }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: "Pretendard", "Noto Sans KR", sans-serif; background:var(--bg); color:var(--text); line-height:1.8; }
-  h1, h2, .serif { font-family: "Noto Serif KR", Georgia, serif; font-weight:600; }
-  button { font: inherit; cursor:pointer; border:none; border-radius:8px; padding:10px 16px; background:var(--main); color:#fff; transition: box-shadow .2s, transform .2s; }
-  button:hover { box-shadow:0 2px 8px rgba(0,0,0,0.12); transform: translateY(-1px); }
-  button.ghost { background:var(--sub); color:var(--text); }
-  button.danger { background:#c97b6b; }
-  input, textarea, select { font:inherit; width:100%; padding:10px; border:1px solid #d8d4c8; border-radius:8px; background:var(--card); color:var(--text); }
-  textarea { min-height:120px; resize:vertical; }
-  .label { font-size:12px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; margin-bottom:4px; display:block; }
-  .card { background:var(--card); border-radius:12px; padding:20px; box-shadow:var(--shadow); margin-bottom:16px; }
-  .hidden { display:none !important; }
-  .fade { animation: fade .4s ease; }
-  @keyframes fade { from {opacity:0} to {opacity:1} }
-
-  /* 로그인 */
-  #login { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:20px; text-align:center; }
-  #login p { color:var(--muted); margin:0; }
-
-  /* 앱 레이아웃 */
-  #app { display:grid; grid-template-columns: 280px 1fr; min-height:100vh; }
-  #side { border-right:1px solid #e4dfd2; padding:20px; overflow-y:auto; max-height:100vh; position:sticky; top:0; }
-  #main { padding:28px; max-width:820px; width:100%; }
-  .topbar { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
-  .nav { display:flex; gap:8px; align-items:center; }
-  .year-title { font-size:14px; color:var(--muted); cursor:pointer; padding:6px 0; }
-  .list-item { padding:8px 10px; border-radius:8px; cursor:pointer; font-size:14px; }
-  .list-item:hover, .list-item.active { background:var(--sub); }
-  .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .msg { font-size:13px; color:var(--muted); min-height:20px; margin-top:8px; }
-  .empty { text-align:center; color:var(--muted); padding:60px 20px; }
-
-  @media (max-width: 760px) {
-    #app { grid-template-columns: 1fr; }
-    #side { position:static; max-height:none; border-right:none; border-bottom:1px solid #e4dfd2; }
-    #main { padding:18px; }
-    .row { grid-template-columns:1fr; }
-  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif;line-height:1.8}
+  .hidden{display:none!important}
+  header{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;padding:20px 24px}
+  h1{font-family:Georgia,"Noto Serif KR",serif;font-weight:600;font-size:24px;margin:0}
+  .who{font-size:13px;color:var(--muted);margin-right:12px}
+  .app{display:grid;grid-template-columns:320px 1fr;gap:28px;max-width:1100px;margin:0 auto;padding:0 24px 40px}
+  @media (max-width:760px){.app{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .label{font-size:12px;color:var(--muted);letter-spacing:.05em}
+  .msg{font-size:14px;color:var(--muted);min-height:22px;margin:8px 0 0}
+  h3{font-size:15px;margin:22px 0 8px;color:var(--sage-d)}
+  input,textarea,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font:inherit;margin-bottom:10px}
+  textarea{line-height:1.8;resize:vertical}
+  .title-in{font-family:Georgia,"Noto Serif KR",serif;font-size:20px}
+  button,.btn{min-height:44px;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;cursor:pointer;transition:box-shadow .2s;display:inline-flex;align-items:center;justify-content:center}
+  button:hover,.btn:hover{box-shadow:0 3px 8px rgba(0,0,0,.08)}
+  button:disabled{opacity:.35;cursor:default}
+  .primary{background:var(--sage);border-color:transparent;color:#fff}
+  .danger{color:#b5523b}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .grow{flex:1}
+  .nav{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+  .mood button.on{background:var(--beige);border-color:var(--sage)}
+  .mood{display:flex;gap:8px;margin-bottom:12px}
+  .tabs{display:flex;gap:8px;margin-bottom:12px}
+  .tabs button.on{background:var(--beige)}
+  .item{width:100%;justify-content:flex-start;text-align:left;margin-bottom:6px;border:none;background:transparent;padding:8px 10px}
+  .item:hover{background:var(--beige)}
+  .item.sel{background:var(--beige)}
+  details{margin-bottom:10px}
+  summary{cursor:pointer;color:var(--sage-d);font-weight:600;padding:6px 0}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+  .cal-grid .dow{font-size:11px;color:var(--muted);padding:4px 0}
+  .day{min-height:40px;border:none;padding:4px;font-size:13px;position:relative;border-radius:8px}
+  .day.out{opacity:.3}
+  .day.sel{background:var(--sage);color:#fff}
+  .day .dot{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--sage)}
+  .day.sel .dot{background:#fff}
+  .act{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:6px}
+  @media (max-width:520px){.act{grid-template-columns:1fr 1fr}.act .del{grid-column:span 2}}
+  .act input{margin-bottom:0}
+  .empty{text-align:center;color:var(--muted);padding:18px 0}
+  .fade{animation:fade .6s ease}
+  @keyframes fade{from{opacity:.3}to{opacity:1}}
+  .actions{display:flex;justify-content:space-between;gap:8px;margin-top:20px;flex-wrap:wrap}
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-  Firebase 설정값 입력 위치
-  아래 firebaseConfig 객체를 Firebase 콘솔에서 복사한 값으로 교체하세요.
-============================================================ -->
+<header>
+  <h1>나의 일기장</h1>
+  <div class="row">
+    <span class="who" id="who"></span>
+    <button id="logoutBtn" class="hidden">로그아웃</button>
+  </div>
+</header>
+
+<!-- 로그인 화면 -->
+<div id="login" class="card" style="max-width:420px;margin:60px auto;text-align:center">
+  <p class="label">기기가 달라도 같은 Google 계정이면 같은 일기를 봅니다</p>
+  <button id="loginBtn" class="primary" style="width:100%;margin-top:10px">Google로 로그인</button>
+  <p class="msg" id="loginMsg"></p>
+</div>
+
+<main id="main" class="app hidden">
+
+  <!-- 좌측: 목록 / 달력 / 검색 -->
+  <aside class="card">
+    <div class="tabs">
+      <button id="tabList" class="on grow">목록</button>
+      <button id="tabCal" class="grow">달력</button>
+    </div>
+    <input id="search" placeholder="제목·본문 검색">
+    <div id="side"></div>
+    <div class="row" style="margin-top:14px">
+      <button id="exportBtn" class="grow">내보내기</button>
+      <label class="btn grow">가져오기<input type="file" id="importFile" accept=".json" hidden></label>
+    </div>
+  </aside>
+
+  <!-- 우측: 작성 영역 -->
+  <section class="card" id="editor">
+    <div class="nav">
+      <div class="row">
+        <button id="prev">◀ 이전</button>
+        <button id="next">다음 ▶</button>
+        <button id="today">오늘</button>
+      </div>
+      <span class="label" id="dateLabel"></span>
+    </div>
+    <input type="date" id="dateInput" min="2026-11-04" max="2046-11-03">
+
+    <div class="empty" id="emptyMsg">아직 기록이 없어요. 오늘의 하루를 적어 보세요 🌿</div>
+
+    <div class="mood">
+      <button data-mood="good" class="grow">🙂 좋음</button>
+      <button data-mood="normal" class="grow">😐 보통</button>
+      <button data-mood="bad" class="grow">🙁 나쁨</button>
+    </div>
+
+    <input id="title" class="title-in" placeholder="제목">
+    <textarea id="body" rows="10" placeholder="오늘의 이야기"></textarea>
+
+    <h3>거래 기록 <span class="label">(비워 두어도 저장됩니다)</span></h3>
+    <input id="tradeTime" type="time" placeholder="거래시간">
+    <input id="tradeResult" placeholder="거래결과 (예: 코스피200 선물 1계약 매수, 익절 +0.5pt)">
+    <textarea id="tradeMemo" rows="3" placeholder="기타 메모"></textarea>
+
+    <h3>운동 기록 <span class="label">(비워 두어도 저장됩니다)</span></h3>
+    <div class="row">
+      <label class="label grow">입장 <input id="gymEnter" type="time"></label>
+      <label class="label grow">퇴장 <input id="gymExit" type="time"></label>
+    </div>
+    <p class="label" id="gymDuration">소요 시간: -</p>
+    <div id="acts"></div>
+    <button id="addAct" style="margin-top:6px">+ 운동 추가</button>
+
+    <div class="actions">
+      <button id="deleteBtn" class="danger">삭제</button>
+      <button id="saveBtn" class="primary">저장</button>
+    </div>
+    <p class="msg" id="status"></p>
+  </section>
+</main>
+
 <script type="module">
-// ▼ Firebase 설정값을 여기에 넣으세요 ▼
-const firebaseConfig = {
+/* ==========================================================
+   1) Firebase 설정값 입력 위치
+   Firebase 콘솔 > 프로젝트 설정 > 일반 > 내 앱(웹)의 firebaseConfig 값을
+   아래 빈칸("")에 각각 붙여 넣으세요.
+   ========================================================== */
+const cfg = {
+  apiKey: "const cfg = {
   apiKey: "AIzaSyBrlgD7EeAgtnZmJnX-gfJgRQgyxZDXUg4",
   authDomain: "diary-kebira.firebaseapp.com",
   projectId: "diary-kebira",
   storageBucket: "diary-kebira.firebasestorage.app",
   messagingSenderId: "738922362336",
   appId: "1:738922362336:web:41a5cf733453c53d90e785"
+};",
+  authDomain: "const cfg = {
+  apiKey: "AIzaSyBrlgD7EeAgtnZmJnX-gfJgRQgyxZDXUg4",
+  authDomain: "diary-kebira.firebaseapp.com",
+  projectId: "diary-kebira",
+  storageBucket: "diary-kebira.firebasestorage.app",
+  messagingSenderId: "738922362336",
+  appId: "1:738922362336:web:41a5cf733453c53d90e785"
+};",
+  projectId: "const cfg = {
+  apiKey: "AIzaSyBrlgD7EeAgtnZmJnX-gfJgRQgyxZDXUg4",
+  authDomain: "diary-kebira.firebaseapp.com",
+  projectId: "diary-kebira",
+  storageBucket: "diary-kebira.firebasestorage.app",
+  messagingSenderId: "738922362336",
+  appId: "1:738922362336:web:41a5cf733453c53d90e785"
+};",
+  storageBucket: "const cfg = {
+  apiKey: "AIzaSyBrlgD7EeAgtnZmJnX-gfJgRQgyxZDXUg4",
+  authDomain: "diary-kebira.firebaseapp.com",
+  projectId: "diary-kebira",
+  storageBucket: "diary-kebira.firebasestorage.app",
+  messagingSenderId: "738922362336",
+  appId: "1:738922362336:web:41a5cf733453c53d90e785"
+};",
+  messagingSenderId: "const cfg = {
+  apiKey: "AIzaSyBrlgD7EeAgtnZmJnX-gfJgRQgyxZDXUg4",
+  authDomain: "diary-kebira.firebaseapp.com",
+  projectId: "diary-kebira",
+  storageBucket: "diary-kebira.firebasestorage.app",
+  messagingSenderId: "738922362336",
+  appId: "1:738922362336:web:41a5cf733453c53d90e785"
+};",
+  appId: "const cfg = {
+  apiKey: "AIzaSyBrlgD7EeAgtnZmJnX-gfJgRQgyxZDXUg4",
+  authDomain: "diary-kebira.firebaseapp.com",
+  projectId: "diary-kebira",
+  storageBucket: "diary-kebira.firebasestorage.app",
+  messagingSenderId: "738922362336",
+  appId: "1:738922362336:web:41a5cf733453c53d90e785"
+};"
 };
-// ▲ Firebase 설정값 끝 ▲
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, deleteDoc, collection, getDocs }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const provider = new GoogleAuthProvider();
+// ---------- 상수 / 날짜 유틸 ----------
+const START = "2026-11-07";
+const END = "2046-11-03";
+const MOOD_ICON = { good: "🙂", normal: "😐", bad: "🙁" };
 
-let currentUser = null;
-let currentDate = new Date();
-let diaryCache = {};      // 'YYYY-MM-DD' -> 데이터
-let activeDateStr = fmt(new Date());
-let viewMode = "list";    // list | calendar
-
-// ---------- 유틸 ----------
 const $ = (id) => document.getElementById(id);
-function fmt(d) {
-  const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,"0"), dd = String(d.getDate()).padStart(2,"0");
-  return `${y}-${m}-${dd}`;
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const fmt = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const parse = (s) => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); };
+const addDays = (s, n) => { const d = parse(s); d.setDate(d.getDate()+n); return fmt(d); };
+const clamp = (s) => (s < START ? START : s > END ? END : s);
+const todayStr = () => clamp(fmt(new Date()));
+
+function gymMinutes(e, x) {
+  if (!e || !x) return null;
+  const [eh, em] = e.split(":").map(Number), [xh, xm] = x.split(":").map(Number);
+  let d = (xh*60+xm) - (eh*60+em);
+  if (d < 0) d += 1440;
+  return d;
 }
-function showMsg(text, isError=false) {
-  const el = $("msg");
+
+// ---------- 상태 ----------
+let app, auth, db, user = null;
+let cur = todayStr();
+let curMood = "";
+let curActs = [];
+let view = "list";                 // list | cal
+let calY, calM;                    // 달력 표시 연/월 (0-based month)
+const cache = new Map();           // date -> data
+
+// ---------- 공통 UI ----------
+let statusTimer;
+function flash(text, el = $("status")) {
   el.textContent = text;
-  el.style.color = isError ? "#c97b6b" : "var(--muted)";
+  clearTimeout(statusTimer);
+  statusTimer = setTimeout(() => (el.textContent = ""), 3000);
 }
-function calcDuration(inT, outT) {
-  if (!inT || !outT) return "";
-  const [h1,m1] = inT.split(":").map(Number);
-  const [h2,m2] = outT.split(":").map(Number);
-  let diff = (h2*60+m2) - (h1*60+m1);
-  if (diff < 0) diff += 24*60;
-  return `${diff}분`;
-}
-function diaryDoc(dateStr) {
-  return doc(db, "users", currentUser.uid, "diaries", dateStr);
+function netCheck() {
+  if (!navigator.onLine) { flash("연결을 확인해 주세요"); return false; }
+  return true;
 }
 
-// ---------- 로그인 ----------
-$("loginBtn").addEventListener("click", async () => {
-  try { await signInWithPopup(auth, provider); }
-  catch (e) { alert("로그인에 실패했습니다. 다시 시도해 주세요."); }
-});
-$("logoutBtn").addEventListener("click", () => signOut(auth));
-
-onAuthStateChanged(auth, async (user) => {
-  currentUser = user;
-  if (user) {
-    $("login").classList.add("hidden");
-    $("app").classList.remove("hidden");
-    await loadAll();
-    renderSide();
-    loadDate(fmt(new Date()));
-  } else {
-    $("login").classList.remove("hidden");
-    $("app").classList.add("hidden");
-  }
-});
-
-// ---------- 데이터 ----------
-async function loadAll() {
-  try {
-    const snap = await getDocs(collection(db, "users", currentUser.uid, "diaries"));
-    diaryCache = {};
-    snap.forEach(d => diaryCache[d.id] = d.data());
-  } catch (e) {
-    showMsg("연결을 확인해 주세요.", true);
-  }
+// ---------- 초기화 ----------
+try {
+  app = initializeApp(cfg);
+  auth = getAuth(app);
+  db = getFirestore(app);
+} catch (e) {
+  flash("firebaseConfig 값을 확인해 주세요", $("loginMsg"));
 }
 
-function renderSide() {
-  const list = $("sideList");
-  list.innerHTML = "";
-  const keys = Object.keys(diaryCache).sort().reverse();
-  if (keys.length === 0) {
-    list.innerHTML = `<p class="msg">아직 작성한 일기가 없습니다. 오늘 하루를 기록해 보세요.</p>`;
-    return;
-  }
-  const byYear = {};
-  keys.forEach(k => { const y = k.slice(0,4); (byYear[y] ||= []).push(k); });
-  Object.keys(byYear).forEach(y => {
-    const title = document.createElement("div");
-    title.className = "year-title";
-    title.textContent = `▸ ${y}년 (${byYear[y].length})`;
-    const box = document.createElement("div");
-    box.className = "hidden";
-    title.addEventListener("click", () => box.classList.toggle("hidden"));
-    byYear[y].forEach(k => {
-      const item = document.createElement("div");
-      item.className = "list-item" + (k === activeDateStr ? " active" : "");
-      item.textContent = `${k} ${diaryCache[k].mood || ""}`;
-      item.addEventListener("click", () => loadDate(k));
-      box.appendChild(item);
-    });
-    list.appendChild(title);
-    list.appendChild(box);
+$("loginBtn").onclick = async () => {
+  if (!auth) return flash("firebaseConfig 값을 확인해 주세요", $("loginMsg"));
+  if (!netCheck()) return;
+  try { await signInWithPopup(auth, new GoogleAuthProvider()); }
+  catch (e) { flash("로그인에 실패했습니다. 다시 시도해 주세요", $("loginMsg")); }
+};
+
+$("logoutBtn").onclick = async () => {
+  try { await signOut(auth); } catch (e) { flash("로그아웃에 실패했습니다"); }
+};
+
+if (auth) {
+  onAuthStateChanged(auth, async (u) => {
+    user = u;
+    if (u) {
+      $("login").classList.add("hidden");
+      $("main").classList.remove("hidden");
+      $("logoutBtn").classList.remove("hidden");
+      $("who").textContent = u.email || "";
+      await loadAll();
+      loadDate(todayStr());
+    } else {
+      $("main").classList.add("hidden");
+      $("logoutBtn").classList.add("hidden");
+      $("login").classList.remove("hidden");
+      $("who").textContent = "";
+      cache.clear();
+    }
   });
 }
 
-function loadDate(dateStr) {
-  activeDateStr = dateStr;
-  const d = diaryCache[dateStr] || {};
-  $("dateLabel").textContent = dateStr;
-  $("mood").value = d.mood || "보통";
-  $("title").value = d.title || "";
-  $("body").value = d.body || "";
-  $("tradeTime").value = d.tradeTime || "";
-  $("tradeResult").value = d.tradeResult || "";
-  $("tradeMemo").value = d.tradeMemo || "";
-  $("gymIn").value = d.gymIn || "";
-  $("gymOut").value = d.gymOut || "";
-  $("gymActivity").value = d.gymActivity || "";
-  $("gymDuration").textContent = calcDuration(d.gymIn, d.gymOut) || "-";
-  $("emptyBox").classList.toggle("hidden", !!diaryCache[dateStr]);
-  $("editor").classList.remove("hidden");
+async function loadAll() {
+  if (!user) return;
+  try {
+    const snap = await getDocs(collection(db, "users", user.uid, "diaries"));
+    cache.clear();
+    snap.forEach(d => cache.set(d.id, d.data()));
+    renderSide();
+  } catch (e) {
+    flash(navigator.onLine ? "불러오기에 실패했습니다" : "연결을 확인해 주세요");
+  }
+}
+
+// ---------- 편집 영역 ----------
+function loadDate(s) {
+  cur = clamp(s);
+  const e = cache.get(cur) || {};
+  $("dateInput").value = cur;
+  $("dateLabel").textContent = parse(cur).toLocaleDateString("ko-KR", { year:"numeric", month:"long", day:"numeric", weekday:"long" })
+    + (cur === todayStr() ? " · 오늘" : "");
+  $("title").value = e.title || "";
+  $("body").value = e.body || "";
+  $("tradeTime").value = e.trade?.time || "";
+  $("tradeResult").value = e.trade?.result || "";
+  $("tradeMemo").value = e.trade?.memo || "";
+  $("gymEnter").value = e.gym?.enter || "";
+  $("gymExit").value = e.gym?.exit || "";
+  curActs = (e.gym?.acts || []).map(a => ({ ...a }));
+  curMood = e.mood || "";
+  updateMoodButtons();
+  renderActs();
+  updateDuration();
+  $("emptyMsg").classList.toggle("hidden", cache.has(cur));
   $("editor").classList.remove("fade"); void $("editor").offsetWidth; $("editor").classList.add("fade");
+  calY = parse(cur).getFullYear(); calM = parse(cur).getMonth();
   renderSide();
 }
 
-$("gymIn").addEventListener("change", () => $("gymDuration").textContent = calcDuration($("gymIn").value, $("gymOut").value) || "-");
-$("gymOut").addEventListener("change", () => $("gymDuration").textContent = calcDuration($("gymIn").value, $("gymOut").value) || "-");
-
-function shiftDate(days) {
-  const [y,m,d] = activeDateStr.split("-").map(Number);
-  const nd = new Date(y, m-1, d + days);
-  loadDate(fmt(nd));
+function updateMoodButtons() {
+  document.querySelectorAll("[data-mood]").forEach(b => b.classList.toggle("on", b.dataset.mood === curMood));
 }
-$("prevDay").addEventListener("click", () => shiftDate(-1));
-$("nextDay").addEventListener("click", () => shiftDate(1));
-$("todayBtn").addEventListener("click", () => loadDate(fmt(new Date())));
+document.querySelectorAll("[data-mood]").forEach(b => b.onclick = () => { curMood = b.dataset.mood; updateMoodButtons(); });
 
-$("saveBtn").addEventListener("click", async () => {
-  if (!currentUser) return;
-  const data = {
-    mood: $("mood").value,
-    title: $("title").value.trim(),
+function updateDuration() {
+  const m = gymMinutes($("gymEnter").value, $("gymExit").value);
+  $("gymDuration").textContent = "소요 시간: " + (m === null ? "-" : `${m}분`);
+}
+$("gymEnter").oninput = $("gymExit").oninput = updateDuration;
+
+function renderActs() {
+  $("acts").innerHTML = curActs.map((a, i) => `
+    <div class="act" data-i="${i}">
+      <input data-f="name" placeholder="운동 종류" value="${esc(a.name)}">
+      <input data-f="sets" placeholder="세트" value="${esc(a.sets)}">
+      <input data-f="reps" placeholder="횟수" value="${esc(a.reps)}">
+      <input data-f="weight" placeholder="중량" value="${esc(a.weight)}">
+      <button class="del danger" data-del="${i}">삭제</button>
+    </div>`).join("");
+}
+$("acts").addEventListener("input", (e) => {
+  const row = e.target.closest("[data-i]"); if (!row) return;
+  curActs[+row.dataset.i][e.target.dataset.f] = e.target.value;
+});
+$("acts").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-del]"); if (!b) return;
+  curActs.splice(+b.dataset.del, 1); renderActs();
+});
+$("addAct").onclick = () => { curActs.push({ name:"", sets:"", reps:"", weight:"" }); renderActs(); };
+
+function readForm() {
+  const enter = $("gymEnter").value, exit = $("gymExit").value;
+  return {
+    date: cur,
+    mood: curMood,
+    title: $("title").value,
     body: $("body").value,
-    tradeTime: $("tradeTime").value,
-    tradeResult: $("tradeResult").value,
-    tradeMemo: $("tradeMemo").value,
-    gymIn: $("gymIn").value,
-    gymOut: $("gymOut").value,
-    gymActivity: $("gymActivity").value,
+    trade: { time: $("tradeTime").value, result: $("tradeResult").value, memo: $("tradeMemo").value },
+    gym: {
+      enter, exit,
+      minutes: String(gymMinutes(enter, exit) ?? ""),
+      acts: curActs.filter(a => a.name || a.sets || a.reps || a.weight)
+    },
     updatedAt: new Date().toISOString()
   };
+}
+
+// ---------- 저장 / 삭제 ----------
+$("saveBtn").onclick = async () => {
+  if (!user) return;
+  if (!netCheck()) return;
   try {
-    await setDoc(diaryDoc(activeDateStr), data);
-    diaryCache[activeDateStr] = data;
-    $("emptyBox").classList.add("hidden");
+    const data = readForm();
+    await setDoc(doc(db, "users", user.uid, "diaries", cur), data);
+    cache.set(cur, data);
+    $("emptyMsg").classList.add("hidden");
+    $("editor").classList.remove("fade"); void $("editor").offsetWidth; $("editor").classList.add("fade");
+    flash("저장되었습니다");
     renderSide();
-    showMsg("저장되었습니다.");
   } catch (e) {
-    showMsg("저장에 실패했습니다. 연결을 확인해 주세요.", true);
+    flash(navigator.onLine ? "저장에 실패했습니다. 다시 시도해 주세요" : "연결을 확인해 주세요");
   }
-});
+};
 
-$("deleteBtn").addEventListener("click", async () => {
-  if (!currentUser || !diaryCache[activeDateStr]) return;
-  if (!confirm("이 날짜의 일기를 삭제할까요?")) return;
+$("deleteBtn").onclick = async () => {
+  if (!user || !confirm(`${cur} 일기를 삭제할까요?`)) return;
+  if (!netCheck()) return;
   try {
-    await deleteDoc(diaryDoc(activeDateStr));
-    delete diaryCache[activeDateStr];
-    loadDate(activeDateStr);
-    showMsg("삭제되었습니다.");
+    await deleteDoc(doc(db, "users", user.uid, "diaries", cur));
+    cache.delete(cur);
+    loadDate(cur);
+    flash("삭제되었습니다");
   } catch (e) {
-    showMsg("삭제에 실패했습니다. 연결을 확인해 주세요.", true);
+    flash(navigator.onLine ? "삭제에 실패했습니다" : "연결을 확인해 주세요");
   }
-});
+};
 
-// 검색
-$("searchBox").addEventListener("input", (e) => {
-  const q = e.target.value.trim().toLowerCase();
-  const list = $("sideList");
-  if (!q) { renderSide(); return; }
-  list.innerHTML = "";
-  Object.keys(diaryCache).sort().reverse()
-    .filter(k => (diaryCache[k].title||"").toLowerCase().includes(q) || (diaryCache[k].body||"").toLowerCase().includes(q))
-    .forEach(k => {
-      const item = document.createElement("div");
-      item.className = "list-item";
-      item.textContent = `${k} ${diaryCache[k].title || ""}`;
-      item.addEventListener("click", () => loadDate(k));
-      list.appendChild(item);
+// ---------- 날짜 이동 ----------
+$("prev").onclick = () => loadDate(addDays(cur, -1));
+$("next").onclick = () => loadDate(addDays(cur, 1));
+$("today").onclick = () => loadDate(todayStr());
+$("dateInput").onchange = (e) => e.target.value && loadDate(e.target.value);
+
+// ---------- 좌측 목록 / 달력 / 검색 ----------
+$("tabList").onclick = () => { view = "list"; $("tabList").classList.add("on"); $("tabCal").classList.remove("on"); renderSide(); };
+$("tabCal").onclick  = () => { view = "cal";  $("tabCal").classList.add("on");  $("tabList").classList.remove("on"); renderSide(); };
+$("search").oninput = renderSide;
+
+function itemHtml(s) {
+  const d = cache.get(s) || {};
+  return `<button class="item ${s===cur?"sel":""}" data-d="${s}">
+    <span class="label">${s}</span> ${MOOD_ICON[d.mood] || ""} ${esc(d.title || "(제목 없음)")}
+  </button>`;
+}
+
+function renderSide() {
+  const side = $("side");
+  const q = $("search").value.trim().toLowerCase();
+
+  if (q) {
+    const hits = [...cache.keys()].sort().reverse().filter(s => {
+      const d = cache.get(s);
+      return (d.title || "").toLowerCase().includes(q) || (d.body || "").toLowerCase().includes(q);
     });
+    side.innerHTML = hits.length ? hits.map(itemHtml).join("") : `<p class="empty">검색 결과가 없습니다</p>`;
+    return;
+  }
+
+  if (view === "cal") {
+    const first = new Date(calY, calM, 1);
+    const startDow = first.getDay();
+    const days = [];
+    for (let i = 0; i < startDow; i++) days.push(addDays(fmt(first), i - startDow));
+    const total = new Date(calY, calM + 1, 0).getDate();
+    for (let d = 1; d <= total; d++) days.push(fmt(new Date(calY, calM, d)));
+    while (days.length % 7) days.push(addDays(days[days.length-1], 1));
+
+    side.innerHTML = `
+      <div class="nav">
+        <button id="calPrev">◀</button>
+        <span class="label">${calY}년 ${calM+1}월</span>
+        <button id="calNext">▶</button>
+      </div>
+      <div class="cal-grid">
+        ${["일","월","화","수","목","금","토"].map(w => `<div class="dow">${w}</div>`).join("")}
+        ${days.map(s => {
+          const inMonth = parse(s).getMonth() === calM;
+          const out = s < START || s > END;
+          return `<button class="day ${inMonth?"":"out"} ${s===cur?"sel":""}" data-d="${s}" ${out?"disabled":""}>
+            ${parse(s).getDate()}${cache.has(s)?'<span class="dot"></span>':""}</button>`;
+        }).join("")}
+      </div>`;
+    $("calPrev").onclick = () => { calM--; if (calM < 0) { calM = 11; calY--; } renderSide(); };
+    $("calNext").onclick = () => { calM++; if (calM > 11) { calM = 0; calY++; } renderSide(); };
+    return;
+  }
+
+  // 목록 보기: 다가오는 일기(오늘 이후) 먼저, 나머지는 연도별 접기
+  const t = todayStr();
+  const all = [...cache.keys()].sort().reverse();
+  const upcoming = all.filter(s => s >= t).sort();
+  const past = all.filter(s => s < t);
+  const years = [...new Set(past.map(s => s.slice(0,4)))];
+
+  let html = "";
+  if (upcoming.length) {
+    html += `<details open><summary>다가오는 일기 (${upcoming.length})</summary>${upcoming.map(itemHtml).join("")}</details>`;
+  }
+  for (const y of years) {
+    const list = past.filter(s => s.startsWith(y));
+    html += `<details ${y === t.slice(0,4) ? "open" : ""}><summary>${y}년 (${list.length})</summary>${list.map(itemHtml).join("")}</details>`;
+  }
+  side.innerHTML = html || `<p class="empty">아직 작성한 일기가 없어요</p>`;
+}
+
+$("side").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-d]");
+  if (b && !b.disabled) loadDate(b.dataset.d);
 });
 
-// JSON 내보내기 / 가져오기
-$("exportBtn").addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(diaryCache, null, 2)], { type: "application/json" });
+// ---------- 내보내기 / 가져오기 ----------
+$("exportBtn").onclick = () => {
+  const out = [...cache].map(([date, data]) => ({ date, ...data }));
+  const blob = new Blob([JSON.stringify(out, null, 2)], { type: "application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = `diary-backup-${fmt(new Date())}.json`;
+  a.download = `diary-backup-${todayStr()}.json`;
   a.click();
-});
-$("importFile").addEventListener("change", async (e) => {
+  URL.revokeObjectURL(a.href);
+  flash("내보내기 완료");
+};
+
+$("importFile").onchange = async (e) => {
   const file = e.target.files[0];
-  if (!file) return;
+  if (!file || !user) return;
+  if (!netCheck()) return;
   try {
-    const obj = JSON.parse(await file.text());
-    for (const k of Object.keys(obj)) {
-      await setDoc(doc(db, "users", currentUser.uid, "diaries", k), obj[k]);
-      diaryCache[k] = obj[k];
+    const items = JSON.parse(await file.text());
+    if (!Array.isArray(items)) throw new Error("형식 오류");
+    let n = 0;
+    for (const it of items) {
+      if (!it.date || !/^\d{4}-\d{2}-\d{2}$/.test(it.date)) continue;
+      const { date, ...data } = it;
+      await setDoc(doc(db, "users", user.uid, "diaries", date), data);
+      cache.set(date, data); n++;
     }
-    renderSide();
-    showMsg("가져오기가 완료되었습니다.");
+    renderSide(); loadDate(cur);
+    flash(`${n}개 가져오기 완료`);
   } catch (err) {
-    showMsg("파일을 읽을 수 없습니다. JSON 파일을 확인해 주세요.", true);
+    flash("가져오기에 실패했습니다. 파일 형식을 확인해 주세요");
   }
-});
+  e.target.value = "";
+};
 
-$("themeNote").textContent = "";
-window.__diary = { loadDate };
+// ---------- 네트워크 ----------
+window.addEventListener("offline", () => flash("연결을 확인해 주세요"));
+window.addEventListener("online", () => flash("연결이 복구되었습니다"));
 </script>
-
-<!-- 로그인 화면 -->
-<div id="login">
-  <h1>나의 일기장</h1>
-  <p>기록을 시작하려면 Google 계정으로 로그인하세요.</p>
-  <button id="loginBtn">Google로 로그인</button>
-</div>
-
-<!-- 앱 화면 -->
-<div id="app" class="hidden">
-  <aside id="side">
-    <input id="searchBox" placeholder="제목·본문 검색" style="margin-bottom:14px;">
-    <div id="sideList"></div>
-    <div style="margin-top:20px; display:grid; gap:8px;">
-      <button class="ghost" id="exportBtn">JSON 내보내기</button>
-      <label class="ghost" style="display:block; text-align:center; padding:10px; border-radius:8px; background:var(--sub); cursor:pointer;">
-        JSON 가져오기
-        <input id="importFile" type="file" accept="application/json" class="hidden">
-      </label>
-      <button class="ghost" id="logoutBtn">로그아웃</button>
-    </div>
-  </aside>
-
-  <main id="main">
-    <div class="topbar">
-      <div class="nav">
-        <button class="ghost" id="prevDay">◀</button>
-        <span class="label" id="dateLabel"></span>
-        <button class="ghost" id="nextDay">▶</button>
-        <button class="ghost" id="todayBtn">오늘</button>
-      </div>
-    </div>
-
-    <div id="emptyBox" class="card empty hidden">
-      <p class="serif" style="font-size:18px; margin:0 0 8px;">아직 이 날의 기록이 없습니다.</p>
-      <p style="margin:0;">오늘 하루를 가볍게 적어 보세요.</p>
-    </div>
-
-    <section id="editor" class="hidden">
-      <div class="card">
-        <div class="row">
-          <div>
-            <span class="label">기분</span>
-            <select id="mood"><option>좋음</option><option>보통</option><option>나쁨</option></select>
-          </div>
-          <div>
-            <span class="label">제목</span>
-            <input id="title" placeholder="제목을 입력하세요">
-          </div>
-        </div>
-        <div style="margin-top:12px;">
-          <span class="label">본문</span>
-          <textarea id="body" placeholder="오늘의 이야기를 적어 보세요."></textarea>
-        </div>
-      </div>
-
-      <div class="card">
-        <span class="label">거래 기록</span>
-        <div class="row">
-          <div><span class="label">거래시간</span><input id="tradeTime" placeholder="예: 09:05"></div>
-          <div><span class="label">거래결과</span><input id="tradeResult" placeholder="예: 코스피200 선물 1계약 매수, 익절 +0.5pt"></div>
-        </div>
-        <div style="margin-top:12px;">
-          <span class="label">기타</span>
-          <textarea id="tradeMemo" placeholder="자유롭게 메모하세요."></textarea>
-        </div>
-      </div>
-
-      <div class="card">
-        <span class="label">운동 기록</span>
-        <div class="row">
-          <div><span class="label">헬스장 입장</span><input id="gymIn" type="time"></div>
-          <div><span class="label">헬스장 퇴장</span><input id="gymOut" type="time"></div>
-        </div>
-        <p class="msg">소요 시간: <span id="gymDuration">-</span></p>
-        <div style="margin-top:12px;">
-          <span class="label">활동 내역</span>
-          <textarea id="gymActivity" placeholder="예: 벤치프레스 3세트 10회 60kg"></textarea>
-        </div>
-      </div>
-
-      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-        <button id="saveBtn">저장</button>
-        <button class="danger" id="deleteBtn">삭제</button>
-        <span class="msg" id="msg"></span>
-      </div>
-    </section>
-  </main>
-</div>
-
 </body>
 </html>
