@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#eef2f8" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="케비라 퀴즈" />
+<title>케비라 영어·주식 퀴즈 (100문제)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f172a;
+    --sub: #64748b;
+    --line: #e2e8f0;
+    --card: #ffffff;
+    --stock: #4338ca;
+    --eng: #be185d;
+    --ok: #059669;
+    --bad: #e11d48;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: #e8edf3;
+    font-family: 'Noto Sans KR', system-ui, -apple-system, 'Malgun Gothic', sans-serif;
+    color: var(--ink);
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+  }
+
+  button { font-family: inherit; cursor: pointer; }
+
+  .app {
+    width: 100%;
+    max-width: 430px;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: linear-gradient(180deg, #f8fafc 0%, #eef2f8 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (min-width: 431px) {
+    .app { box-shadow: 0 0 0 1px #dfe6ef, 0 18px 50px rgba(15, 23, 42, .12); }
+  }
+
+  /* 상단 7색 무지개 바 */
+  .rainbow {
+    height: 4px;
+    flex: 0 0 auto;
+    background: linear-gradient(90deg, #ef4444 0%, #f59e0b 17%, #facc15 33%, #22c55e 50%, #3b82f6 67%, #6366f1 84%, #a855f7 100%);
+  }
+
+  .top {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 9px 14px 0;
+  }
+
+  .brand {
+    font-family: 'Gowun Batang', 'Noto Sans KR', serif;
+    font-size: 16.5px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .brand b {
+    background: linear-gradient(90deg, #e11d48, #f59e0b, #16a34a, #2563eb, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
+
+  .lv {
+    flex: 0 0 auto;
+    background: #1e293b;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 999px;
+    letter-spacing: .2px;
+  }
+
+  /* 카테고리 필터 */
+  .tabs {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 6px;
+    padding: 1px 14px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
+    flex: 0 0 auto;
+    border: 1px solid #dbe3ee;
+    background: #fff;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 999px;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .tab.on {
+    background: #0f172a;
+    color: #fff;
+    border-color: #0f172a;
+  }
+  .tab .n { opacity: .62; font-weight: 700; margin-left: 1px; }
+
+  .stats {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    font-size: 10.5px;
+    font-weight: 800;
+    color: #475569;
+  }
+  .stats .sp { flex: 1; }
+
+  .mini {
+    border: none;
+    background: #e2e8f0;
+    color: #475569;
+    width: 21px;
+    height: 21px;
+    border-radius: 7px;
+    font-size: 12px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .progrow {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 14px;
+  }
+
+  .pbtn {
+    width: 26px;
+    height: 23px;
+    border-radius: 7px;
+    border: 1px solid #dbe3ee;
+    background: #fff;
+    color: #334155;
+    font-size: 9px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pbtn:disabled { opacity: .35; }
+
+  .prog {
+    flex: 1;
+    height: 5px;
+    background: #dde5ef;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .prog i {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    transition: width .25s ease;
+  }
+
+  .ptext {
+    font-size: 10px;
+    font-weight: 800;
+    color: #64748b;
+    min-width: 50px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .qzone {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 14px;
+  }
+
+  .qcard {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--card);
+    border: 1px solid #e6ecf4;
+    border-radius: 16px;
+    padding: 11px 13px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, .05);
+    overflow-y: auto;
+  }
+
+  .qmeta {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .chip {
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: var(--stock);
+    letter-spacing: -.1px;
+  }
+  .chip.eng { background: #fdf2f8; color: var(--eng); }
+
+  .qno {
+    font-size: 9.5px;
+    font-weight: 800;
+    color: #94a3b8;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .qbody {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 9px;
+    padding: 8px 0 4px;
+  }
+
+  .qhead {
+    font-size: 14.5px;
+    font-weight: 700;
+    line-height: 1.52;
+    letter-spacing: -.2px;
+    word-break: keep-all;
+    color: #111827;
+  }
+  .qhead.en {
+    font-size: 25px;
+    font-weight: 900;
+    line-height: 1.18;
+    letter-spacing: -.8px;
+    text-align: center;
+    color: #0f172a;
+    word-break: break-word;
+  }
+  .qhead.ko {
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.38;
+    text-align: center;
+    letter-spacing: -.4px;
+  }
+  .qhead.empty {
+    text-align: center;
+    color: #475569;
+    font-size: 14px;
+    white-space: pre-line;
+  }
+
+  .qask {
+    font-size: 11px;
+    font-weight: 700;
+    color: #7c8798;
+    text-align: center;
+    letter-spacing: -.1px;
+  }
+
+  .status {
+    flex: 0 0 auto;
+    min-height: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 10.8px;
+    font-weight: 700;
+    line-height: 1.3;
+    border-radius: 9px;
+    padding: 6px 9px;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e5ebf3;
+  }
+  .status.hint { background: #fffbeb; border-color: #fde68a; color: #b45309; }
+  .status.ok { background: #ecfdf5; border-color: #a7f3d0; color: #047857; cursor: pointer; }
+  .status.bad { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+
+  .choices {
+    flex: 0 0 auto;
+    display: grid;
+    gap: 7px;
+    padding: 0 14px;
+  }
+
+  .choice {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 52px;
+    background: #fff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 8px 11px;
+    text-align: left;
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.32;
+    color: #1e293b;
+    letter-spacing: -.2px;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, .04);
+    transition: transform .08s ease, border-color .15s, background .15s;
+  }
+  .choice:active { transform: scale(.985); }
+
+  .choice .k {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    background: #eef2f7;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .choice.ok { background: #ecfdf5; border-color: #34d399; color: #065f46; font-weight: 800; }
+  .choice.ok .k { background: #10b981; color: #fff; }
+
+  .choice.bad { background: #fef2f2; border-color: #fb7185; color: #9f1239; animation: shake .3s ease; }
+  .choice.bad .k { background: #f43f5e; color: #fff; }
+
+  .choice.gone { opacity: .34; text-decoration: line-through; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    22% { transform: translateX(-5px); }
+    62% { transform: translateX(5px); }
+  }
+
+  .actions {
+    flex: 0 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 7px;
+    padding: 2px 14px calc(9px + env(safe-area-inset-bottom));
+  }
+
+  .act {
+    height: 42px;
+    border: none;
+    border-radius: 11px;
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    letter-spacing: -.2px;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, .10);
+    transition: transform .08s ease;
+  }
+  .act:active { transform: scale(.97); }
+  .act:disabled { opacity: .45; }
+  .act.hint { background: #f59e0b; }
+  .act.explain { background: #2563eb; }
+  .act.mark { background: #e2e8f0; color: #334155; box-shadow: none; }
+  .act.mark.on { background: #fde68a; color: #92400e; }
+
+  /* 해설 모달 */
+  .modal {
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    background: rgba(15, 23, 42, .52);
+  }
+  .modal.open { display: flex; }
+
+  .sheet {
+    width: 100%;
+    max-height: 89dvh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    padding: 16px 16px calc(14px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    animation: up .22s ease-out;
+  }
+
+  @keyframes up {
+    from { transform: translateY(22px); opacity: .5; }
+    to { transform: none; opacity: 1; }
+  }
+
+  .mhead {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .mbadge {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4338ca;
+    margin-bottom: 4px;
+  }
+  .mbadge.eng { background: #fdf2f8; color: #be185d; }
+
+  .mterm {
+    font-size: 21px;
+    font-weight: 900;
+    letter-spacing: -.6px;
+    line-height: 1.2;
+    word-break: break-word;
+  }
+  .mterm.en { font-size: 22px; letter-spacing: -.4px; }
+
+  .msub {
+    margin-top: 3px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #2563eb;
+    letter-spacing: -.1px;
+  }
+
+  .mx {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    border: none;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .msec {
+    background: #f8fafc;
+    border-left: 3px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 8px 11px;
+    font-size: 12.2px;
+    line-height: 1.52;
+    color: #334155;
+    word-break: keep-all;
+  }
+  .msec b {
+    display: block;
+    font-size: 10px;
+    color: #64748b;
+    margin-bottom: 3px;
+    letter-spacing: .1px;
+  }
+  .msec.def { border-left-color: #2563eb; }
+  .msec.ex { border-left-color: #059669; background: #f0fdfa; }
+  .msec.rel { border-left-color: #d97706; background: #fffbeb; }
+
+  .mex { font-size: 12.8px; font-weight: 700; color: #0f172a; line-height: 1.45; }
+  .mexko { margin-top: 4px; color: #475569; }
+
+  .mbtns {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  .mbtn {
+    height: 46px;
+    border: none;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 800;
+  }
+  .mbtn.close { background: #e2e8f0; color: #334155; }
+  .mbtn.next { background: #2563eb; color: #fff; }
+  .mbtn:disabled { opacity: .4; }
+
+  /* 초기화 확인 */
+  .modal.confirm { align-items: center; padding: 24px; }
+  .confirm-card {
+    width: 100%;
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, .28);
+  }
+  .confirm-card h3 { font-size: 15px; margin-bottom: 6px; letter-spacing: -.3px; }
+  .confirm-card p { font-size: 12.3px; color: #64748b; line-height: 1.5; margin-bottom: 14px; }
+  .confirm-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  @media (max-height: 620px) {
+    .qhead { font-size: 13.5px; }
+    .qhead.en { font-size: 22px; }
+    .qhead.ko { font-size: 15.5px; }
+    .choice { min-height: 46px; font-size: 12.8px; padding: 6px 10px; }
+    .act { height: 38px; }
+    .status { min-height: 27px; font-size: 10.2px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="rainbow"></div>
+
+  <header class="top">
+    <div class="brand">케비라 <b>영어·주식</b> 퀴즈</div>
+    <div class="lv" id="lv">Lv.1</div>
+  </header>
+
+  <nav class="tabs" id="tabs"></nav>
+
+  <div class="stats">
+    <span id="statStreak">🔥 0</span>
+    <span id="statAcc">🎯 0%</span>
+    <span id="statSolved">✅ 0/100</span>
+    <span class="sp"></span>
+    <button class="mini" id="btnReset" aria-label="학습 기록 초기화" title="기록 초기화">↺</button>
+  </div>
+
+  <div class="progrow">
+    <button class="pbtn" id="btnPrev" aria-label="이전 문제">◀</button>
+    <div class="prog"><i id="progBar"></i></div>
+    <span class="ptext" id="progText">1 / 100</span>
+    <button class="pbtn" id="btnNext" aria-label="다음 문제">▶</button>
+  </div>
+
+  <main class="qzone">
+    <section class="qcard">
+      <div class="qmeta">
+        <span class="chip" id="chip">📈 주식·파생</span>
+        <span class="qno" id="qno">Q1</span>
+      </div>
+      <div class="qbody">
+        <div class="qhead" id="qhead"></div>
+        <div class="qask" id="qask"></div>
+      </div>
+    </section>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+  </main>
+
+  <section class="choices" id="choices"></section>
+
+  <section class="actions">
+    <button class="act hint" id="btnHint">💡 힌트</button>
+    <button class="act explain" id="btnExplain">📖 해설</button>
+    <button class="act mark" id="btnMark">☆ 북마크</button>
+  </section>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="문제 해설">
+    <div class="sheet">
+      <div class="mhead">
+        <div>
+          <div class="mbadge" id="mBadge">📖 해설</div>
+          <div class="mterm" id="mTerm"></div>
+          <div class="msub" id="mSub"></div>
+        </div>
+        <button class="mx" id="mClose" aria-label="닫기">✕</button>
+      </div>
+      <div class="msec def">
+        <b>핵심 정의</b>
+        <div id="mDef"></div>
+      </div>
+      <div class="msec ex">
+        <b>실전 예시</b>
+        <div id="mEx"></div>
+      </div>
+      <div class="msec rel">
+        <b>관련 용어</b>
+        <div id="mRel"></div>
+      </div>
+      <div class="mbtns">
+        <button class="mbtn close" id="mBack">문제로 돌아가기</button>
+        <button class="mbtn next" id="mNext">다음 문제 ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal confirm" id="confirm" role="dialog" aria-modal="true" aria-label="기록 초기화 확인">
+    <div class="confirm-card">
+      <h3>학습 기록을 초기화할까요?</h3>
+      <p>정답·오답 기록, 연속 정답, 북마크가 모두 지워집니다. 이 기기에만 저장된 기록이며 되돌릴 수 없습니다.</p>
+      <div class="confirm-btns">
+        <button class="mbtn close" id="cCancel">취소</button>
+        <button class="mbtn next" id="cOk" style="background:#e11d48">초기화</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- 데이터 ---------- */
+const DATA = [{"cat":"stock","sem":"curve","type":"def2term","t":"베이시스","sub":"Basis","head":"선물가격에서 현물가격을 뺀 값. 선물 만기일에는 0에 수렴한다.","def":"베이시스는 현물가격과 선물가격의 차이로, 국내에서는 보통 '선물가격 − 현물가격'으로 계산한다. 만기가 다가오면 현물과 선물 가격이 같아지면서 0에 가까워진다. 양수(+)면 선물이 비싼 콘탱고, 음수(−)면 현물이 비싼 백워데이션 쪽이다.","ex":"코스피200 선물이 352.5p, 현물지수가 350.0p라면 베이시스는 +2.5p다. 만기까지 들고 가면 이 2.5p가 수익 또는 비용으로 확정된다.","rel":"콘탱고 · 백워데이션 · 롤오버"},{"cat":"stock","sem":"curve","type":"def2term","t":"콘탱고","sub":"Contango","head":"선물가격이 현물가격보다 높은 상태. 보관비용과 자금비용이 반영된 정상적인 시장 구조다.","def":"콘탱고는 만기가 먼 선물일수록 가격이 높아지는 구조로, 보관비용·운송비·이자비용이 선물가격에 반영되기 때문에 '정상 시장(normal market)'이라고도 한다. 이때 베이시스는 양수(+)가 된다.","ex":"원유 재고가 넘치는데 콘탱고가 깊어진다면 보관비용이 그만큼 크다는 신호다. 선물을 사서 만기까지 들면 현물가격으로 수렴하며 손실이 날 수 있다.","rel":"백워데이션 · 베이시스 · 롤오버"},{"cat":"stock","sem":"curve","type":"def2term","t":"백워데이션","sub":"Backwardation","head":"선물가격이 현물가격보다 낮은 상태. 현물 부족이나 강한 수요를 반영한다.","def":"백워데이션은 현물가격이 선물가격보다 높아 만기가 멀수록 가격이 낮아지는 구조다. 현물이 귀하거나 당장의 수요가 급할 때 나타나며, 베이시스는 음수(−)가 된다. '역조 시장'이라고도 부른다.","ex":"공급 차질로 원유 현물이 귀해지면 백워데이션이 나타난다. 이때는 선물을 사 두면 만기로 갈수록 가격이 올라 이익이 나는 구조가 된다.","rel":"콘탱고 · 베이시스 · 롤오버"},{"cat":"stock","sem":"roll","type":"def2term","t":"롤오버","sub":"Rollover","head":"만기가 다가온 선물 포지션을 청산하고 다음 월물로 옮겨가는 것.","def":"롤오버는 만기가 임박한 선물·옵션 포지션을 정리하고 더 먼 만기의 계약으로 갈아타는 것이다. 콘탱고에서는 비싼 다음 월물로 옮기므로 롤 비용이 발생하고, 백워데이션에서는 오히려 이익이 생긴다.","ex":"원유 선물 ETF는 매월 롤오버를 한다. 콘탱고가 깊으면 유가가 제자리여도 ETF 수익률이 계속 깎인다.","rel":"콘탱고 · 백워데이션 · 만기"},{"cat":"stock","sem":"vol","type":"def2term","t":"내재변동성","sub":"Implied Volatility (IV)","head":"옵션 가격에 반영된, 시장이 예상하는 앞으로의 변동성. 옵션 가격이 오르면 높아진다.","def":"내재변동성은 옵션의 시장가격을 블랙-숄즈 모형에 넣어 역산한 변동성으로, 시장 참가자들이 예상하는 미래의 가격 변동 폭이다. 같은 조건의 옵션이라도 IV가 높으면 프리미엄이 비싸진다.","ex":"실적 발표를 앞두고 IV가 급등하면 옵션 매수에 불리하다. 발표 직후 IV가 꺼지면(IV 크러시) 방향이 맞아도 손실이 날 수 있다.","rel":"역사적 변동성 · 베가 · VIX"},{"cat":"stock","sem":"vol","type":"def2term","t":"역사적 변동성","sub":"Historical Volatility (HV)","head":"과거 일정 기간 실제 가격이 움직인 폭을 표준편차로 계산한 값.","def":"역사적 변동성은 과거의 실제 가격 변화율을 통계적으로 계산한 변동성이다. 내재변동성이 '앞으로의 기대'라면 HV는 '지나간 사실'이다. 두 값의 차이로 옵션이 비싼지 싼지를 가늠한다.","ex":"20일 HV가 15%인데 IV가 30%라면, 옵션이 역사적 변동성에 비해 비싸게 거래되고 있다는 뜻이다.","rel":"내재변동성 · VIX"},{"cat":"stock","sem":"vol","type":"def2term","t":"변동성지수","sub":"VIX","head":"S&P500 옵션 가격으로 계산한 향후 30일 기대 변동성. '공포지수'로 불린다.","def":"VIX는 S&P500 지수옵션의 내재변동성을 이용해 향후 30일의 예상 변동성을 지수화한 것이다. 시장이 불안할수록 급등해 '공포지수(Fear Index)'라고 부르며, 20 아래는 안정, 30 이상은 공포 국면으로 본다.","ex":"VIX가 15에서 35로 뛰면 투자자들이 앞다투어 하방을 헤지하고 있다는 신호다.","rel":"내재변동성 · 헤지"},{"cat":"stock","sem":"greek","type":"def2term","t":"델타","sub":"Delta","head":"기초자산 가격이 1만큼 움직일 때 옵션가격이 얼마나 변하는지를 나타내는 민감도.","def":"델타는 기초자산 가격 변화에 대한 옵션가격의 변화율이다. 콜옵션은 0~1, 풋옵션은 −1~0의 값을 가지며, 절댓값이 1에 가까울수록 기초자산과 거의 같이 움직인다. '만기 때 행사가격을 넘을 확률'의 근사치로도 읽는다.","ex":"델타 0.6인 콜옵션은 기초자산이 1포인트 오를 때 옵션가격이 약 0.6포인트 오른다. 계약승수 10을 곱하면 실제 손익이 된다.","rel":"감마 · 세타 · 베가"},{"cat":"stock","sem":"greek","type":"def2term","t":"감마","sub":"Gamma","head":"기초자산 가격이 변할 때 델타가 얼마나 빨리 변하는지를 나타내는 값.","def":"감마는 델타의 변화율이다. 기초자산이 오르면 콜옵션의 델타가 커지는데, 그 커지는 속도가 감마다. 등가격이거나 만기가 임박한 옵션일수록 감마가 커져 가격 변화에 민감해진다.","ex":"만기 하루 전 등가격 옵션은 감마가 매우 커서 지수가 조금만 움직여도 델타가 급변한다. 숏감마 포지션은 이때 위험이 커진다.","rel":"델타 · 세타 · 감마 스퀴즈"},{"cat":"stock","sem":"greek","type":"def2term","t":"세타","sub":"Theta","head":"시간이 하루 지날 때 옵션의 시간가치가 줄어드는 양.","def":"세타는 시간가치의 감소분으로, 만기가 가까워질수록 커진다. 옵션 매수자는 세타만큼 매일 손해를 보고 매도자는 그만큼 이익을 얻는다. '시간은 옵션 매수자의 적'이라는 말이 여기서 나온다.","ex":"세타가 −1.5라면 하루가 지날 때 옵션가치가 1.5포인트 줄어든다. 방향이 맞아도 횡보하면 손실이 쌓인다.","rel":"시간가치 · 감마 · 베가"},{"cat":"stock","sem":"greek","type":"def2term","t":"베가","sub":"Vega","head":"내재변동성이 1%포인트 변할 때 옵션가격이 변하는 양.","def":"베가는 변동성 민감도다. 내재변동성이 1%포인트 오르면 옵션가격이 베가만큼 오른다. 만기가 길수록 베가가 커지며, 변동성이 급등하는 국면에서는 방향보다 베가가 손익을 좌우하기도 한다.","ex":"베가가 0.8인 옵션은 IV가 20%에서 25%로 오르면 4포인트(0.8×5) 오른다.","rel":"내재변동성 · 세타"},{"cat":"stock","sem":"margin","type":"def2term","t":"마진콜","sub":"Margin Call","head":"포지션 유지에 필요한 증거금이 부족할 때 브로커가 추가 납입을 요구하는 것.","def":"마진콜은 선물·옵션·신용거래에서 유지증거금 아래로 떨어졌을 때 브로커가 정해진 시간 안에 추가 증거금을 내라고 요구하는 것이다. 응하지 않으면 반대매매로 포지션이 강제 청산된다.","ex":"지수가 급락해 계좌의 유지증거금이 무너지면 마진콜이 오고, 시간 안에 채우지 못하면 최악의 가격에 강제 청산된다.","rel":"반대매매 · 유지증거금 · 미수금"},{"cat":"stock","sem":"margin","type":"def2term","t":"반대매매","sub":"Forced Liquidation","head":"담보 비율이 기준 아래로 떨어질 때 증권사가 고객 동의 없이 주식을 처분하는 것.","def":"반대매매는 신용거래·미수거래에서 담보유지비율(보통 140%)을 밑돌면 증권사가 고객 동의 없이 보유 종목을 시장가로 파는 강제 청산이다. 하락장에서 반대매매가 몰리면 낙폭이 더 커지는 악순환이 생긴다.","ex":"빚으로 산 종목이 30% 빠지면 담보비율이 무너져 반대매매가 나고, 투자자는 최저점에서 물량을 잃는다.","rel":"마진콜 · 미수금 · 담보유지비율"},{"cat":"stock","sem":"margin","type":"def2term","t":"미수금","sub":"Unpaid Settlement","head":"주식을 살 때 낸 증거금을 뺀 나머지로, 결제일까지 갚아야 하는 빌린 자금.","def":"미수금은 매수 대금 중 예수금을 초과해 증권사가 일시적으로 대신 결제해 준 금액이다. 결제일(T+2)까지 갚지 못하면 미수동결과 반대매매 대상이 된다. 미수거래는 신용거래와 달리 하루이틀짜리 외상이다.","ex":"예수금 100만원으로 300만원어치를 미수로 사면 200만원이 미수금이다. 다음 날 갚지 못하면 다음 날 시초가에 강제 처분될 수 있다.","rel":"반대매매 · 증거금 · 결제일"},{"cat":"stock","sem":"margin","type":"def2term","t":"청산","sub":"Liquidation","head":"투자자가 스스로 보유 포지션을 반대 매매로 정리해 수량을 0으로 만드는 것.","def":"청산은 롱 포지션이면 매도로, 숏 포지션이면 매수로 되돌려 보유 수량을 0으로 만드는 것이다. 이익을 확정하거나 손실을 끊으려는 자발적 행동이며, 증권사가 강제로 처리하는 반대매매와 구분한다.","ex":"선물 3계약을 롱으로 들고 있다가 2계약을 팔면 1계약만 남는다. 전부 팔면 청산이고 미결제약정도 함께 줄어든다.","rel":"미결제약정 · 반대매매 · 롤오버"},{"cat":"stock","sem":"halt","type":"def2term","t":"서킷브레이커","sub":"Circuit Breaker","head":"지수가 전일 대비 8% 이상 하락한 상태가 일정 시간 이어지면 매매를 일시 정지시키는 제도.","def":"서킷브레이커는 급격한 하락으로 시장이 혼란에 빠질 때 매매를 잠시 멈추게 하는 장치다. 코스피·코스닥은 1단계 8%, 2단계 15%, 3단계 20%에서 발동하며 단계별 휴장 시간이 다르다.","ex":"지수가 8% 빠지면 20분간 매매가 멈춘다. 투자자들은 이 시간에 패닉 셀링을 멈추고 상황을 점검한다.","rel":"사이드카 · 매매정지"},{"cat":"stock","sem":"halt","type":"def2term","t":"사이드카","sub":"Sidecar","head":"선물 가격이 급변할 때 프로그램 매매 호가를 5분간 정지시키는 제도.","def":"사이드카는 선물 가격이 전일 대비 5% 이상 변동한 상태가 1분 이상 이어지면 프로그램 매매 호가 접수를 5분간 멈추는 제도다. 코스피200 선물이 기준이며, 현물 시장 전체가 멈추는 서킷브레이커와 다르다.","ex":"선물이 5% 급락하면 사이드카가 걸려 프로그램 매도가 5분간 멈춘다. 선물과 현물의 괴리가 커질 때 발동된다.","rel":"서킷브레이커 · 프로그램 매매"},{"cat":"stock","sem":"short","type":"def2term","t":"공매도","sub":"Short Selling","head":"주식을 빌려 먼저 팔고, 나중에 낮은 가격에 되사서 갚아 차익을 남기는 매매.","def":"공매도는 없는 주식을 빌려서 먼저 팔고, 가격이 내리면 되사서 갚아 차익을 얻는 거래다. 주가가 오르면 손실이 이론상 무한대로 커질 수 있다. 국내에서는 개인 공매도에 담보비율과 기간 제한이 있다.","ex":"100만원짜리 주식을 빌려 팔고 80만원에 되사면 20만원(수수료 제외)의 차익이 난다. 대신 120만원이 되면 20만원 손실이다.","rel":"숏커버링 · 대차거래 · 숏 스퀴즈"},{"cat":"stock","sem":"short","type":"def2term","t":"숏커버링","sub":"Short Covering","head":"공매도 투자자가 빌린 주식을 갚기 위해 시장에서 되사는 매수.","def":"숏커버링은 공매도 포지션을 청산하기 위해 주식을 되사는 것이다. 공매도 잔고가 많은 종목이 상승하면 손실을 줄이려는 되사기가 몰려 주가가 더 급등하는 '숏 스퀴즈'로 이어질 수 있다.","ex":"공매도 비중이 20%인 종목이 5% 오르면 숏커버링이 몰려 15%까지 치솟기도 한다.","rel":"공매도 · 숏 스퀴즈 · 대차거래"},{"cat":"stock","sem":"policy","type":"def2term","t":"매파","sub":"Hawkish","head":"물가를 잡기 위해 금리 인상 등 긴축을 선호하는 통화정책 성향.","def":"매파는 인플레이션을 최우선으로 보고 금리 인상과 긴축을 선호하는 통화정책 성향이다. 매파적 발언이 나오면 금리가 오르고 주식·채권 가격은 눌리는 경우가 많다.","ex":"연준 의장이 '물가가 충분히 내려갈 때까지 긴축을 유지하겠다'고 말하면 시장은 매파적으로 해석해 주가가 빠진다.","rel":"비둘기파 · 기준금리 · FOMC"},{"cat":"stock","sem":"policy","type":"def2term","t":"비둘기파","sub":"Dovish","head":"경기와 고용을 위해 금리 인하 등 완화를 선호하는 통화정책 성향.","def":"비둘기파는 경기 둔화와 고용을 걱정해 금리 인하와 완화를 선호하는 성향이다. 비둘기파적 신호는 유동성 확대 기대를 키워 위험자산에 우호적으로 작용한다.","ex":"금리 동결과 함께 '추가 인하 여지가 있다'고 하면 비둘기파적으로 읽혀 채권 금리가 내리고 주가가 오른다.","rel":"매파 · 양적완화 · 기준금리"},{"cat":"stock","sem":"policy","type":"def2term","t":"양적완화","sub":"Quantitative Easing (QE)","head":"중앙은행이 국채 등을 대규모로 사들여 시중에 유동성을 공급하는 정책.","def":"양적완화는 정책금리를 더 내릴 수 없을 때 중앙은행이 국채·MBS 등을 사들여 시중 자금을 늘리는 비전통적 통화정책이다. 금리 하락과 위험자산 상승을 부추긴다.","ex":"2008년 금융위기와 2020년 코로나 충격 때 연준의 대규모 양적완화가 주식과 부동산 가격을 끌어올렸다.","rel":"양적긴축 · 테이퍼링 · 유동성"},{"cat":"stock","sem":"policy","type":"def2term","t":"양적긴축","sub":"Quantitative Tightening (QT)","head":"중앙은행이 보유 자산을 줄여 시중 유동성을 회수하는 정책.","def":"양적긴축은 양적완화로 늘린 중앙은행의 보유 자산을 만기 도래나 매각으로 줄여 유동성을 거두는 정책이다. 금리 상승 압력과 위험자산 조정 요인이 된다.","ex":"연준이 월 950억 달러 규모로 보유 자산을 줄이면 장기금리가 오르고 성장주 밸류에이션에 부담이 된다.","rel":"양적완화 · 테이퍼링 · 긴축"},{"cat":"stock","sem":"policy","type":"def2term","t":"테이퍼링","sub":"Tapering","head":"자산 매입 규모를 단계적으로 줄여나가는 것.","def":"테이퍼링은 양적완화의 자산 매입 금액을 매달 조금씩 줄이는 것이다. 매입을 완전히 멈추는 것과는 다르며, 시장은 테이퍼링 '시작' 신호만으로도 금리 상승에 반응한다.","ex":"'매월 100억 달러씩 매입하던 것을 50억 달러로 줄인다'는 발표가 테이퍼링이다.","rel":"양적완화 · 양적긴축"},{"cat":"stock","sem":"price","type":"def2term","t":"소비자물가지수","sub":"CPI","head":"가계가 구입하는 대표 상품과 서비스 가격의 평균 변동을 측정한 물가지수.","def":"소비자물가지수는 소비자가 사는 대표 상품·서비스의 가격을 기준연도와 비교해 지수화한 것이다. 식품·에너지를 뺀 근원 CPI가 추세 판단에 더 자주 쓰인다. 한국은 통계청, 미국은 노동부가 발표한다.","ex":"CPI 상승률이 3.5%로 예상치 3.2%를 웃돌면 금리 인상 우려로 채권 금리가 오르고 주가가 흔들린다.","rel":"PCE · 근원물가 · 기준금리"},{"cat":"stock","sem":"price","type":"def2term","t":"개인소비지출 물가","sub":"PCE","head":"미국 연준이 물가 판단의 기준으로 삼는, 개인 소비 전체를 반영한 물가지수.","def":"PCE 물가지수는 미국 상무부가 발표하며 소비자가 실제 지출한 항목의 가격을 반영한다. 연준은 CPI보다 PCE를 정책 판단의 기준으로 삼고, 식품·에너지를 뺀 근원 PCE를 특히 중시한다.","ex":"근원 PCE가 2.6%로 둔화하면 연준의 금리 인하 기대가 커져 달러가 약세를 보인다.","rel":"CPI · 근원물가 · FOMC"},{"cat":"stock","sem":"labor","type":"def2term","t":"고용보고서","sub":"NFP (Non-Farm Payrolls)","head":"미국 노동부가 매월 발표하는 비농업 부문 신규 고용자 수. 연준 정책의 핵심 지표다.","def":"미국의 고용보고서는 농업을 제외한 신규 고용자 수, 실업률, 시간당 임금을 담아 매월 첫 금요일에 나온다. 고용이 강하면 금리 인상 압력이 커져 주식에 부담이 되기도 한다.","ex":"NFP가 예상 18만 명을 크게 웃돌면 금리 인상 경계가 살아나 지수가 하락하기도 한다.","rel":"실업률 · PMI · FOMC"},{"cat":"stock","sem":"survey","type":"def2term","t":"구매관리자지수","sub":"PMI","head":"기업 구매담당자 설문으로 제조업·서비스업 경기를 0~100으로 지수화한 선행지표.","def":"PMI는 기업의 구매담당자를 대상으로 신규주문·생산·재고를 물어 50을 기준으로 경기를 판단한다. 50 이상이면 확장, 미만이면 위축이며 GDP보다 먼저 움직여 선행지표로 쓰인다.","ex":"제조업 PMI가 48로 3개월 연속 50을 밑돌면 경기 둔화 신호로 읽혀 원자재 가격이 약해진다.","rel":"GDP · 선행지표 · 경기순환"},{"cat":"stock","sem":"yield","type":"def2term","t":"수익률곡선","sub":"Yield Curve","head":"만기가 다른 채권들의 금리를 만기 순서로 이은 선.","def":"수익률곡선은 3개월·2년·10년·30년 등 만기별 국채 금리를 이은 선이다. 정상적으로는 만기가 길수록 금리가 높은 우상향 곡선이며, 기울기 변화로 경기 국면과 금리 기대를 읽는다.","ex":"10년물과 2년물의 금리 차이를 보면 시장이 경기 확장과 침체 중 어디를 보고 있는지 가늠할 수 있다.","rel":"장단기 금리역전 · 국채 · 기준금리"},{"cat":"stock","sem":"yield","type":"def2term","t":"장단기 금리역전","sub":"Inverted Yield Curve","head":"단기 금리가 장기 금리보다 높아지는 현상. 경기 침체의 전조로 해석된다.","def":"장단기 금리역전은 2년물 금리가 10년물보다 높아지는 등 단기 금리가 장기 금리를 웃도는 현상이다. 과거 미국에서 침체 전 12~18개월에 자주 나타나 경기 침체의 선행 신호로 여겨진다.","ex":"2022년 미국 2년물이 10년물을 앞서자 시장은 '침체가 온다'며 주식 비중을 줄였다.","rel":"수익률곡선 · 경기침체 · 기준금리"},{"cat":"stock","sem":"oi","type":"def2term","t":"미결제약정","sub":"Open Interest","head":"아직 청산되지 않고 남아 있는 선물·옵션 계약의 수.","def":"미결제약정은 시장에 살아 있는 계약 수로, 신규 진입이 생기면 늘고 청산되면 줄어든다. 가격 상승과 함께 늘면 추세에 힘이 실린 것으로, 가격이 오르는데 줄면 숏커버링에 의한 상승으로 해석한다.","ex":"선물 가격이 오르는데 미결제약정도 늘면 신규 매수세가 유입된 것으로 본다.","rel":"거래량 · 청산 · 포지션"},{"cat":"stock","sem":"oi","type":"def2term","t":"거래량","sub":"Volume","head":"일정 기간 실제로 체결된 계약이나 주식의 수.","def":"거래량은 매수와 매도가 실제로 맞붙어 체결된 수량이다. 가격 돌파에 거래량이 실리면 신뢰도가 높고, 거래량 없이 오르면 힘이 약한 것으로 본다.","ex":"박스권 상단을 뚫을 때 평소의 3배 거래량이 나오면 돌파의 신뢰도가 높다.","rel":"미결제약정 · 돌파 · 유동성"},{"cat":"stock","sem":"tick","type":"def2term","t":"호가단위","sub":"Tick Size","head":"가격이 움직일 수 있는 최소 단위.","def":"호가단위는 주문 가격이 가질 수 있는 최소 폭이다. 가격대별로 달라지며, 단위가 작을수록 세밀한 가격 경쟁이 가능하고 스프레드가 좁아진다.","ex":"코스피는 가격대별로 1원에서 1,000원까지 호가단위가 달라진다. 5만 원대 주식은 100원 단위로 호가를 낸다.","rel":"스프레드 · 호가 · 최소가격변동"},{"cat":"stock","sem":"tick","type":"def2term","t":"스프레드","sub":"Bid-Ask Spread","head":"가장 낮은 매도호가와 가장 높은 매수호가의 차이.","def":"스프레드는 사려는 사람이 부르는 최고가(매수호가)와 팔려는 사람이 부르는 최저가(매도호가)의 차이다. 유동성이 좋을수록 좁아지고, 유동성이 나쁠수록 벌어져 거래비용이 커진다.","ex":"매수호가 10,000원, 매도호가 10,050원이면 스프레드는 50원이다. 지금 사면 곧바로 50원 평가손실이 된다.","rel":"호가단위 · 유동성 · 거래비용"},{"cat":"stock","sem":"ordertype","type":"def2term","t":"시장가 주문","sub":"Market Order","head":"가격을 지정하지 않고 즉시 체결되는 가격으로 사고파는 주문.","def":"시장가 주문은 가장 유리한 현재 호가와 바로 체결된다. 확실히 체결되지만 체결 가격은 보장되지 않아, 호가가 얇으면 예상보다 불리한 가격에 체결될 수 있다.","ex":"급하게 손절할 때는 시장가로 내면 되지만, 거래량이 적은 종목에서는 크게 미끄러질 수 있다.","rel":"지정가 주문 · 스톱 주문 · 슬리피지"},{"cat":"stock","sem":"ordertype","type":"def2term","t":"지정가 주문","sub":"Limit Order","head":"사고팔 가격을 미리 정해 그 가격 또는 더 유리한 가격에서만 체결되게 하는 주문.","def":"지정가 주문은 매수라면 지정가 이하, 매도라면 지정가 이상에서만 체결된다. 가격을 통제할 수 있지만, 시장이 그 가격에 닿지 않으면 체결되지 않는다.","ex":"10,000원 지정가 매수를 내면 9,990원에는 체결되고 10,010원에는 체결되지 않는다.","rel":"시장가 주문 · 스톱 주문 · 미체결"},{"cat":"stock","sem":"ordertype","type":"def2term","t":"스톱 주문","sub":"Stop Order","head":"지정한 가격에 도달하면 시장가 주문으로 전환되어 손실을 제한하는 주문.","def":"스톱 주문은 트리거 가격에 닿기 전까지 대기하다가, 닿으면 시장가 주문으로 바뀌어 즉시 체결을 시도한다. 손실 제한(스톱로스)이나 추세 추종에 쓴다.","ex":"10,000원에 산 주식을 9,500원에 스톱으로 걸어 두면 그 아래로 밀릴 때 자동으로 팔린다.","rel":"손절 · 시장가 주문 · 지정가 주문"},{"cat":"stock","sem":"mult","type":"def2term","t":"주가수익비율","sub":"PER","head":"주가를 주당순이익(EPS)으로 나눈 값. 이익 대비 주가 수준을 보여준다.","def":"PER은 주가를 주당순이익으로 나눈 배수로, 이익 1원에 대해 시장이 얼마를 지불하는지를 나타낸다. 같은 업종 안에서 상대 비교하며, 성장 기대가 크면 높게 형성된다.","ex":"주가 50,000원, EPS 5,000원이면 PER은 10배다. 업종 평균이 15배라면 상대적으로 저평가로 볼 수 있다.","rel":"PBR · ROE · EPS"},{"cat":"stock","sem":"mult","type":"def2term","t":"주가순자산비율","sub":"PBR","head":"주가를 주당순자산으로 나눈 값. 1배 미만이면 장부가치보다 낮게 평가된 것이다.","def":"PBR은 주가를 주당순자산(BPS)으로 나눈 배수다. 1배 미만이면 회사를 지금 청산한 장부가치보다 주가가 낮다는 뜻으로, 자산가치 대비 저평가 여부를 볼 때 쓴다.","ex":"주가 20,000원, BPS 25,000원이면 PBR 0.8배다. 장부가치보다 싸게 거래되고 있다는 뜻이다.","rel":"PER · ROE · 자산가치"},{"cat":"stock","sem":"mult","type":"def2term","t":"자기자본이익률","sub":"ROE","head":"순이익을 자기자본으로 나눈 비율. 주주 자본으로 얼마나 효율적으로 이익을 냈는지 보여준다.","def":"ROE는 당기순이익을 자기자본으로 나눈 비율이다. 높을수록 주주 돈으로 효율적으로 이익을 냈다는 뜻이며, 부채를 늘려도 높아질 수 있어 부채비율과 함께 본다.","ex":"순이익 100억 원, 자기자본 500억 원이면 ROE는 20%다. 같은 이익이라도 자본이 적은 회사가 ROE가 높다.","rel":"PER · PBR · 부채비율"},{"cat":"stock","sem":"mult","type":"def2term","t":"EV/EBITDA","sub":"EV/EBITDA","head":"기업가치를 이자·세금·감가상각 차감 전 영업이익으로 나눈 배수.","def":"EV/EBITDA는 기업가치(시가총액+순부채)를 상각 전 영업이익으로 나눈 배수다. 자본구조와 회계정책 차이를 걷어내 국가·업종 간 비교에 유리하며, 낮을수록 저평가로 본다.","ex":"시가총액 1조, 순부채 2,000억이면 EV는 1조 2,000억이다. EBITDA가 1,500억이면 배수는 8배다.","rel":"PER · EBITDA · 기업가치"},{"cat":"stock","sem":"mult","type":"def2term","t":"시가총액","sub":"Market Cap","head":"주가에 발행주식수를 곱한 값으로, 시장이 매긴 기업 전체의 가치.","def":"시가총액은 주가 × 발행주식수로 계산해 시장이 평가한 기업 전체의 가치를 보여준다. 지수 편입 비중과 유동성, 외국인 수급의 기준이 된다.","ex":"주가 50,000원 × 2,000만 주 = 1조 원. 시가총액 1조 원 기업이 된다.","rel":"기업가치 · 유통주식수 · 지수"},{"cat":"stock","sem":"issue","type":"def2term","t":"유상증자","sub":"Rights Offering","head":"새 주식을 발행해 투자자에게 돈을 받고 자본을 늘리는 것.","def":"유상증자는 새 주식을 발행해 투자자에게 돈을 받고 자본금을 늘리는 것이다. 회사에는 현금이 들어오지만 발행주식수가 늘어 기존 주주 지분과 주당순이익이 희석된다.","ex":"시가총액 1조 원 회사가 3,000억 원 유상증자를 하면 물량 부담으로 주가가 흔들리기 쉽다.","rel":"무상증자 · 지분희석 · 액면분할"},{"cat":"stock","sem":"issue","type":"def2term","t":"무상증자","sub":"Bonus Issue","head":"잉여금을 자본금으로 옮겨 주주에게 대가 없이 새 주식을 나눠주는 것.","def":"무상증자는 회사의 잉여금을 자본금으로 바꿔 주주에게 지분 비율대로 새 주식을 무상으로 나눠주는 것이다. 회사에 현금이 들어오지 않고 주식 수만 늘어나 주가는 그만큼 낮아진다.","ex":"1주당 1주 무상증자를 하면 주식 수가 두 배가 되고 주가는 절반으로 조정된다.","rel":"유상증자 · 액면분할 · 잉여금"},{"cat":"stock","sem":"issue","type":"def2term","t":"액면분할","sub":"Stock Split","head":"주식 한 주의 액면가를 낮추고 주식 수를 늘려 주가를 낮추는 것.","def":"액면분할은 액면가를 나눠 주식 수를 늘리는 것으로, 시가총액은 그대로지만 한 주의 가격이 낮아져 개인 투자자의 접근성이 좋아진다. 주식 수가 줄어드는 액면병합의 반대다.","ex":"액면가 5,000원 주식을 1,000원으로 5대 1 분할하면 주가 50만 원이 10만 원이 된다.","rel":"액면병합 · 무상증자 · 유통주식수"},{"cat":"stock","sem":"buyback","type":"def2term","t":"자사주 매입","sub":"Share Buyback","head":"회사가 자기 주식을 사들여 소각하거나 보유하는 것. 주당 가치를 높이는 효과가 있다.","def":"자사주 매입은 회사가 시장에서 자기 주식을 사서 소각하거나 보유하는 것이다. 발행주식수가 줄어 주당순이익과 주당가치가 올라가고, 주주환원 정책의 하나로 쓰인다.","ex":"회사가 1,000억 원어치 자사주를 사서 소각하면 남은 주식의 가치가 그만큼 높아진다.","rel":"배당 · 주주환원 · 주당순이익"},{"cat":"stock","sem":"beta","type":"def2term","t":"베타","sub":"Beta","head":"시장이 1% 움직일 때 개별 주식이 평균적으로 몇 % 움직이는지를 나타낸 값.","def":"베타는 개별 주식의 수익률이 시장 수익률에 얼마나 민감한지를 나타낸다. 1보다 크면 시장보다 더 크게 움직이는 공격형, 1보다 작으면 방어형이다.","ex":"베타 1.5인 종목은 지수가 2% 오르면 평균 3% 오르고, 2% 빠지면 3% 빠진다.","rel":"변동성 · 샤프지수 · 시장위험"},{"cat":"stock","sem":"beta","type":"def2term","t":"최대낙폭","sub":"MDD (Maximum Drawdown)","head":"일정 기간 고점에서 저점까지 가장 크게 하락한 폭을 비율로 나타낸 것.","def":"MDD는 직전 고점 대비 가장 낮았던 지점의 하락률이다. 수익률이 같아도 MDD가 작은 전략이 심리적으로 견디기 쉽고, 레버리지·리스크 관리의 핵심 지표로 쓴다.","ex":"계좌가 1억에서 1.4억까지 늘었다가 8,000만 원이 되면 MDD는 43%다.","rel":"변동성 · 손실회복 · 리스크관리"},{"cat":"stock","sem":"hedge","type":"def2term","t":"헤지","sub":"Hedge","head":"보유 자산의 가격 하락 위험을 줄이기 위해 반대 방향의 포지션을 잡는 것.","def":"헤지는 보유한 자산의 손실 위험을 상쇄하려고 반대 방향의 선물·옵션 포지션을 잡는 것이다. 위험을 없애는 것이 아니라 줄이는 것이며, 그 대가로 수익 기회도 일부 포기한다.","ex":"주식 1억 원을 들고 있으면서 코스피200 선물을 매도하면 지수 하락분을 일부 상쇄할 수 있다.","rel":"선물 · 옵션 · 분산투자"},{"cat":"stock","sem":"leverage","type":"def2term","t":"레버리지","sub":"Leverage","head":"빌린 돈이나 파생상품으로 투자 규모를 원금보다 키우는 것.","def":"레버리지는 자기 자본보다 큰 규모로 투자해 수익률을 확대하는 것이다. 수익도 손실도 배수로 커지며, 손실이 원금을 넘으면 추가 납입이나 강제 청산 위험이 생긴다.","ex":"1,000만 원으로 3,000만 원어치 선물을 사면 레버리지는 3배다. 10% 하락이면 원금의 30%가 날아간다.","rel":"증거금 · 마진콜 · 변동성"},{"cat":"eng","sem":"tone","type":"en2ko","t":"hawkish","sub":"호키시","mean":"매파적, 긴축 선호","head":"hawkish","def":"물가를 잡기 위해 금리 인상을 선호하는 통화정책 성향. 매(鷹)처럼 공격적이라는 뜻에서 나왔다.","ex":"The Fed sounded more hawkish than expected, and yields jumped.","exko":"연준이 예상보다 매파적으로 들리자 금리가 뛰었다.","rel":"dovish · rate hike · FOMC"},{"cat":"eng","sem":"tone","type":"en2ko","t":"dovish","sub":"더비시","mean":"비둘기파적, 완화 선호","head":"dovish","def":"경기를 살리기 위해 금리 인하를 선호하는 온건한 통화정책 성향. 비둘기처럼 부드럽다는 뜻이다.","ex":"A dovish surprise sent stocks higher.","exko":"비둘기파적 깜짝 발언에 주가가 올랐다.","rel":"hawkish · rate cut · easing"},{"cat":"eng","sem":"upmove","type":"en2ko","t":"rally","sub":"랠리","mean":"상승 랠리, 반등","head":"rally","def":"가격이 힘 있게 오르는 흐름. 하락 뒤의 반등에도 쓰고, 여러 종목이 함께 오르면 'broad rally'라고 한다.","ex":"Tech shares led the rally.","exko":"기술주가 랠리를 이끌었다.","rel":"pullback · sell-off · rebound"},{"cat":"eng","sem":"dip","type":"en2ko","t":"pullback","sub":"풀백","mean":"상승 추세 중 일시적 조정","head":"pullback","def":"상승 추세 안에서 잠시 되돌아 내리는 움직임. 추세 전환과 구분하며, 지지선에서 멈추면 매수 기회로 본다.","ex":"This looks like a healthy pullback, not a reversal.","exko":"이건 추세 전환이 아니라 건강한 조정으로 보인다.","rel":"dip · correction · rebuy"},{"cat":"eng","sem":"dip","type":"en2ko","t":"dip","sub":"딥","mean":"짧은 하락, 눌림목","head":"dip","def":"잠깐 내려가는 짧은 하락. 'buy the dip'은 하락을 매수 기회로 본다는 뜻의 실전 표현이다.","ex":"Buy the dip only if support holds.","exko":"지지선이 지켜질 때만 눌림목에서 사라.","rel":"pullback · support · buy the dip"},{"cat":"eng","sem":"dip","type":"en2ko","t":"correction","sub":"커렉션","mean":"고점 대비 10% 안팎 조정","head":"correction","def":"고점에서 10% 안팎 하락해 과열을 식히는 국면. 약세장(20% 이상)보다 얕은 조정을 말한다.","ex":"The index is in a correction after a 12% drop.","exko":"지수는 12% 하락한 뒤 조정 국면에 들어갔다.","rel":"bear market · pullback · sell-off"},{"cat":"eng","sem":"sideways","type":"en2ko","t":"sideways","sub":"사이드웨이즈","mean":"횡보, 방향 없는 등락","head":"sideways","def":"뚜렷한 방향 없이 좁은 범위에서 오르내리는 흐름. 'trading sideways'로 자주 쓴다.","ex":"The stock has been trading sideways for a month.","exko":"그 주식은 한 달째 횡보 중이다.","rel":"range · breakout · flat"},{"cat":"eng","sem":"breakout","type":"en2ko","t":"breakout","sub":"브레이크아웃","mean":"저항선 돌파","head":"breakout","def":"저항선이나 박스권을 뚫고 나가는 가격 움직임. 거래량이 실리면 신뢰도가 높고, 실패하면 'fakeout'이 된다.","ex":"It broke out above 50,000 on heavy volume.","exko":"큰 거래량과 함께 5만 원 위로 돌파했다.","rel":"fakeout · resistance · volume"},{"cat":"eng","sem":"trap","type":"en2ko","t":"bull trap","sub":"불 트랩","mean":"상승 함정(속임수 반등)","head":"bull trap","def":"상승처럼 보이는 신호로 매수자를 끌어들인 뒤 다시 떨어지는 패턴. 돌파에 속아 사면 고점에 물린다.","ex":"That breakout above resistance was a bull trap.","exko":"저항선 위로 올라간 그 돌파는 상승 함정이었다.","rel":"bear trap · fakeout · breakout"},{"cat":"eng","sem":"trap","type":"en2ko","t":"bear trap","sub":"베어 트랩","mean":"하락 함정","head":"bear trap","def":"하락처럼 보여 매도하게 만든 뒤 다시 올라가는 패턴. 지지선 이탈에 속아 팔면 바닥에서 물량을 잃는다.","ex":"Shorts got caught in a bear trap and covered quickly.","exko":"공매도 세력이 하락 함정에 걸려 서둘러 되샀다.","rel":"bull trap · support · short covering"},{"cat":"eng","sem":"trap","type":"en2ko","t":"dead cat bounce","sub":"데드 캣 바운스","mean":"일시적 반등 후 재하락","head":"dead cat bounce","def":"급락 뒤 잠깐 반등했다가 다시 떨어지는 흐름. '죽은 고양이도 높은 데서 떨어뜨리면 튄다'는 말에서 유래했다.","ex":"Don't trust this bounce — it may be a dead cat bounce.","exko":"이 반등을 믿지 마, 일시적 반등일 수 있어.","rel":"rally · downtrend · bounce"},{"cat":"eng","sem":"trap","type":"en2ko","t":"short squeeze","sub":"숏 스퀴즈","mean":"공매도 되사기로 인한 급등","head":"short squeeze","def":"주가가 오르자 공매도 세력이 손실을 줄이려 한꺼번에 되사면서 주가가 더 급등하는 현상.","ex":"Heavy short interest triggered a short squeeze.","exko":"큰 공매도 잔고가 숏 스퀴즈를 불러일으켰다.","rel":"short covering · short interest · rally"},{"cat":"eng","sem":"fomo","type":"en2ko","t":"FOMO","sub":"포모","mean":"소외 공포, 뒤처질까 두려운 심리","head":"FOMO","def":"Fear Of Missing Out의 약자. 남들만 버는 것 같아 뒤늦게라도 따라 사는 심리로, 고점 매수의 주범이 된다.","ex":"I bought at the top out of FOMO.","exko":"소외될까 봐 고점에 샀다.","rel":"chasing · paper hands · top"},{"cat":"eng","sem":"bagholder","type":"en2ko","t":"bag holder","sub":"백 홀더","mean":"물린 투자자(고점 매수자)","head":"bag holder","def":"고점에 사서 가격이 떨어진 뒤 손실을 안고 주식을 들고 있는 사람. 'holding the bag'에서 나온 표현이다.","ex":"Retail investors were left as bag holders.","exko":"개인 투자자들이 물린 채 남았다.","rel":"underwater · FOMO · top"},{"cat":"eng","sem":"mktstate","type":"en2ko","t":"bull market","sub":"불 마켓","mean":"강세장","head":"bull market","def":"저점에서 20% 이상 오르며 상승 추세가 이어지는 시장. 황소가 뿔을 아래에서 위로 들이받는 모습에서 나왔다.","ex":"We're three years into a bull market.","exko":"강세장에 들어선 지 3년째다.","rel":"bear market · rally · uptrend"},{"cat":"eng","sem":"mktstate","type":"en2ko","t":"bear market","sub":"베어 마켓","mean":"약세장","head":"bear market","def":"고점에서 20% 이상 하락하며 하락 추세가 이어지는 시장. 곰이 앞발로 아래를 할퀴는 모습에서 유래했다.","ex":"The index fell into a bear market in June.","exko":"지수는 6월에 약세장으로 떨어졌다.","rel":"bull market · correction · downtrend"},{"cat":"eng","sem":"pl","type":"en2ko","t":"in the red","sub":"인 더 레드","mean":"손실을 보고 있는 상태","head":"in the red","def":"손실을 보고 있거나 잔고가 마이너스인 상태. 회계에서 적자를 빨간색으로 표기한 데서 나왔다.","ex":"The position is deep in the red.","exko":"그 포지션은 손실이 크다.","rel":"in the black · underwater · loss"},{"cat":"eng","sem":"pl","type":"ko2en","t":"in the black","sub":"인 더 블랙","mean":"이익을 내는 상태","head":"이익을 내고 있어 잔고가 플러스인 상태","def":"수익을 내고 있거나 잔고가 플러스인 상태. 흑자를 검은색으로 표기하는 관행에서 나왔다.","ex":"After two tough years, the fund is back in the black.","exko":"힘든 2년을 보내고 그 펀드는 다시 흑자로 돌아왔다.","rel":"in the red · profit · break even"},{"cat":"eng","sem":"pl","type":"ko2en","t":"underwater","sub":"언더워터","mean":"평가손실을 안고 있는 상태","head":"산 가격보다 현재 가격이 낮아 평가손실을 안고 있는 상태","def":"산 가격보다 현재 가격이 낮아 손실을 안고 있는 상태. 물속에 잠겨 있다는 이미지에서 나왔다.","ex":"My options are underwater after the drop.","exko":"급락 뒤 내 옵션은 물려 있다.","rel":"in the red · bag holder · recover"},{"cat":"eng","sem":"sideline","type":"ko2en","t":"on the sidelines","sub":"온 더 사이드라인스","mean":"관망하며 거래에 참여하지 않는 상태","head":"시장에 들어가지 않고 현금을 들고 관망하는 상태","def":"경기장 밖에서 지켜보듯, 시장에 들어가지 않고 현금을 들고 관망하는 상태.","ex":"Big money is on the sidelines ahead of the data.","exko":"지표 발표를 앞두고 큰 자금이 관망 중이다.","rel":"cash · wait and see · enter"},{"cat":"eng","sem":"riskmgmt","type":"en2ko","t":"hedge","sub":"헤지","mean":"위험을 줄이는 반대 포지션","head":"hedge","def":"보유 자산의 손실 위험을 줄이려고 반대 방향 포지션이나 다른 자산을 함께 잡는 것.","ex":"They hedged their equity exposure with index puts.","exko":"그들은 지수 풋옵션으로 주식 노출을 헤지했다.","rel":"leverage · option · diversify"},{"cat":"eng","sem":"riskmgmt","type":"en2ko","t":"leverage","sub":"레버리지","mean":"빌린 돈으로 투자 규모를 키우는 것","head":"leverage","def":"빌린 돈이나 파생상품으로 투자 규모를 키우는 것. 손익이 배수로 커져 관리가 어려워진다.","ex":"Leverage magnifies both gains and losses.","exko":"레버리지는 이익과 손실을 모두 키운다.","rel":"margin call · exposure · risk"},{"cat":"eng","sem":"liq","type":"en2ko","t":"liquidity","sub":"리퀴디티","mean":"현금으로 바꾸기 쉬운 정도","head":"liquidity","def":"자산을 가격에 큰 영향을 주지 않고 현금으로 바꿀 수 있는 정도. 유동성이 마르면 호가 차이가 벌어진다.","ex":"Liquidity dried up right after the news.","exko":"뉴스가 나온 직후 유동성이 말라붙었다.","rel":"spread · volume · dry up"},{"cat":"eng","sem":"vola","type":"en2ko","t":"volatility","sub":"볼래틸리티","mean":"가격 변동의 폭과 속도","head":"volatility","def":"가격이 오르내리는 폭과 속도. 클수록 위험과 기회가 함께 커지고, 옵션 프리미엄도 비싸진다.","ex":"Volatility spiked ahead of the earnings report.","exko":"실적 발표를 앞두고 변동성이 급등했다.","rel":"VIX · implied volatility · risk"},{"cat":"eng","sem":"exit","type":"ko2en","t":"stop-loss order","sub":"스톱로스 오더","mean":"정한 가격에서 자동으로 파는 손절 주문","head":"정한 가격에 이르면 자동으로 팔아 손실을 제한하는 주문","def":"미리 정한 가격에 닿으면 자동으로 시장가 매도가 나가 손실을 제한하는 주문.","ex":"Always place a stop-loss order before you enter.","exko":"진입 전에 항상 손절 주문을 걸어라.","rel":"cut losses · take profit · risk"},{"cat":"eng","sem":"sizing","type":"ko2en","t":"position sizing","sub":"포지션 사이징","mean":"거래에 투입할 금액을 정하는 것","head":"한 번의 거래에 투입할 금액을 위험 한도에 맞춰 정하는 것","def":"계좌 위험 한도에 맞춰 한 거래에 투입할 금액과 수량을 정하는 것. 실력보다 중요한 생존 기술로 꼽힌다.","ex":"Risk 1% per trade with proper position sizing.","exko":"적절한 포지션 규모 조절로 거래당 1%만 건다.","rel":"risk-reward ratio · leverage · drawdown"},{"cat":"eng","sem":"sizing","type":"ko2en","t":"risk-reward ratio","sub":"리스크 리워드 레이시오","mean":"손익비","head":"목표 이익과 감수할 손실의 비율","def":"목표 이익을 감수할 손실로 나눈 비율. 1:3이면 1을 걸고 3을 노리는 거래다.","ex":"A 1:3 risk-reward ratio lets you win less often and still profit.","exko":"손익비 1:3이면 승률이 낮아도 수익이 난다.","rel":"position sizing · win rate · take profit"},{"cat":"eng","sem":"be","type":"ko2en","t":"break even","sub":"브레이크 이븐","mean":"본전이 되는 지점","head":"이익도 손실도 없이 본전이 되는 지점","def":"비용을 모두 회수해 이익도 손실도 없는 상태. '손익분기'라고 한다.","ex":"We need a 3% move just to break even after fees.","exko":"수수료를 빼면 본전이 되려면 3%는 올라야 한다.","rel":"take profit · cut losses · fees"},{"cat":"eng","sem":"exit","type":"ko2en","t":"take profit","sub":"테이크 프로핏","mean":"이익 실현","head":"목표 가격에 닿으면 이익을 확정하려고 파는 것","def":"목표 가격에 도달했을 때 더 욕심내지 않고 이익을 확정하려고 파는 것.","ex":"I took profit at the target and stepped aside.","exko":"목표가에서 이익을 실현하고 빠졌다.","rel":"cut losses · stop-loss order · target"},{"cat":"eng","sem":"exit","type":"ko2en","t":"cut losses","sub":"컷 로시스","mean":"손실 끊기, 손절","head":"손실이 커지기 전에 포지션을 정리하는 것","def":"손실이 감당할 수준을 넘기 전에 포지션을 정리해 더 큰 손실을 막는 것.","ex":"Cut your losses early and let winners run.","exko":"손실은 일찍 끊고 이익은 길게 가져가라.","rel":"stop-loss order · take profit · discipline"},{"cat":"eng","sem":"dca","type":"ko2en","t":"dollar-cost averaging","sub":"달러 코스트 애버리징","mean":"정액 분할 매수","head":"같은 금액을 정기적으로 나눠 사서 평균 단가를 낮추는 방법","def":"매달 같은 금액을 정기적으로 사서 평균 매입 단가를 낮추는 투자법. 고점 매수 위험을 줄여준다.","ex":"Dollar-cost averaging smooths out your entry price.","exko":"정액 분할 매수는 진입 단가를 평탄하게 만든다.","rel":"lump sum · position sizing · long term"},{"cat":"eng","sem":"dayend","type":"ko2en","t":"call it a day","sub":"콜 잇 어 데이","mean":"오늘은 이만 마치다","head":"하던 일을 그만하고 하루를 마무리하다","def":"하던 일을 그만두고 오늘은 여기까지 하자고 할 때 쓰는 표현.","ex":"The market's flat — let's call it a day.","exko":"장이 지지부진하니 오늘은 이만 끝내자.","rel":"wrap up · log off · close out"},{"cat":"eng","sem":"allin","type":"ko2en","t":"all in","sub":"올 인","mean":"가진 자금을 전부 투입하는 것","head":"가진 자금을 전부 한 곳에 넣는 것","def":"보유한 자금을 한 포지션에 전부 넣는 것. 기대수익도 크지만 전액 손실 위험이 있다.","ex":"Never go all in on a single trade.","exko":"한 번의 거래에 전 재산을 걸지 마라.","rel":"leverage · concentration · risk"},{"cat":"eng","sem":"stocktype","type":"en2ko","t":"blue chip","sub":"블루 칩","mean":"우량주, 대형 안정주","head":"blue chip","def":"실적과 재무가 안정된 대형 우량 기업의 주식. 카지노에서 가장 값비싼 파란 칩에서 유래했다.","ex":"Investors fled small caps for blue chips.","exko":"투자자들이 소형주를 버리고 우량주로 몰렸다.","rel":"penny stock · large cap · defensive"},{"cat":"eng","sem":"stocktype","type":"ko2en","t":"penny stock","sub":"페니 스톡","mean":"동전주, 초저가주","head":"가격이 매우 낮고 시가총액이 작은 주식","def":"주가가 매우 낮고 시가총액이 작아 변동성이 큰 주식. 유동성이 얇고 정보가 적어 위험이 크다.","ex":"Penny stocks can swing 30% in a day.","exko":"동전주는 하루에 30%씩 출렁이기도 한다.","rel":"blue chip · small cap · volatility"},{"cat":"eng","sem":"val2","type":"ko2en","t":"market cap","sub":"마켓 캡","mean":"시가총액","head":"주가에 발행주식수를 곱한 기업 전체의 시장 가치","def":"주가 × 발행주식수로 계산한 기업 전체의 시장 가치. 'market capitalization'의 줄임말이다.","ex":"Its market cap passed $1 trillion last year.","exko":"그 회사의 시가총액은 지난해 1조 달러를 넘었다.","rel":"valuation · large cap · shares outstanding"},{"cat":"eng","sem":"val2","type":"en2ko","t":"valuation","sub":"밸류에이션","mean":"기업 가치를 따지는 평가","head":"valuation","def":"기업이나 자산이 얼마의 가치가 있는지 이익·자산·성장성으로 따지는 것. 금리가 오르면 밸류에이션이 눌린다.","ex":"High rates put pressure on tech valuations.","exko":"금리 상승은 기술주 밸류에이션에 부담을 준다.","rel":"market cap · P/E · multiple"},{"cat":"eng","sem":"pl2","type":"en2ko","t":"earnings","sub":"어닝스","mean":"기업의 실적(이익)","head":"earnings","def":"기업이 일정 기간 벌어들인 순이익. 분기마다 발표되는 '어닝 시즌'이 주가 방향을 가른다.","ex":"Earnings beat expectations by a wide margin.","exko":"실적이 예상을 크게 웃돌았다.","rel":"revenue · guidance · consensus","not":["bottom line"]},{"cat":"eng","sem":"pl2","type":"en2ko","t":"revenue","sub":"리비뉴","mean":"매출(액)","head":"revenue","def":"물건이나 서비스를 팔아 얻은 총수입. 비용을 빼기 전 금액이라 이익(earnings)과 다르다.","ex":"Revenue grew 20% but margins shrank.","exko":"매출은 20% 늘었지만 마진은 줄었다.","rel":"earnings · top line · margin"},{"cat":"eng","sem":"pl2","type":"en2ko","t":"bottom line","sub":"바텀 라인","mean":"최종 손익, 핵심 결론","head":"bottom line","def":"손익계산서 맨 아래 줄에 있는 최종 순이익. 일상에서는 '결론은 이거다'라는 뜻으로도 쓴다.","ex":"The bottom line is we lost money this quarter.","exko":"결론은 이번 분기에 손실을 봤다는 것이다.","rel":"earnings · net income · takeaway","not":["earnings"]},{"cat":"eng","sem":"div","type":"en2ko","t":"dividend yield","sub":"디비던드 일드","mean":"배당수익률","head":"dividend yield","def":"1주당 배당금을 주가로 나눈 비율. 배당 투자에서 현금 수익의 크기를 보여준다.","ex":"A 5% dividend yield looks attractive with rates falling.","exko":"금리가 내리면 5% 배당수익률이 매력적으로 보인다.","rel":"dividend · payout ratio · income"},{"cat":"eng","sem":"ordertype2","type":"ko2en","t":"limit order","sub":"리밋 오더","mean":"지정가 주문","head":"원하는 가격을 미리 정해 그 가격에서만 체결되게 하는 주문","def":"사고팔 가격을 미리 정해 그 가격 또는 더 유리한 가격에서만 체결되는 주문.","ex":"I placed a limit order at 10,000.","exko":"1만 원에 지정가 주문을 넣었다.","rel":"market order · fill · bid"},{"cat":"eng","sem":"ordertype2","type":"ko2en","t":"market order","sub":"마켓 오더","mean":"시장가 주문","head":"가격을 정하지 않고 즉시 체결되는 가격으로 사고파는 주문","def":"가격을 지정하지 않고 가장 좋은 현재 호가와 즉시 체결되는 주문. 빠르지만 가격은 보장되지 않는다.","ex":"Use a market order if you need out now.","exko":"당장 빠져나와야 한다면 시장가 주문을 써라.","rel":"limit order · slippage · liquidity"},{"cat":"eng","sem":"whale","type":"en2ko","t":"whale","sub":"웨일","mean":"큰손, 대형 투자자","head":"whale","def":"한 번에 큰 금액을 거래해 시장에 영향을 주는 기관이나 큰 투자자. 온체인에서는 대량 보유 지갑을 뜻한다.","ex":"A whale moved 5,000 coins to an exchange.","exko":"큰손이 5,000코인을 거래소로 옮겼다.","rel":"institution · retail · volume"},{"cat":"eng","sem":"hands","type":"ko2en","t":"paper hands","sub":"페이퍼 핸즈","mean":"약한 손, 조금만 흔들려도 파는 투자자","head":"작은 하락에도 못 견디고 바로 파는 투자자","def":"작은 하락에도 견디지 못하고 바로 파는 성향. 종이처럼 약하다는 뜻의 커뮤니티 은어다.","ex":"Paper hands sold the dip and missed the rally.","exko":"약한 손들이 눌림목에 팔고 랠리를 놓쳤다.","rel":"diamond hands · weak hands · sell-off"},{"cat":"eng","sem":"hands","type":"ko2en","t":"diamond hands","sub":"다이아몬드 핸즈","mean":"강한 손, 끝까지 버티는 투자자","head":"하락에도 흔들리지 않고 끝까지 보유하는 투자자","def":"하락에도 흔들리지 않고 끝까지 보유하는 성향. 다이아몬드처럼 단단하다는 뜻의 은어다.","ex":"Diamond hands held through a 40% drawdown.","exko":"강한 손들은 40% 하락을 버텨냈다.","rel":"paper hands · hold · conviction"},{"cat":"eng","sem":"insider","type":"ko2en","t":"insider trading","sub":"인사이더 트레이딩","mean":"내부자 거래","head":"공개되지 않은 내부 정보로 주식을 거래하는 불법 행위","def":"공개되지 않은 기업 내부 정보를 이용해 주식을 거래하는 불법 행위. 적발되면 형사처벌과 부당이득 환수가 따른다.","ex":"The executive was charged with insider trading.","exko":"그 임원은 내부자 거래 혐의로 기소됐다.","rel":"disclosure · SEC · material information"},{"cat":"eng","sem":"daytrade","type":"ko2en","t":"day trading","sub":"데이 트레이딩","mean":"단타, 당일 매매","head":"하루 안에 사고팔아 포지션을 남기지 않는 매매","def":"하루 안에 사고팔아 다음 날로 포지션을 넘기지 않는 매매. 수수료와 변동성에 민감하다.","ex":"Day trading needs discipline, not luck.","exko":"단타에는 운이 아니라 규율이 필요하다.","rel":"scalping · swing trade · commission"},{"cat":"eng","sem":"expect","type":"en2ko","t":"guidance","sub":"가이던스","mean":"기업이 제시하는 실적 전망","head":"guidance","def":"기업이 스스로 제시하는 향후 분기·연간 실적 전망치. 전망을 낮추면(guidance cut) 주가가 급락하기 쉽다.","ex":"The company cut its guidance for the year.","exko":"그 회사는 연간 실적 전망치를 낮췄다.","rel":"consensus · earnings · outlook"},{"cat":"eng","sem":"expect","type":"en2ko","t":"consensus","sub":"컨센서스","mean":"시장 예상치의 평균","head":"consensus","def":"애널리스트들의 실적 전망을 모은 평균 예상치. 실적이 이를 웃돌면 '어닝 서프라이즈', 밑돌면 '어닝 미스'다.","ex":"Earnings beat consensus by 8%.","exko":"실적이 시장 예상치를 8% 웃돌았다.","rel":"guidance · earnings surprise · estimate"}];
+
+const ASK = {
+  def2term: '다음 설명에 해당하는 용어는?',
+  en2ko: '뜻으로 가장 알맞은 것은?',
+  ko2en: '이 뜻에 해당하는 영어 표현은?'
+};
+const CAT_NAME = { stock: '📈 주식·파생', eng: '🇺🇸 실전 영어' };
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* 문제마다 4지선다 구성 (같은 개념군은 오답 보기에서 제외) */
+const ITEMS = DATA.map((d, i) => {
+  const correct = d.type === 'en2ko' ? d.mean : d.t;
+  const label = o => (d.type === 'en2ko' ? o.mean : o.t);
+  const banned = new Set([...(d.not || []), correct]);
+  const picks = [];
+
+  const pool = DATA.filter(o => o.cat === d.cat && o !== d && o.sem !== d.sem);
+  for (const o of shuffle(pool)) {
+    const l = label(o);
+    if (!l || banned.has(l)) continue;
+    banned.add(l);
+    picks.push(l);
+    if (picks.length === 3) break;
+  }
+  if (picks.length < 3) {
+    for (const o of shuffle(DATA.filter(o => o.cat === d.cat && o !== d))) {
+      const l = label(o);
+      if (!l || banned.has(l)) continue;
+      banned.add(l);
+      picks.push(l);
+      if (picks.length === 3) break;
+    }
+  }
+
+  const choices = shuffle([{ text: correct, ok: true }, ...picks.map(t => ({ text: t, ok: false }))]);
+  return Object.assign({}, d, { id: i, choices });
+});
+
+/* ---------- 저장 ---------- */
+const KEY = 'kebira-eng-stock-quiz-v1';
+const blankState = () => ({ solved: [], wrong: [], marks: [], streak: 0, best: 0, hits: 0, tries: 0 });
+
+let S = blankState();
+try {
+  const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
+  if (raw && Array.isArray(raw.solved)) S = Object.assign(blankState(), raw);
+} catch (e) { /* 저장소를 쓸 수 없으면 세션 기록만 유지 */ }
+
+const solvedSet = new Set(S.solved);
+const wrongSet = new Set(S.wrong);
+const markSet = new Set(S.marks);
+
+function save() {
+  S.solved = [...solvedSet];
+  S.wrong = [...wrongSet];
+  S.marks = [...markSet];
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {}
+}
+
+/* 화면 전용 상태 */
+const ui = new Map();
+function uiOf(id) {
+  if (!ui.has(id)) ui.set(id, { picked: new Set(), gone: new Set(), hint: 0 });
+  return ui.get(id);
+}
+
+let filter = 'all';
+let list = [];
+let pos = 0;
+
+function buildList() {
+  if (filter === 'stock') list = ITEMS.filter(it => it.cat === 'stock');
+  else if (filter === 'eng') list = ITEMS.filter(it => it.cat === 'eng');
+  else if (filter === 'wrong') list = ITEMS.filter(it => wrongSet.has(it.id));
+  else if (filter === 'mark') list = ITEMS.filter(it => markSet.has(it.id));
+  else list = ITEMS.slice();
+}
+
+function current() { return list[pos] || null; }
+
+/* ---------- 요소 ---------- */
+const $ = id => document.getElementById(id);
+const elTabs = $('tabs'), elLv = $('lv');
+const elStreak = $('statStreak'), elAcc = $('statAcc'), elSolved = $('statSolved');
+const elBar = $('progBar'), elPText = $('progText');
+const elPrev = $('btnPrev'), elNext = $('btnNext');
+const elChip = $('chip'), elQno = $('qno'), elQhead = $('qhead'), elQask = $('qask');
+const elStatus = $('status'), elChoices = $('choices');
+const elHint = $('btnHint'), elExplain = $('btnExplain'), elMark = $('btnMark');
+const elModal = $('modal'), elMBadge = $('mBadge'), elMTerm = $('mTerm'), elMSub = $('mSub');
+const elMDef = $('mDef'), elMEx = $('mEx'), elMRel = $('mRel'), elMNext = $('mNext');
+const elConfirm = $('confirm');
+
+const FILTERS = [
+  { key: 'all', name: '전체' },
+  { key: 'stock', name: '📈 주식·파생' },
+  { key: 'eng', name: '🇺🇸 실전 영어' },
+  { key: 'wrong', name: '❌ 오답노트' },
+  { key: 'mark', name: '⭐ 북마크' }
+];
+
+function countFor(key) {
+  if (key === 'stock') return ITEMS.filter(it => it.cat === 'stock').length;
+  if (key === 'eng') return ITEMS.filter(it => it.cat === 'eng').length;
+  if (key === 'wrong') return wrongSet.size;
+  if (key === 'mark') return markSet.size;
+  return ITEMS.length;
+}
+
+/* ---------- 렌더 ---------- */
+function renderTabs() {
+  elTabs.innerHTML = '';
+  FILTERS.forEach(f => {
+    const b = document.createElement('button');
+    b.className = 'tab' + (filter === f.key ? ' on' : '');
+    b.innerHTML = f.name + ' <span class="n">' + countFor(f.key) + '</span>';
+    b.addEventListener('click', () => setFilter(f.key));
+    elTabs.appendChild(b);
+  });
+}
+
+function renderStats() {
+  const total = S.hits + S.tries;
+  const acc = total ? Math.round((S.hits / total) * 100) : 0;
+  elStreak.textContent = '🔥 ' + S.streak;
+  elAcc.textContent = '🎯 ' + acc + '%';
+  elSolved.textContent = '✅ ' + solvedSet.size + '/' + ITEMS.length;
+  elLv.textContent = 'Lv.' + Math.min(10, Math.floor(solvedSet.size / 10) + 1);
+}
+
+function renderHeader() {
+  const it = current();
+  if (!it) {
+    elBar.style.width = '0%';
+    elPText.textContent = '0 / 0';
+    elPrev.disabled = true;
+    elNext.disabled = true;
+    return;
+  }
+  const w = ((pos + 1) / list.length) * 100;
+  elBar.style.width = w + '%';
+  elPText.textContent = (pos + 1) + ' / ' + list.length;
+  elPrev.disabled = pos === 0;
+  elNext.disabled = pos === list.length - 1;
+}
+
+function statusText(it) {
+  const st = uiOf(it.id);
+  if (solvedSet.has(it.id)) return { cls: 'ok', text: '✅ 정답! [' + it.t + '] — 눌러서 해설 보기' };
+  if (st.hint === 2) return { cls: 'hint', text: '💡 50:50 — 오답 2개를 지웠습니다. 이제 고르세요' };
+  if (st.hint === 1) return { cls: 'hint', text: '💡 힌트: ' + hintText(it) };
+  if (st.picked.size) return { cls: 'bad', text: '❌ 아쉽습니다. 지운 보기를 빼고 다시 골라 보세요' };
+  return { cls: '', text: '4지선다 · 막히면 [💡 힌트] (2단계)' };
+}
+
+function hintText(it) {
+  if (it.type === 'def2term' && /[가-힣]/.test(it.t)) {
+    const words = it.t.split(' ');
+    const mask = words.map(w => (w.length > 1 ? w[0] + '○'.repeat(w.length - 1) : w)).join(' ');
+    return mask + ' (' + it.t.replace(/\s/g, '').length + '글자)';
+  }
+  if (it.type === 'def2term') {
+    return '영문 약어 · 첫 글자 ' + it.t[0];
+  }
+  const words = it.t.split(' ');
+  if (words.length > 1) {
+    return words.map(w => (w.length > 1 ? w[0] + '○'.repeat(w.length - 1) : w)).join(' ');
+  }
+  const letters = it.t.replace(/[^A-Za-z]/g, '').length;
+  return it.t[0] + '○'.repeat(Math.max(0, it.t.length - 1)) + ' (' + letters + '글자)';
+}
+
+function renderQuestion() {
+  const it = current();
+  elChoices.innerHTML = '';
+
+  if (!it) {
+    elChip.textContent = filter === 'mark' ? '⭐ 북마크' : '❌ 오답노트';
+    elChip.className = 'chip';
+    elQno.textContent = '';
+    elQhead.className = 'qhead empty';
+    elQhead.textContent = filter === 'mark'
+      ? '북마크한 문제가 없습니다.\n문제 화면에서 ☆ 북마크를 눌러 모아 보세요.'
+      : '오답이 없습니다. 🎉\n틀린 문제가 생기면 여기에 모입니다.';
+    elQask.textContent = '';
+    elStatus.className = 'status';
+    elStatus.textContent = '다른 탭에서 문제를 풀어 보세요';
+    elHint.disabled = true;
+    elExplain.disabled = true;
+    elMark.disabled = true;
+    renderHeader();
+    return;
+  }
+
+  elHint.disabled = false;
+  elExplain.disabled = false;
+  elMark.disabled = false;
+
+  elChip.textContent = CAT_NAME[it.cat];
+  elChip.className = 'chip' + (it.cat === 'eng' ? ' eng' : '');
+  elQno.textContent = 'Q' + (it.id + 1);
+
+  elQhead.className = 'qhead' + (it.type === 'en2ko' ? ' en' : it.type === 'ko2en' ? ' ko' : '');
+  elQhead.textContent = it.head;
+  elQask.textContent = ASK[it.type];
+
+  const st = statusText(it);
+  elStatus.className = 'status' + (st.cls ? ' ' + st.cls : '');
+  elStatus.textContent = st.text;
+
+  elMark.textContent = markSet.has(it.id) ? '★ 북마크' : '☆ 북마크';
+  elMark.className = 'act mark' + (markSet.has(it.id) ? ' on' : '');
+
+  renderChoices();
+  renderHeader();
+}
+
+function renderChoices() {
+  const it = current();
+  elChoices.innerHTML = '';
+  if (!it) return;
+
+  const st = uiOf(it.id);
+  const done = solvedSet.has(it.id);
+
+  it.choices.forEach((c, i) => {
+    const b = document.createElement('button');
+    b.className = 'choice';
+    b.dataset.i = String(i);
+    b.innerHTML = '<span class="k">' + 'ABCD'[i] + '</span><span class="t"></span>';
+    b.querySelector('.t').textContent = c.text;
+
+    if (done) {
+      if (c.ok) b.classList.add('ok');
+      b.disabled = true;
+    } else if (st.picked.has(i) || st.gone.has(i)) {
+      b.classList.add('gone');
+      b.disabled = true;
+    }
+
+    b.addEventListener('click', () => answer(i));
+    elChoices.appendChild(b);
+  });
+}
+
+/* 오답노트에서 정답을 맞히면 목록에서 빠지고 다음 문제로 이어진다 */
+function refreshWrongList() {
+  buildList();
+  if (!list.length) { pos = 0; return; }
+  pos = Math.min(pos, list.length - 1);
+}
+
+/* ---------- 정답 처리 ---------- */
+function answer(i) {
+  const it = current();
+  if (!it || solvedSet.has(it.id)) return;
+  const st = uiOf(it.id);
+  if (st.picked.has(i) || st.gone.has(i)) return;
+  const opt = it.choices[i];
+
+  if (opt.ok) {
+    solvedSet.add(it.id);
+    wrongSet.delete(it.id);
+    S.streak += 1;
+    S.best = Math.max(S.best, S.streak);
+    S.hits += 1;
+    save();
+    renderQuestion();
+    renderStats();
+    renderTabs();
+    const solvedId = it.id;
+    if (filter === 'wrong') refreshWrongList();
+    setTimeout(() => {
+      if (current() && current().id === solvedId) openModal(true);
+    }, 340);
+    return;
+  }
+
+  S.tries += 1;
+  S.streak = 0;
+  wrongSet.add(it.id);
+  st.picked.add(i);
+  save();
+  renderQuestion();
+  renderStats();
+  renderTabs();
+  const btn = elChoices.querySelector('.choice[data-i="' + i + '"]');
+  if (btn) {
+    btn.classList.remove('gone');
+    btn.classList.add('bad');
+    btn.disabled = true;
+    setTimeout(() => { if (current() && current().id === it.id) renderChoices(); }, 460);
+  }
+}
+
+/* ---------- 힌트 ---------- */
+elHint.addEventListener('click', () => {
+  const it = current();
+  if (!it) return;
+  if (solvedSet.has(it.id)) { openModal(true); return; }
+  const st = uiOf(it.id);
+  const wrongIdx = it.choices.map((c, i) => (c.ok ? -1 : i)).filter(i => i >= 0 && !st.picked.has(i) && !st.gone.has(i));
+
+  if (st.hint === 0) {
+    st.hint = 1;
+    renderQuestion();
+    return;
+  }
+  if (wrongIdx.length >= 2) {
+    shuffle(wrongIdx).slice(0, 2).forEach(i => st.gone.add(i));
+    st.hint = 2;
+    renderQuestion();
+    return;
+  }
+  st.hint = 2;
+  const s = statusText(it);
+  elStatus.className = 'status hint';
+  elStatus.textContent = wrongIdx.length
+    ? '💡 오답을 모두 지웠습니다. 남은 보기가 정답입니다'
+    : '💡 더 지울 오답이 없습니다';
+  renderChoices();
+});
+
+/* ---------- 북마크 ---------- */
+elMark.addEventListener('click', () => {
+  const it = current();
+  if (!it) return;
+  if (markSet.has(it.id)) markSet.delete(it.id); else markSet.add(it.id);
+  save();
+  renderQuestion();
+  renderTabs();
+});
+
+/* ---------- 해설 모달 ---------- */
+function openModal(auto) {
+  const it = current();
+  if (!it) return;
+  const done = solvedSet.has(it.id);
+
+  elMBadge.className = 'mbadge' + (it.cat === 'eng' ? ' eng' : '');
+  elMBadge.textContent = done ? '🎉 정답 · 상세 해설' : '📖 해설 보기';
+  elMTerm.className = 'mterm' + (it.cat === 'eng' ? ' en' : '');
+  elMTerm.textContent = it.t;
+  elMSub.textContent = it.cat === 'eng'
+    ? '발음 ' + it.sub + ' · ' + it.mean
+    : it.sub;
+  elMDef.textContent = it.def;
+
+  if (it.cat === 'eng') {
+    elMEx.innerHTML = '<div class="mex"></div><div class="mexko"></div>';
+    elMEx.querySelector('.mex').textContent = '“' + it.ex + '”';
+    elMEx.querySelector('.mexko').textContent = it.exko;
+  } else {
+    elMEx.innerHTML = '<div class="mex"></div>';
+    elMEx.querySelector('.mex').textContent = it.ex;
+  }
+  elMRel.textContent = it.rel;
+
+  elMNext.disabled = pos === list.length - 1;
+  elMNext.textContent = pos === list.length - 1 ? '마지막 문제' : '다음 문제 ▶';
+  elModal.classList.add('open');
+}
+
+function closeModal() { elModal.classList.remove('open'); }
+elExplain.addEventListener('click', () => openModal(false));
+elStatus.addEventListener('click', () => { if (current() && solvedSet.has(current().id)) openModal(true); });
+$('mClose').addEventListener('click', closeModal);
+$('mBack').addEventListener('click', closeModal);
+elModal.addEventListener('click', e => { if (e.target === elModal) closeModal(); });
+elMNext.addEventListener('click', () => {
+  closeModal();
+  if (pos < list.length - 1) { pos += 1; renderQuestion(); }
+});
+
+/* ---------- 이동 / 필터 ---------- */
+function setFilter(key) {
+  filter = key;
+  buildList();
+  pos = 0;
+  for (let i = 0; i < list.length; i++) {
+    if (!solvedSet.has(list[i].id)) { pos = i; break; }
+  }
+  renderTabs();
+  renderQuestion();
+  renderStats();
+}
+
+elPrev.addEventListener('click', () => { if (pos > 0) { pos -= 1; renderQuestion(); } });
+elNext.addEventListener('click', () => { if (pos < list.length - 1) { pos += 1; renderQuestion(); } });
+
+/* ---------- 초기화 ---------- */
+$('btnReset').addEventListener('click', () => elConfirm.classList.add('open'));
+$('cCancel').addEventListener('click', () => elConfirm.classList.remove('open'));
+$('cOk').addEventListener('click', () => {
+  S = blankState();
+  solvedSet.clear();
+  wrongSet.clear();
+  markSet.clear();
+  ui.clear();
+  try { localStorage.removeItem(KEY); } catch (e) {}
+  elConfirm.classList.remove('open');
+  filter = 'all';
+  buildList();
+  pos = 0;
+  renderTabs();
+  renderQuestion();
+  renderStats();
+});
+
+/* ---------- 키보드 (데스크톱) ---------- */
+document.addEventListener('keydown', e => {
+  if (elModal.classList.contains('open') || elConfirm.classList.contains('open')) {
+    if (e.key === 'Escape') { closeModal(); elConfirm.classList.remove('open'); }
+    return;
+  }
+  if (/^[1-4]$/.test(e.key)) {
+    const b = elChoices.querySelector('.choice[data-i="' + (Number(e.key) - 1) + '"]');
+    if (b && !b.disabled) b.click();
+  } else if (e.key === 'ArrowRight' && pos < list.length - 1) { pos += 1; renderQuestion(); }
+  else if (e.key === 'ArrowLeft' && pos > 0) { pos -= 1; renderQuestion(); }
+});
+
+/* ---------- 시작 ---------- */
+buildList();
+pos = 0;
+for (let i = 0; i < list.length; i++) {
+  if (!solvedSet.has(list[i].id)) { pos = i; break; }
+}
+renderTabs();
+renderQuestion();
+renderStats();
+</script>
+</body>
+</html>
