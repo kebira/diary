@@ -925,13 +925,14 @@ function answer(i) {
     S.best = Math.max(S.best, S.streak);
     S.hits += 1;
     save();
+    if (filter === 'wrong') refreshWrongList();
     renderQuestion();
     renderStats();
     renderTabs();
     const solvedId = it.id;
-    if (filter === 'wrong') refreshWrongList();
     setTimeout(() => {
-      if (current() && current().id === solvedId) openModal(true);
+      const cur = current();
+      if (!cur || cur.id === solvedId) openModal(true, it);
     }, 340);
     return;
   }
@@ -992,8 +993,8 @@ elMark.addEventListener('click', () => {
 });
 
 /* ---------- 해설 모달 ---------- */
-function openModal(auto) {
-  const it = current();
+function openModal(auto, explicit) {
+  const it = explicit || current();
   if (!it) return;
   const done = solvedSet.has(it.id);
 
@@ -1016,8 +1017,10 @@ function openModal(auto) {
   }
   elMRel.textContent = it.rel;
 
-  elMNext.disabled = pos === list.length - 1;
-  elMNext.textContent = pos === list.length - 1 ? '마지막 문제' : '다음 문제 ▶';
+  const inList = !!(current() && current().id === it.id);
+  const isLast = !inList || pos === list.length - 1;
+  elMNext.disabled = false;
+  elMNext.textContent = isLast ? '닫기' : '다음 문제 ▶';
   elModal.classList.add('open');
 }
 
