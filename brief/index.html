@@ -451,7 +451,8 @@ function renderTabs() {
 
 /* ── 시세 카드 ── */
 function heroCard(s) {
-  const f = s.fut || {};
+  const f = s.fut;
+  if (!f || !f.today) return "";
   const prev = f.prev || {};
   const t = f.today || {};
   const gapPts = (t.open != null && prev.close != null) ? +(t.open - prev.close).toFixed(2) : null;
