@@ -16,6 +16,9 @@
      링크로 열었을 때 10분 전 화면이 보이는 것을 막는다. 쿼리 없이 열리면 한 번만 새로 받는다. */
   if (location.protocol !== "file:" && !/[?&]t=/.test(location.search)) {
     location.replace(location.pathname + "?t=" + Date.now());
+  } else if (/[?&]t=/.test(location.search)) {
+    /* 받은 뒤에는 주소창을 깔끔하게 (공유·즐겨찾기용) */
+    try { history.replaceState(null, "", location.pathname); } catch (e) {}
   }
 </script>
 <style>
