@@ -337,6 +337,76 @@
    ============================================================================ */
 const SESSIONS = [
   {
+    id: "2026-11-23-1600",
+    date: "2026-11-23",
+    weekday: "월",
+    time: "16:00",
+    kind: "장 마감 종합",
+    sub: "08:45~15:45 종합 · 내일장 3대 시나리오",
+    live: "마감",
+
+    fut: {
+      name: "코스피200 선물지수",
+      code: "2612",
+      tag: "12월물",
+      prev: { date: "11/20", high: 770.00, low: 746.80, close: 752.75 },
+      today: { open: 719.90, high: 737.25, low: 708.25, last: 726.65, lastLabel: "15:45 마감", nowLabel: "종가" },
+      volume: 156557,
+      oi: 172567,
+      oiDiff: 3871,
+      basis: -4.18
+    },
+
+    market: {
+      kospi: { name: "코스피", value: 4708.54, pct: -3.31 },
+      flows: [
+        { name: "외국인",   value: -2472, unit: "억" },
+        { name: "기관",     value: 1872,  unit: "억" },
+        { name: "개인",     value: -3669, unit: "억" },
+        { name: "기타법인", value: 4268,  unit: "억" },
+        { name: "프로그램", value: 2003,  unit: "억" }
+      ],
+      stocks: [
+        { name: "삼성전자", value: 177500, pct: -3.06, fmt: 0 },
+        { name: "SK하이닉스", value: 1085000, pct: -2.52, fmt: 0 }
+      ],
+      global: [
+        { grp: "미국 선물 · 15:41", items: [
+          { name: "나스닥100 선물", value: "25,840.50", pct: 2.84 },
+          { name: "S&P500 선물", value: "7,076.50", pct: 2.04 },
+          { name: "다우 선물", value: "48,893", pct: 1.40 }
+        ]},
+        { grp: "유럽 (현물 11/20 종가 · DAX 선물 15:49)", items: [
+          { name: "유로스톡스50", value: "5,941.95", pct: -2.81 },
+          { name: "DAX", value: "24,802.78", pct: -2.60 },
+          { name: "DAX 선물", value: "24,927", pct: 0.16 }
+        ]},
+        { grp: "환율 · 15:50", items: [
+          { name: "원/달러", value: "1,344.30", pct: 0.67 }
+        ]}
+      ]
+    },
+
+    checksTitle: "내일장 체크포인트",
+    checksMeta: "11/24 (화)",
+    checks: [
+      { t: "시초 갭과 719.90(당일 시가) 확인", d: "밤사이 미국장 마감과 08:30~08:45 시초 단일가를 먼저 본다. 시가가 719.90 위면 708.25 저점 방어, 아래면 저점 갱신 흐름으로 읽는다." },
+      { t: "737.25(당일 고가) 회복 여부", d: "오늘 고점. 이 위에서 1분봉 종가가 유지돼야 746.80(전일 저가)·752.75(전일 종가)까지 열린다. 회복 전 반등 추격은 금지." },
+      { t: "미국장 밤사이 흐름 (23:45 PMI · 06:00 윌리엄스)", d: "나스닥100 선물 +2%대가 유지되는지, 23:45 S&P글로벌 PMI 예비치와 06:00 뉴욕연은 총재 발언이 방향을 정한다. 06:00 마감까지가 내일 시초의 기준." }
+    ],
+
+    scenTitle: "내일장 3대 시나리오",
+    scenMeta: "확인 후 대응",
+    scenarios: [
+      { dir: "up", name: "상승", cond: "737.25(오늘 고가) 위 1분봉 종가 유지", act: "1차 746.80(전일 저가), 2차 752.75(전일 종가). 740~747 구간은 오늘 매물대라 분할 청산, 오전 수익은 잠근다." },
+      { dir: "down", name: "하락", cond: "708.25(오늘 저점) 이탈", act: "이탈 확인 전 반등 매수 금지. 다음 지지는 700.00(야간선물 종가), 매도 사이드카 기준은 690.32. 신규 숏도 확인 후 짧게만." },
+      { dir: "side", name: "횡보", cond: "708.25~737.25 박스 등락", act: "박스 상·하단에서만 짧게 대응하고 중간 구간은 관망. 하루 5회·2연패 컷을 지키고 12:00 점심 진입은 금지." }
+    ],
+
+    rulesHot: [1, 3],
+    next: "19:30 해외선물·시사 브리핑"
+  },
+  {
     id: "2026-11-23-1110",
     date: "2026-11-23",
     weekday: "월",
@@ -495,7 +565,7 @@ function heroCard(s) {
       <div class="cell"><i>당일 시가</i><b>${n2(t.open, 2)}</b></div>
       <div class="cell"><i>당일 고가</i><b>${n2(t.high, 2)}</b></div>
       <div class="cell"><i>당일 저가</i><b>${n2(t.low, 2)}</b></div>
-      <div class="cell now"><i>현재</i><b>${n2(t.last, 2)}</b></div>
+      <div class="cell now"><i>${esc(t.nowLabel || "현재")}</i><b>${n2(t.last, 2)}</b></div>
     </div>
 
     <div class="prevLine">
@@ -602,9 +672,9 @@ function planCard(s) {
 
   return `
   <section class="card">
-    <div class="chead"><span class="t">오후장 체크포인트</span><span class="l"></span><span class="m">오후장 대비</span></div>
+    <div class="chead"><span class="t">${esc(s.checksTitle || "오후장 체크포인트")}</span><span class="l"></span><span class="m">${esc(s.checksMeta || "오후장 대비")}</span></div>
     <div class="block">${checks}</div>
-    ${scns ? `<div class="chead"><span class="t">3대 시나리오</span><span class="l"></span><span class="m">확인 후 대응</span></div>
+    ${scns ? `<div class="chead"><span class="t">${esc(s.scenTitle || "3대 시나리오")}</span><span class="l"></span><span class="m">${esc(s.scenMeta || "확인 후 대응")}</span></div>
     <div class="block">${scns}</div>` : ""}
   </section>`;
 }
