@@ -543,9 +543,10 @@ function marketCard(s) {
   let globalHtml = "";
   if (m.global && m.global.length) {
     globalHtml = m.global.map((g) => {
-      const chips = g.items.map((it) => {
+      const chips = g.items.map((it, idx) => {
         const p = pctText(it.pct);
-        const wide = g.items.length === 1 ? " wide" : "";
+        const odd = g.items.length % 2 === 1;
+        const wide = (g.items.length === 1 || (odd && idx === g.items.length - 1)) ? " wide" : "";
         return `<div class="chip${wide}">
           <div class="cn">${esc(it.name)}</div>
           <div class="cv"><b>${esc(it.value)}</b>${p ? `<span class="${p.cls}">${p.text}</span>` : `<span class="flat">—</span>`}</div>
@@ -590,7 +591,7 @@ function planCard(s) {
 
   return `
   <section class="card">
-    <div class="chead"><span class="t">오후장 체크포인트</span><span class="l"></span><span class="m">15:30 마감</span></div>
+    <div class="chead"><span class="t">오후장 체크포인트</span><span class="l"></span><span class="m">오후장 대비</span></div>
     <div class="block">${checks}</div>
     ${scns ? `<div class="chead"><span class="t">3대 시나리오</span><span class="l"></span><span class="m">확인 후 대응</span></div>
     <div class="block">${scns}</div>` : ""}
