@@ -359,6 +359,7 @@ const SESSIONS = [
 
     market: {
       kospi: { name: "코스피", value: 4708.54, pct: -3.31 },
+      flowLabel: "마감",
       flows: [
         { name: "외국인",   value: -2472, unit: "억" },
         { name: "기관",     value: 1872,  unit: "억" },
@@ -596,7 +597,7 @@ function marketCard(s) {
   let flowsHtml = "";
   if (m.flows && m.flows.length) {
     const maxAbs = Math.max(...m.flows.map((f) => Math.abs(f.value))) || 1;
-    flowsHtml = `<div class="subhead">수급 (장중)</div><div class="bars">` +
+    flowsHtml = `<div class="subhead">수급 (${esc(m.flowLabel || "장중")})</div><div class="bars">` +
       m.flows.map((f) => {
         const pos = f.value >= 0;
         const w = Math.max(3, Math.round(Math.abs(f.value) / maxAbs * 100));
