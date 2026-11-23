@@ -192,6 +192,13 @@
   .prevLine .p b{font-size:13px; color:#dbe6f7; font-variant-numeric:tabular-nums; margin-left:3px; letter-spacing:-.3px}
   .prevLine .p:last-child b{color:#fff}
 
+  /* 기준선(사이드카·상한가) 표 */
+  .lvlBox{margin-top:9px; padding:7px 10px; background:#0b1424; border:1px dashed #27395a; border-radius:10px}
+  .lvlHd{font-size:10px; font-weight:900; color:#8095b8; letter-spacing:.3px}
+  .lvlGrid{display:grid; grid-template-columns:1fr 1fr; gap:3px 12px; margin-top:3px}
+  .lvlGrid .p{display:flex; justify-content:space-between; align-items:baseline; font-size:10.5px; color:var(--dim); font-weight:800; white-space:nowrap}
+  .lvlGrid .p b{font-size:12.5px; color:#dbe6f7; font-variant-numeric:tabular-nums; margin-left:5px; letter-spacing:-.3px}
+
   /* 지표 3칸 */
   .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:9px}
   .stat{background:#0d1728; border:1px solid #1b2740; border-radius:10px; padding:7px 8px}
@@ -782,11 +789,11 @@ function heroCard(s) {
         <span class="p">종가<b>${n2(prev.close, 2)}</b></span>
       </span>
     </div>
-${(f.levels && f.levels.length) ? `    <div class="prevLine">
-      <span class="lb">기준선</span>
-      <span class="vals">
+${(f.levels && f.levels.length) ? `    <div class="lvlBox">
+      <div class="lvlHd">기준선</div>
+      <div class="lvlGrid">
         ${f.levels.map((x) => `<span class="p">${esc(x.k)}<b>${esc(x.v)}</b></span>`).join("")}
-      </span>
+      </div>
     </div>
 ` : ""}
     <div class="stats">
