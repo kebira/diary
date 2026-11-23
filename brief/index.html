@@ -254,6 +254,22 @@
   .check .ds{font-size:11.5px; color:#a4b6d0; margin-top:2px; line-height:1.45}
   .check .ds b{color:#fff; font-variant-numeric:tabular-nums}
 
+  /* ── 뉴스(정치·경제·사회) ── */
+  .nws{display:flex; gap:9px; padding:8px 0; border-bottom:1px solid #18233a}
+  .nws:last-child{border-bottom:0; padding-bottom:0}
+  .nws .tg{
+    flex:0 0 auto; width:34px; height:20px; border-radius:6px; margin-top:1px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:9.5px; font-weight:900; letter-spacing:-.2px;
+    background:#1d2b45; color:#9dc0ff; border:1px solid #2c3f61;
+  }
+  .nws.pol .tg{background:rgba(244,198,99,.13); color:#f4c663; border-color:rgba(244,198,99,.35)}
+  .nws.eco .tg{background:rgba(239,68,68,.13); color:#ff9d9d; border-color:rgba(239,68,68,.33)}
+  .nws.soc .tg{background:rgba(148,163,184,.13); color:#c2cfe2; border-color:rgba(148,163,184,.3)}
+  .nws .bd{min-width:0}
+  .nws .hd{font-size:12.5px; font-weight:900; color:#e7eefb; letter-spacing:-.2px}
+  .nws .ds{font-size:11.5px; color:#a4b6d0; margin-top:2px; line-height:1.45}
+
   /* ── 시나리오 ── */
   .scn{display:flex; gap:9px; align-items:stretch; padding:9px 0; border-bottom:1px solid #18233a}
   .scn:last-child{border-bottom:0; padding-bottom:0}
@@ -336,6 +352,87 @@
    · 상승 = 빨강 #ef4444, 하락 = 파랑 #3b82f6.
    ============================================================================ */
 const SESSIONS = [
+  {
+    id: "2026-11-23-1930",
+    date: "2026-11-23",
+    weekday: "월",
+    time: "19:30",
+    kind: "해외선물·시사",
+    sub: "미국 선물·유럽·원자재 · 오늘의 정치·경제",
+    live: "야간",
+
+    fut: {
+      name: "코스피200 야간선물",
+      code: "A01612",
+      tag: "야간 18:00~",
+      prev: { date: "11/23 정규장", high: 737.25, low: 708.25, close: 726.65 },
+      today: { open: 732.10, high: 737.70, low: 730.60, last: 737.00, lastLabel: "현재 19:23 (야간)", nowLabel: "현재" },
+      volume: 4153
+    },
+
+    market: {
+      global: [
+        { grp: "미국 선물 · 19:23", items: [
+          { name: "나스닥100 선물", value: "26,001", pct: 3.48 },
+          { name: "S&P500 선물", value: "7,124", pct: 2.73 }
+        ]},
+        { grp: "유럽 · 19:04", items: [
+          { name: "유로스톡스50", value: "5,994.12", pct: 0.88 },
+          { name: "DAX", value: "24,989.20", pct: 0.75 },
+          { name: "FTSE100", value: "10,406.61", pct: 0.58 }
+        ]},
+        { grp: "원자재·금리·환율 · 19:11", items: [
+          { name: "WTI 1월물", value: "$83.10", pct: -0.37 },
+          { name: "금 12월물", value: "$3,621.80", pct: 3.03 },
+          { name: "미 10년물", value: "4.958%", pct: null },
+          { name: "달러인덱스", value: "103.82", pct: 0.01 },
+          { name: "원/달러(주간)", value: "1,345.90", pct: 0.73 },
+          { name: "VIX", value: "30.10", pct: -16.13 }
+        ]},
+        { grp: "미국 프리마켓 · 19:21", items: [
+          { name: "엔비디아", value: "$136.42", pct: 8.68 },
+          { name: "AMD", value: "$449.00", pct: 5.80 },
+          { name: "TSMC", value: "$342.01", pct: 7.10 }
+        ]}
+      ]
+    },
+
+    checksTitle: "오늘 밤 체크포인트",
+    checksMeta: "11/23 밤 ~ 11/24 새벽",
+    checks: [
+      { t: "23:30 본장 개장 · 23:45 PMI 예비치", d: "제조업 54.5(전 56.0) · 서비스업 55.6(전 57.9) 예상. 지난주 급락 뒤 반등이 진짜인지 가르는 첫 관문이라 발표 전후 5분은 진입을 피한다." },
+      { t: "11/24 06:00 윌리엄스 뉴욕연은 총재 연설", d: "미 동부 4:00 PM, 연준 블랙아웃 전 마지막 주요 발언. 시장 기본값은 12월 0.25%p 인상이고, 빅스텝(0.5%p) 언급이 나오면 금리·달러가 다시 흔들린다." },
+      { t: "추수감사절 주간 — 26일 휴장 · 27일 조기 폐장", d: "거래량이 얇아 작은 주문에도 크게 움직인다. 25일 22:30 미국 PCE(근원 +0.3% 전망)와 26일 10:00 한국은행 금통위(3.00→3.25% 인상 예상)가 이번 주 관문." }
+    ],
+
+    scenTitle: "야간장 3가지 대응",
+    scenMeta: "18:00~06:00",
+    scenarios: [
+      { dir: "up", name: "상승", cond: "737.70(야간 고가) 위 1분봉 종가 유지", act: "주간 고가 737.25를 되찾은 흐름. 740 안착이 확인되면 746.80(11/20 저가)까지 열리지만, 얇은 야간 거래라 추격 대신 확인 후 짧게 간다." },
+      { dir: "down", name: "하락", cond: "730.60(야간 저가) 이탈", act: "시가 732.10을 메우는 흐름. 726.65(주간 종가) 이탈 전까지는 되돌림으로 보고, 이탈 확인 뒤에 720선·708.25(주간 저가)를 본다." },
+      { dir: "side", name: "횡보", cond: "730.60~737.70 박스 등락", act: "박스 상·하단에서만 짧게. 새벽 06:00 윌리엄스 연설 전에는 포지션을 줄이고, 하루 5회·2연패 컷은 야간에도 그대로 지킨다." }
+    ],
+
+    newsTitle: "오늘(11/23)의 정치 · 경제 · 사회",
+    newsMeta: "오늘자 보도 기준",
+    news: [
+      { tag: "정치", t: "민주당, 조희대 대법원장 탄핵 연내 처리 공식화", d: "12월 중 탄핵소추안 처리 방침. 한덕수 전 총리 판결은 사유에서 빼고 절차적 문제 중심으로 추진. 국민의힘은 '사법부 장악'이라 반발했고 전국법관대표회의 의장도 \"도를 넘어선 것\"이라고 비판했다." },
+      { tag: "정치", t: "국민의힘 '조작 징계' 폭로전 — 장동혁·한동훈 정면 충돌", d: "최규동 전 교수와 황경성 윤리위원이 한동훈 의원 제명 시점을 윤석열 전 대통령 구형 직후로 잡은 기획안과 결정문을 공개. 한 의원은 \"조작 제명·기획 숙청, 원천 무효\"라며 복당 의지를 밝혔고 장 대표는 \"본질은 안 바뀐다\"고 맞섰다. 오세훈 시장의 비대위 전환 거론까지 겹쳐 삼각 갈등." },
+      { tag: "정치", t: "국민의힘, 조작기소 특검법 권한쟁의심판 청구", d: "민주당 주도 특검법에 대해 국회 권한쟁의심판을 청구하기로 했다. 여야 법적 공방이 본격화된다. 27일에는 민주당 윤리심판원의 최민희 의원 징계 심의가 예정됐다." },
+      { tag: "정치", t: "최교진 교육부 장관 사의 수락 — 후임 인선 착수", d: "수능 부정행위 대책 혼란의 책임. 이재명 대통령은 \"문제지 촬영·외부 전송을 막을 법적 근거를 전면 정비하라\"고 지시했고, 청와대는 신임 장관 인선 절차에 들어갔다." },
+      { tag: "경제", t: "코스피 -3.31% 4,708.54, '검은 월요일'", d: "장중 -5.81%(4,586.80)까지 밀린 뒤 4,700선 사수. 11:33 매도 사이드카 2거래일 연속. 외국인 -2,472억(7거래일째 순매도) / 기관 +1,872억 / 기타법인 +4,268억(자사주). 2거래일 누적 -8.36%, 6월 고점 대비 -48%." },
+      { tag: "경제", t: "정부 증안펀드 카드, 첫날부터 시장은 외면", d: "이형일 부총리: 증안펀드(10조7,600억)는 \"가동 준비 착수 단계\", 시점·규모는 미제시. 컨틴전시플랜 일부 가동, 자사주 일일 매수 한도는 24일부터 3개월 완화, 3개월 불법 공매도 집중감시. 추가 공매도 규제는 부정적." },
+      { tag: "경제", t: "11월 1~20일 수출 774억 달러, 역대 최대", d: "전년 동기 대비 +101.5%. 반도체 385억 달러(+294.4%, 비중 49.7%)가 절반. 올해 누적 수출은 사상 처음 1조 달러를 넘었고 무역수지는 271억 달러 흑자. 이 부총리는 \"올해 4% 성장 가능 범위\"라고 했다." },
+      { tag: "경제", t: "원/달러 1,345.9원, 장중 1,351.6원", d: "9.7원 상승, 2주 만에 1,350원대. 27일 삼성전자 3분기 배당 약 30조원(외국인 몫 114억 달러 추정) 역송금이 이번 주 변수. 국고 10년물은 3.827%(-3.0bp)로 하락." },
+      { tag: "경제", t: "이번 주 관문은 25일 PCE · 26일 금통위", d: "시장은 금통위에서 기준금리 3.00→3.25% 인상을 예상한다. 미국은 12월 인상(0.25%p가 기본, 월러 등은 0.5%p 가능성 언급) 우려가 이어지는 중. 26일 추수감사절 휴장, 27일 조기 폐장." },
+      { tag: "사회", t: "한국전력 65만명 · 삼성증권 8천명 개인정보 유출", d: "주민등록번호와 카드번호 등이 대량 유출돼 2차 피해가 우려된다. 두 사안 모두 당국 조사와 피해 확인이 진행 중이다." },
+      { tag: "사회", t: "강원 살얼음(블랙아이스) 연쇄 추돌 24건", d: "23일 오전 9시 50분부터 1시간 반 사이 춘천·홍천·인제·횡성에 집중. 차량 수십 대가 엉키고 수십 명이 다쳤다. 비 온 뒤 기온이 떨어질 때는 급제동·급핸들을 피해야 한다." },
+      { tag: "사회", t: "태안 해역 해광호 침몰, 실종자 수색 계속", d: "해경이 잠수대원을 투입해 수색했지만 아직 실종자를 찾지 못했다. 금천구 주차타워에서 발견된 시신은 실족 가능성에 무게를 두고 부검을 준비 중이다." }
+    ],
+
+    rulesHot: [1, 3],
+    next: "11/24 (화) 08:15 장전 기준선 브리핑"
+  },
   {
     id: "2026-11-23-1600",
     date: "2026-11-23",
@@ -680,6 +777,22 @@ function planCard(s) {
   </section>`;
 }
 
+/* ── 오늘의 정치·경제·사회 ── */
+function newsCard(s) {
+  if (!s.news || !s.news.length) return "";
+  const cls = (tg) => (tg === "정치" ? "pol" : tg === "경제" ? "eco" : "soc");
+  return `
+  <section class="card">
+    <div class="chead"><span class="t">${esc(s.newsTitle || "오늘의 정치·경제·사회")}</span><span class="l"></span><span class="m">${esc(s.newsMeta || s.date)}</span></div>
+    <div class="block">
+      ${s.news.map((n) => `<div class="nws ${cls(n.tag)}">
+        <div class="tg">${esc(n.tag)}</div>
+        <div class="bd"><div class="hd">${esc(n.t)}</div><div class="ds">${n.d}</div></div>
+      </div>`).join("")}
+    </div>
+  </section>`;
+}
+
 /* ── 5대 원칙 ── */
 function rulesCard(s) {
   const hot = s.rulesHot || [];
@@ -706,7 +819,7 @@ function render() {
   }
   document.title = `케비라 브리핑 · ${s.date} (${s.weekday}) ${s.time} ${s.kind}`;
   $("liveLabel").textContent = s.live || "브리핑";
-  view.innerHTML = heroCard(s) + marketCard(s) + planCard(s) + rulesCard(s);
+  view.innerHTML = heroCard(s) + marketCard(s) + planCard(s) + newsCard(s) + rulesCard(s);
   $("foot").innerHTML = `
     <div class="next">다음 갱신 <b>${esc(s.next || "다음 세션")}</b></div>
     <div class="disc">수치는 ${esc(s.date)} ${esc(s.time)} 조회 기준이며 장중 변동됩니다.<br>코스피200 선물지수(2612) 중심 · 코스피200 현물·코스닥 제외 · 투자 판단의 최종 책임은 본인에게 있습니다.</div>`;
