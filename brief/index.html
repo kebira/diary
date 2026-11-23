@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0b1220" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="케비라 브리핑" />
+<title>케비라 선물·옵션 브리핑 대시보드</title>
+<meta name="description" content="코스피200 선물지수(2612) 중심 케비라 선물·옵션 브리핑 대시보드. 08:15 개장 전 · 11:10 장중 리뷰 · 16:00 장 마감 세션별 시세·수급·시나리오를 한 화면에." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a101c;
+    --bg2:#0e1626;
+    --card:#121c2e;
+    --card2:#16223a;
+    --line:#22304b;
+    --ink:#eef3fb;
+    --sub:#93a5c4;
+    --dim:#6c7f9e;
+    --up:#ef4444;      /* 상승 = 빨강 */
+    --dn:#3b82f6;      /* 하락 = 파랑 */
+    --flat:#94a3b8;
+    --gold:#f4c663;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:#05090f}
+  body{
+    color:var(--ink);
+    font-family:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    font-size:15px; line-height:1.5; word-break:keep-all; -webkit-font-smoothing:antialiased;
+  }
+  b,strong{font-weight:800}
+  .num{font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1}
+  .up{color:var(--up)}
+  .dn{color:var(--dn)}
+  .flat{color:var(--flat)}
+
+  .app{
+    max-width:480px; margin:0 auto; min-height:100dvh;
+    background:radial-gradient(120% 55% at 50% 0%, #152238 0%, var(--bg) 55%, #070c15 100%);
+    display:flex; flex-direction:column; position:relative;
+  }
+  @media (min-width:481px){
+    .app{box-shadow:0 0 0 1px #16223a, 0 24px 60px rgba(0,0,0,.55)}
+  }
+
+  /* 브랜드 7색 바 (다른 케비라 페이지와 동일) */
+  .rainbow{display:flex; height:4px; flex:0 0 4px}
+  .rainbow i{flex:1}
+  .rainbow i:nth-child(1){background:#ef4444}
+  .rainbow i:nth-child(2){background:#f59e0b}
+  .rainbow i:nth-child(3){background:#facc15}
+  .rainbow i:nth-child(4){background:#22c55e}
+  .rainbow i:nth-child(5){background:#3b82f6}
+  .rainbow i:nth-child(6){background:#6366f1}
+  .rainbow i:nth-child(7){background:#a855f7}
+
+  /* ── 상단 ── */
+  .top{
+    flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:11px 15px 9px;
+  }
+  .brand{display:flex; align-items:center; gap:8px; min-width:0}
+  .kb{
+    flex:0 0 auto; width:30px; height:30px; border-radius:9px;
+    background:linear-gradient(150deg,#6366f1,#a855f7);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:15px; color:#fff; letter-spacing:-.5px;
+    box-shadow:0 2px 10px rgba(124,58,237,.35);
+  }
+  .brand .txt{min-width:0}
+  .brand .txt b{display:block; font-size:15.5px; font-weight:900; letter-spacing:-.4px; line-height:1.2}
+  .brand .txt span{display:block; font-size:10.5px; color:var(--dim); letter-spacing:.2px; margin-top:1px}
+  .live{
+    flex:0 0 auto; display:flex; align-items:center; gap:5px;
+    border:1px solid var(--line); background:rgba(59,130,246,.10);
+    color:#cfe1ff; border-radius:99px; padding:5px 9px; font-size:10.5px; font-weight:800;
+  }
+  .live i{width:6px; height:6px; border-radius:50%; background:#22c55e; box-shadow:0 0 0 0 rgba(34,197,94,.6); animation:pulse 2.4s infinite}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}
+    70%{box-shadow:0 0 0 6px rgba(34,197,94,0)}
+    100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}
+  }
+
+  /* ── 세션 탭 ── */
+  .tabs{
+    flex:0 0 auto; display:flex; gap:7px; overflow-x:auto; scrollbar-width:none;
+    padding:2px 13px 11px;
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{
+    flex:0 0 auto; font-family:inherit; cursor:pointer; text-align:left;
+    border:1px solid var(--line); background:rgba(18,28,46,.7); color:#c2d2ea;
+    border-radius:12px; padding:7px 11px; line-height:1.15; transition:.16s;
+  }
+  .tab b{display:block; font-size:13px; font-weight:900; letter-spacing:-.3px; white-space:nowrap}
+  .tab span{display:block; font-size:10px; color:var(--dim); margin-top:2px; white-space:nowrap; font-weight:700}
+  .tab.on{
+    background:linear-gradient(160deg,#22324f,#182742); border-color:#3d5680; color:#fff;
+    box-shadow:0 3px 14px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.07);
+  }
+  .tab.on span{color:#9dc0ff}
+
+  /* ── 본문 ── */
+  main{flex:1 1 auto; padding:0 13px 26px; display:flex; flex-direction:column; gap:11px}
+
+  .card{
+    background:linear-gradient(180deg,var(--card) 0%, var(--bg2) 100%);
+    border:1px solid var(--line); border-radius:16px; overflow:hidden;
+    box-shadow:0 4px 18px rgba(0,0,0,.28);
+  }
+  .chead{
+    display:flex; align-items:center; gap:7px;
+    padding:11px 14px 0;
+  }
+  .chead .t{font-size:11.5px; font-weight:900; letter-spacing:.6px; color:#a9bddb}
+  .chead .l{flex:1; height:1px; background:linear-gradient(90deg,var(--line),transparent)}
+  .chead .m{font-size:10.5px; color:var(--dim); font-weight:700; white-space:nowrap}
+
+  /* 시세 히어로 */
+  .hero{padding:14px 14px 13px}
+  .heroTop{display:flex; align-items:flex-start; justify-content:space-between; gap:8px}
+  .sym{display:flex; align-items:baseline; gap:6px; flex-wrap:wrap}
+  .sym b{font-size:15px; font-weight:900; letter-spacing:-.3px}
+  .sym .code{
+    font-size:10.5px; font-weight:900; color:#c9d7ee; background:#243554;
+    border-radius:6px; padding:2px 6px; letter-spacing:.3px;
+  }
+  .sym .tag{font-size:10px; font-weight:800; color:#8fc7ff; background:rgba(59,130,246,.14); border-radius:6px; padding:2px 6px}
+  .when{font-size:10.5px; color:var(--dim); margin-top:3px; font-weight:700; letter-spacing:.1px}
+
+  .priceRow{display:flex; align-items:flex-end; justify-content:space-between; gap:10px; margin-top:9px}
+  .price{
+    font-size:47px; font-weight:900; letter-spacing:-2px; line-height:1;
+    font-variant-numeric:tabular-nums; color:#fff;
+  }
+  .price .dec{font-size:29px; letter-spacing:-1px; color:#cfdcf0}
+  .gapBox{text-align:right; padding-bottom:3px}
+  .gapPts{
+    display:inline-block; font-size:17px; font-weight:900; letter-spacing:-.6px;
+    padding:3px 9px; border-radius:9px; font-variant-numeric:tabular-nums;
+  }
+  .gapPct{font-size:13px; font-weight:900; margin-top:4px; font-variant-numeric:tabular-nums}
+  .gapBox .cap{font-size:9.5px; color:var(--dim); margin-top:4px; font-weight:800; letter-spacing:.2px}
+  .dnbox{background:rgba(59,130,246,.16); border:1px solid rgba(59,130,246,.5); color:#8ec1ff}
+  .upbox{background:rgba(239,68,68,.14); border:1px solid rgba(239,68,68,.45); color:#ffa2a2}
+
+  .cmp{
+    display:flex; align-items:center; justify-content:center; gap:9px; flex-wrap:wrap;
+    margin-top:11px; padding:8px 10px; border-radius:11px;
+    background:rgba(59,130,246,.07); border:1px solid rgba(59,130,246,.22);
+    font-size:12px; font-weight:800; color:#b9cdea;
+  }
+  .cmp .k{color:var(--dim); font-size:10.5px; font-weight:800}
+  .cmp .v{font-variant-numeric:tabular-nums; font-size:13.5px; color:#fff}
+  .cmp .ar{color:#5a7095; font-size:12px}
+
+  /* 값 그리드 */
+  .grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:11px}
+  .cell{
+    background:#0d1728; border:1px solid #1b2740; border-radius:10px;
+    padding:7px 4px 6px; text-align:center; min-width:0;
+  }
+  .cell i{display:block; font-style:normal; font-size:10px; color:var(--dim); font-weight:800; letter-spacing:.2px}
+  .cell b{display:block; font-size:15px; font-weight:900; letter-spacing:-.6px; font-variant-numeric:tabular-nums; margin-top:2px; color:#eaf1fb}
+  .cell.now{border-color:#3d5680; background:linear-gradient(180deg,#1a2942,#111d31)}
+  .cell.now b{color:#fff}
+  .cell.now i{color:#8fc7ff}
+
+  .prevLine{
+    display:flex; align-items:center; gap:8px; margin-top:9px; padding:7px 10px;
+    background:#0b1424; border:1px dashed #27395a; border-radius:10px;
+  }
+  .prevLine .lb{font-size:10px; font-weight:900; color:#8095b8; letter-spacing:.3px; white-space:nowrap}
+  .prevLine .vals{display:flex; gap:11px; margin-left:auto; flex-wrap:wrap; justify-content:flex-end}
+  .prevLine .p{font-size:11px; color:var(--dim); font-weight:800; white-space:nowrap}
+  .prevLine .p b{font-size:13px; color:#dbe6f7; font-variant-numeric:tabular-nums; margin-left:3px; letter-spacing:-.3px}
+  .prevLine .p:last-child b{color:#fff}
+
+  /* 지표 3칸 */
+  .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:9px}
+  .stat{background:#0d1728; border:1px solid #1b2740; border-radius:10px; padding:7px 8px}
+  .stat i{display:block; font-style:normal; font-size:9.5px; color:var(--dim); font-weight:800}
+  .stat b{display:block; font-size:13.5px; font-weight:900; letter-spacing:-.4px; font-variant-numeric:tabular-nums; margin-top:2px}
+  .stat .s{font-size:9.5px; font-weight:800; margin-top:1px; font-variant-numeric:tabular-nums}
+
+  /* ── 수급 ── */
+  .block{padding:10px 14px 13px}
+  .krow{
+    display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+    padding:7px 0; border-bottom:1px solid #18233a;
+  }
+  .krow:last-child{border-bottom:0; padding-bottom:1px}
+  .krow .n{font-size:13px; font-weight:800; color:#d3e0f2; letter-spacing:-.2px}
+  .krow .n em{font-style:normal; font-size:10px; color:var(--dim); font-weight:700; margin-left:4px}
+  .krow .r{display:flex; align-items:baseline; gap:7px; flex:0 0 auto}
+  .krow .v{font-size:15px; font-weight:900; font-variant-numeric:tabular-nums; letter-spacing:-.5px}
+  .krow .p{
+    font-size:11px; font-weight:900; font-variant-numeric:tabular-nums;
+    padding:1px 6px; border-radius:6px; min-width:53px; text-align:right;
+  }
+  .p.up{background:rgba(239,68,68,.13); color:#ff9a9a}
+  .p.dn{background:rgba(59,130,246,.15); color:#8ec1ff}
+  .p.flat{background:#1a2438; color:#a9b8d0}
+
+  .subhead{
+    display:flex; align-items:center; gap:6px; margin:12px 0 4px;
+    font-size:10.5px; font-weight:900; color:#8fa4c6; letter-spacing:.5px;
+  }
+  .subhead::after{content:""; flex:1; height:1px; background:#1b2740}
+
+  /* 수급 바 */
+  .bars{margin-top:9px; display:flex; flex-direction:column; gap:7px}
+  .bar{display:grid; grid-template-columns:56px 1fr 78px; align-items:center; gap:8px}
+  .bar .bl{font-size:11.5px; font-weight:800; color:#c6d5ea}
+  .bar .track{height:9px; border-radius:99px; background:#131f33; overflow:hidden; display:flex}
+  .bar .track i{display:block; height:100%; border-radius:99px}
+  .bar .bv{font-size:11.5px; font-weight:900; text-align:right; font-variant-numeric:tabular-nums; letter-spacing:-.2px}
+
+  /* 글로벌 칩 */
+  .chips{display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:8px}
+  .chip{background:#0d1728; border:1px solid #1b2740; border-radius:10px; padding:7px 9px; min-width:0}
+  .chip .cn{font-size:10.5px; color:var(--dim); font-weight:800; letter-spacing:.1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .chip .cv{display:flex; align-items:baseline; justify-content:space-between; gap:5px; margin-top:2px}
+  .chip .cv b{font-size:13.5px; font-weight:900; letter-spacing:-.4px; font-variant-numeric:tabular-nums; color:#eaf1fb}
+  .chip .cv span{font-size:10.5px; font-weight:900; font-variant-numeric:tabular-nums}
+  .chip.wide{grid-column:1 / -1}
+
+  /* ── 체크포인트 ── */
+  .check{display:flex; gap:9px; padding:8px 0; border-bottom:1px solid #18233a}
+  .check:last-child{border-bottom:0; padding-bottom:0}
+  .check .ic{
+    flex:0 0 auto; width:20px; height:20px; border-radius:6px; margin-top:1px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:10.5px; font-weight:900; background:#1d2b45; color:#9dc0ff; border:1px solid #2c3f61;
+  }
+  .check .bd{min-width:0}
+  .check .hd{font-size:13px; font-weight:900; color:#e7eefb; letter-spacing:-.2px}
+  .check .ds{font-size:11.5px; color:#a4b6d0; margin-top:2px; line-height:1.45}
+  .check .ds b{color:#fff; font-variant-numeric:tabular-nums}
+
+  /* ── 시나리오 ── */
+  .scn{display:flex; gap:9px; align-items:stretch; padding:9px 0; border-bottom:1px solid #18233a}
+  .scn:last-child{border-bottom:0; padding-bottom:0}
+  .scn .tag{
+    flex:0 0 auto; width:44px; border-radius:9px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:1px; padding:6px 0;
+    font-size:11px; font-weight:900; letter-spacing:-.2px;
+  }
+  .scn .tag em{font-style:normal; font-size:8.5px; font-weight:800; opacity:.8}
+  .scn.up .tag{background:rgba(239,68,68,.14); color:#ff9d9d; border:1px solid rgba(239,68,68,.35)}
+  .scn.down .tag{background:rgba(59,130,246,.16); color:#8ec1ff; border:1px solid rgba(59,130,246,.4)}
+  .scn.side .tag{background:rgba(148,163,184,.13); color:#c2cfe2; border:1px solid rgba(148,163,184,.3)}
+  .scn .bd{min-width:0; flex:1}
+  .scn .cond{font-size:11.5px; color:#9db0cc; font-weight:800}
+  .scn .cond b{color:#fff; font-variant-numeric:tabular-nums; letter-spacing:-.2px}
+  .scn .act{font-size:12px; color:#dbe6f6; margin-top:3px; line-height:1.5}
+
+  /* ── 5대 원칙 ── */
+  .rules{display:flex; flex-wrap:wrap; gap:6px; padding:11px 14px 13px}
+  .rule{
+    flex:1 1 calc(50% - 3px); min-width:132px;
+    display:flex; align-items:center; gap:7px;
+    background:#0d1728; border:1px solid #1b2740; border-radius:10px;
+    padding:8px 9px; font-size:12px; font-weight:800; color:#dbe6f6; letter-spacing:-.2px;
+  }
+  .rule .no{
+    flex:0 0 auto; width:19px; height:19px; border-radius:6px; background:#1d2b45;
+    color:#9dc0ff; font-size:10.5px; font-weight:900;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .rule.hot{border-color:rgba(244,198,99,.45); background:rgba(244,198,99,.08); color:#fff}
+  .rule.hot .no{background:rgba(244,198,99,.2); color:var(--gold)}
+  .rule .today{
+    display:inline-block; font-size:8.5px; font-weight:900; color:#0a101c; background:var(--gold);
+    border-radius:4px; padding:1px 4px; margin-left:auto; flex:0 0 auto;
+  }
+
+  /* 푸터 */
+  footer{flex:0 0 auto; padding:0 15px 22px; text-align:center}
+  .next{
+    display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:800; color:#9db0cc;
+    background:#0d1728; border:1px solid #1b2740; border-radius:99px; padding:6px 11px;
+  }
+  .next b{color:#fff}
+  .disc{font-size:9.5px; color:#5f7392; margin-top:9px; line-height:1.55}
+  .empty{padding:40px 16px; text-align:center; color:var(--sub); font-size:13px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="rainbow"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <header class="top">
+    <div class="brand">
+      <div class="kb">K</div>
+      <div class="txt">
+        <b>케비라 브리핑</b>
+        <span>코스피200 선물지수 · 옵션</span>
+      </div>
+    </div>
+    <div class="live"><i></i><span id="liveLabel">장중</span></div>
+  </header>
+
+  <nav class="tabs" id="tabs" aria-label="세션 선택"></nav>
+  <main id="view"></main>
+  <footer id="foot"></footer>
+</div>
+
+<script>
+/* ============================================================================
+   케비라 브리핑 데이터 — 자동 업데이트 영역
+   ----------------------------------------------------------------------------
+   새 브리핑을 올릴 때는 아래 SESSIONS 배열 **맨 앞**에 세션 객체를 추가하면
+   탭과 화면이 자동으로 만들어진다. (최신 세션이 맨 앞 = 기본 선택)
+
+   반드시 지킬 규칙 (한연수 님 지정):
+   · 코스피200 **선물지수(2612)** 만 쓴다. 코스피200 현물 지수·코스닥은 넣지 않는다.
+   · 전일 기준선은 prev 안에서 **고가 → 저가 → 종가** 순서(종가 마지막)로 표시된다.
+   · 비교는 **전일 종가 대비 당일 시가 차이**(포인트·%) 하나뿐이다. (gapPts·gapPct 자동 계산)
+   · 상승 = 빨강 #ef4444, 하락 = 파랑 #3b82f6.
+   ============================================================================ */
+const SESSIONS = [
+  {
+    id: "2026-11-23-1110",
+    date: "2026-11-23",
+    weekday: "월",
+    time: "11:10",
+    kind: "장중 리뷰",
+    sub: "오전 08:45~11:10 종합 · 오후장 대비",
+    live: "장중",
+
+    fut: {
+      name: "코스피200 선물지수",
+      code: "2612",
+      tag: "12월물",
+      prev: { date: "11/20", high: 770.00, low: 746.80, close: 752.75 },
+      today: { open: 719.90, high: 736.75, low: 719.40, last: 723.75, lastLabel: "현재 11:08" },
+      volume: 70945,
+      oi: 173365,
+      oiDiff: 4669,
+      basis: -2.40
+    },
+
+    market: {
+      kospi: { name: "코스피", value: 4684.52, pct: -3.81 },
+      flows: [
+        { name: "외국인", value: -969,  unit: "억" },
+        { name: "기관",   value: 2725,  unit: "억" },
+        { name: "개인",   value: -2878, unit: "억" },
+        { name: "프로그램", value: 1678, unit: "억" }
+      ],
+      stocks: [
+        { name: "삼성전자", value: 175100, pct: -4.37, fmt: 0 },
+        { name: "SK하이닉스", value: 1074000, pct: -3.50, fmt: 0 }
+      ],
+      global: [
+        { grp: "홍콩·중국", items: [
+          { name: "항셍", value: "22,100.20", pct: -1.39 },
+          { name: "H지수", value: "7,436.31", pct: -1.56 },
+          { name: "상하이종합", value: "3,494.48", pct: -1.11 }
+        ]},
+        { grp: "미국 선물", items: [
+          { name: "나스닥100 선물", value: "25,827.25", pct: 2.79 },
+          { name: "S&P500 선물", value: "7,084.50", pct: 2.16 }
+        ]},
+        { grp: "환율", items: [
+          { name: "원/달러", value: "1,347.50", pct: null }
+        ]}
+      ]
+    },
+
+    checks: [
+      { t: "당일 저점 719.40 지지 여부", d: "오후장 방향의 1차 기준. 지지하면 오전 낙폭 되돌림 시도, 이탈하면 저점 갱신 흐름." },
+      { t: "736.75 회복 여부", d: "당일 고가. 회복 뒤 1분봉 종가 유지가 확인돼야 반등 전환으로 본다." },
+      { t: "10:50 청와대 이형일 부총리 증안펀드 간담회", d: "정책 발언에 따른 장중 변동성 변수. 발언 전후 급변 구간은 진입을 피한다." }
+    ],
+
+    scenarios: [
+      { dir: "up", name: "상승", cond: "736.75(당일 고가) 회복 후 유지", act: "회복 확인 뒤에만 대응. 1차 목표는 전일 종가선 752.75, 분할 청산으로 수익 잠금." },
+      { dir: "down", name: "하락", cond: "719.40(당일 저점) 이탈", act: "이탈 확인 전 반등 매수 금지. 이탈 뒤 추격 진입 대신 관망, 손절은 진입 즉시 설정." },
+      { dir: "side", name: "횡보", cond: "719.40~736.75 박스 등락", act: "박스 상·하단 확인 후 짧게만. 하루 5회 한도 안에서, 12:00 점심시간 진입은 금지." }
+    ],
+
+    rulesHot: [5],
+    next: "16:00 장 마감 종합 & 내일장 시나리오"
+  }
+];
+
+/* ============================================================================
+   이 아래는 화면 렌더러 — 데이터만 바꾸면 된다. 보통은 손대지 않는다.
+   ============================================================================ */
+const RULES = [
+  "선진입 금지",
+  "오전 수익 잠금",
+  "하루 5회 · 2연패 컷",
+  "점심 12:00 진입 금지",
+  "월요일 배수 축소"
+];
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+
+function n2(v, d = 2) {
+  if (v === null || v === undefined || isNaN(v)) return "-";
+  return Number(v).toLocaleString("ko-KR", { minimumFractionDigits: d, maximumFractionDigits: d });
+}
+function int(v) {
+  if (v === null || v === undefined || isNaN(v)) return "-";
+  return Number(v).toLocaleString("ko-KR");
+}
+/* 등락률/포인트 표기: 상승 빨강, 하락 파랑 */
+function pctText(p) {
+  if (p === null || p === undefined || isNaN(p)) return null;
+  const sign = p > 0 ? "+" : p < 0 ? "-" : "";
+  return { text: sign + Math.abs(p).toFixed(2) + "%", cls: p > 0 ? "up" : p < 0 ? "dn" : "flat" };
+}
+
+let current = 0;
+
+/* ── 탭 ── */
+function renderTabs() {
+  const wrap = $("tabs");
+  wrap.innerHTML = SESSIONS.map((s, i) => {
+    const [, m, d] = s.date.split("-");
+    return `<button class="tab${i === current ? " on" : ""}" data-i="${i}" type="button"
+      aria-label="${esc(s.date)} ${esc(s.weekday)}요일 ${esc(s.time)} ${esc(s.kind)}">
+      <b>${Number(m)}/${Number(d)} (${esc(s.weekday)})</b>
+      <span>${esc(s.time)} ${esc(s.kind)}</span>
+    </button>`;
+  }).join("");
+  wrap.querySelectorAll(".tab").forEach((b) => {
+    b.addEventListener("click", () => { current = Number(b.dataset.i); renderTabs(); render(); window.scrollTo({ top: 0 }); });
+  });
+}
+
+/* ── 시세 카드 ── */
+function heroCard(s) {
+  const f = s.fut || {};
+  const prev = f.prev || {};
+  const t = f.today || {};
+  const gapPts = (t.open != null && prev.close != null) ? +(t.open - prev.close).toFixed(2) : null;
+  const gapPct = (gapPts != null && prev.close) ? +(gapPts / prev.close * 100).toFixed(2) : null;
+  const gapCls = gapPts > 0 ? "up" : gapPts < 0 ? "dn" : "flat";
+  const gapSign = gapPts > 0 ? "+" : gapPts < 0 ? "-" : "";
+  const live = n2(t.last, 2).split(".");
+
+  return `
+  <section class="card hero">
+    <div class="heroTop">
+      <div>
+        <div class="sym">
+          <b>${esc(f.name || "코스피200 선물지수")}</b>
+          <span class="code">${esc(f.code || "")}</span>
+          ${f.tag ? `<span class="tag">${esc(f.tag)}</span>` : ""}
+        </div>
+        <div class="when">${esc(s.date)} (${esc(s.weekday)}) · ${esc(t.lastLabel || s.time)}</div>
+      </div>
+    </div>
+
+    <div class="priceRow">
+      <div class="price">${live[0]}${live[1] ? `<span class="dec">.${live[1]}</span>` : ""}</div>
+      <div class="gapBox">
+        <span class="gapPts ${gapCls === "up" ? "upbox" : gapCls === "dn" ? "dnbox" : ""}">${gapSign}${n2(Math.abs(gapPts), 2)}p</span>
+        <div class="gapPct ${gapCls}">${gapSign}${n2(Math.abs(gapPct), 2)}%</div>
+        <div class="cap">전일종 → 당일시</div>
+      </div>
+    </div>
+
+    <div class="cmp">
+      <span class="k">전일 종가</span><span class="v">${n2(prev.close, 2)}</span>
+      <span class="ar">→</span>
+      <span class="k">당일 시가</span><span class="v">${n2(t.open, 2)}</span>
+      <span class="k" style="margin-left:2px">차이</span>
+      <span class="v ${gapCls}">${gapSign}${n2(Math.abs(gapPts), 2)}p</span>
+    </div>
+
+    <div class="grid4">
+      <div class="cell"><i>당일 시가</i><b>${n2(t.open, 2)}</b></div>
+      <div class="cell"><i>당일 고가</i><b>${n2(t.high, 2)}</b></div>
+      <div class="cell"><i>당일 저가</i><b>${n2(t.low, 2)}</b></div>
+      <div class="cell now"><i>현재</i><b>${n2(t.last, 2)}</b></div>
+    </div>
+
+    <div class="prevLine">
+      <span class="lb">전일 ${esc(prev.date || "")}</span>
+      <span class="vals">
+        <span class="p">고가<b>${n2(prev.high, 2)}</b></span>
+        <span class="p">저가<b>${n2(prev.low, 2)}</b></span>
+        <span class="p">종가<b>${n2(prev.close, 2)}</b></span>
+      </span>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><i>거래량</i><b>${int(f.volume)}</b></div>
+      <div class="stat"><i>미결제약정</i><b>${int(f.oi)}</b>
+        ${f.oiDiff != null ? `<div class="s ${f.oiDiff > 0 ? "up" : f.oiDiff < 0 ? "dn" : "flat"}">${f.oiDiff > 0 ? "+" : ""}${int(f.oiDiff)}</div>` : ""}
+      </div>
+      <div class="stat"><i>베이시스</i><b class="${f.basis > 0 ? "up" : f.basis < 0 ? "dn" : "flat"}">${f.basis > 0 ? "+" : ""}${n2(f.basis, 2)}</b></div>
+    </div>
+  </section>`;
+}
+
+/* ── 수급 & 글로벌 카드 ── */
+function marketCard(s) {
+  const m = s.market;
+  if (!m) return "";
+  const k = m.kospi ? pctText(m.kospi.pct) : null;
+
+  let flowsHtml = "";
+  if (m.flows && m.flows.length) {
+    const maxAbs = Math.max(...m.flows.map((f) => Math.abs(f.value))) || 1;
+    flowsHtml = `<div class="subhead">수급 (장중)</div><div class="bars">` +
+      m.flows.map((f) => {
+        const pos = f.value >= 0;
+        const w = Math.max(3, Math.round(Math.abs(f.value) / maxAbs * 100));
+        return `<div class="bar">
+          <span class="bl">${esc(f.name)}</span>
+          <span class="track"><i style="width:${w}%;background:${pos ? "#ef4444" : "#3b82f6"}"></i></span>
+          <span class="bv ${pos ? "up" : "dn"}">${pos ? "+" : "-"}${int(Math.abs(f.value))}${esc(f.unit || "")}</span>
+        </div>`;
+      }).join("") + `</div>`;
+  }
+
+  let stockHtml = "";
+  if (m.stocks && m.stocks.length) {
+    stockHtml = `<div class="subhead">시총 상위</div>` +
+      m.stocks.map((st) => {
+        const p = pctText(st.pct);
+        return `<div class="krow">
+          <span class="n">${esc(st.name)}</span>
+          <span class="r"><span class="v">${st.fmt === 0 ? int(st.value) : n2(st.value, 2)}</span>
+          ${p ? `<span class="p ${p.cls}">${p.text}</span>` : ""}</span>
+        </div>`;
+      }).join("");
+  }
+
+  let globalHtml = "";
+  if (m.global && m.global.length) {
+    globalHtml = m.global.map((g) => {
+      const chips = g.items.map((it) => {
+        const p = pctText(it.pct);
+        const wide = g.items.length === 1 ? " wide" : "";
+        return `<div class="chip${wide}">
+          <div class="cn">${esc(it.name)}</div>
+          <div class="cv"><b>${esc(it.value)}</b>${p ? `<span class="${p.cls}">${p.text}</span>` : `<span class="flat">—</span>`}</div>
+        </div>`;
+      }).join("");
+      return `<div class="subhead">${esc(g.grp)}</div><div class="chips">${chips}</div>`;
+    }).join("");
+  }
+
+  return `
+  <section class="card">
+    <div class="chead"><span class="t">수급 &amp; 글로벌</span><span class="l"></span><span class="m">${esc(s.time)} 기준</span></div>
+    <div class="block">
+      ${m.kospi ? `<div class="krow" style="padding-top:2px">
+        <span class="n">${esc(m.kospi.name)}<em>현물</em></span>
+        <span class="r"><span class="v">${n2(m.kospi.value, 2)}</span>
+        ${k ? `<span class="p ${k.cls}">${k.text}</span>` : ""}</span>
+      </div>` : ""}
+      ${flowsHtml}
+      ${stockHtml}
+      ${globalHtml}
+    </div>
+  </section>`;
+}
+
+/* ── 오후장 체크포인트 · 시나리오 ── */
+function planCard(s) {
+  if (!s.checks && !s.scenarios) return "";
+  const checks = (s.checks || []).map((c, i) => `
+    <div class="check">
+      <div class="ic">${i + 1}</div>
+      <div class="bd"><div class="hd">${esc(c.t)}</div><div class="ds">${c.d}</div></div>
+    </div>`).join("");
+  const scns = (s.scenarios || []).map((x) => `
+    <div class="scn ${esc(x.dir)}">
+      <div class="tag">${esc(x.name)}<em>${x.dir === "up" ? "돌파" : x.dir === "down" ? "이탈" : "박스"}</em></div>
+      <div class="bd">
+        <div class="cond">확인 <b>${esc(x.cond)}</b></div>
+        <div class="act">${esc(x.act)}</div>
+      </div>
+    </div>`).join("");
+
+  return `
+  <section class="card">
+    <div class="chead"><span class="t">오후장 체크포인트</span><span class="l"></span><span class="m">15:30 마감</span></div>
+    <div class="block">${checks}</div>
+    ${scns ? `<div class="chead"><span class="t">3대 시나리오</span><span class="l"></span><span class="m">확인 후 대응</span></div>
+    <div class="block">${scns}</div>` : ""}
+  </section>`;
+}
+
+/* ── 5대 원칙 ── */
+function rulesCard(s) {
+  const hot = s.rulesHot || [];
+  return `
+  <section class="card">
+    <div class="chead"><span class="t">5대 실전 원칙</span><span class="l"></span><span class="m">${esc(s.date)} (${esc(s.weekday)})</span></div>
+    <div class="rules">
+      ${RULES.map((r, i) => `<div class="rule${hot.includes(i + 1) ? " hot" : ""}">
+        <span class="no">${i + 1}</span><span>${esc(r)}</span>
+        ${hot.includes(i + 1) ? `<span class="today">오늘</span>` : ""}
+      </div>`).join("")}
+    </div>
+  </section>`;
+}
+
+/* ── 전체 ── */
+function render() {
+  const s = SESSIONS[current];
+  const view = $("view");
+  if (!s) {
+    view.innerHTML = `<div class="empty">아직 올라온 브리핑이 없습니다.</div>`;
+    $("foot").innerHTML = "";
+    return;
+  }
+  document.title = `케비라 브리핑 · ${s.date} (${s.weekday}) ${s.time} ${s.kind}`;
+  $("liveLabel").textContent = s.live || "브리핑";
+  view.innerHTML = heroCard(s) + marketCard(s) + planCard(s) + rulesCard(s);
+  $("foot").innerHTML = `
+    <div class="next">다음 갱신 <b>${esc(s.next || "다음 세션")}</b></div>
+    <div class="disc">수치는 ${esc(s.date)} ${esc(s.time)} 조회 기준이며 장중 변동됩니다.<br>코스피200 선물지수(2612) 중심 · 코스피200 현물·코스닥 제외 · 투자 판단의 최종 책임은 본인에게 있습니다.</div>`;
+}
+
+renderTabs();
+render();
+</script>
+</body>
+</html>
