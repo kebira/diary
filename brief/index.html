@@ -11,6 +11,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<script>
+  /* 장중 갱신용 캐시 회피 — GitHub Pages HTML 캐시(max-age=600) 때문에
+     링크로 열었을 때 10분 전 화면이 보이는 것을 막는다. 쿼리 없이 열리면 한 번만 새로 받는다. */
+  if (location.protocol !== "file:" && !/[?&]t=/.test(location.search)) {
+    location.replace(location.pathname + "?t=" + Date.now());
+  }
+</script>
 <style>
   :root{
     --bg:#0a101c;
