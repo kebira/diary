@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#fbf8f1" />
-<title>MACD 실전 완전 정복 · 케비라 실전 노트</title>
-<meta name="description" content="MACD 실전 완전 정복 — 코스피200 선물·옵션 실전 기준으로 정리한 케비라 실전 노트." />
+<title>MACD 실전 차트 도감 · 케비라 실전 노트</title>
+<meta name="description" content="MACD를 확대 차트 6장과 3줄 요약으로 — 모양·뜻·행동. 코스피200 선물 3분봉 기준 케비라 실전 노트." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -21,421 +21,127 @@
 
   <header class="hd">
     <div class="kick">02 · 방향·속도 지표</div>
-    <h1>MACD 실전 완전 정복</h1>
-    <p class="sub">방향 지표가 아니라 속도 지표. 청산은 히스토그램이, 진입은 크로스가, 필터는 0선이 맡습니다.</p>
+    <h1>MACD 실전 차트 도감</h1>
+    <p class="sub">확대한 3분봉 한 장에 3줄. ① 막대 꺾임 → ② 크로스 → ③ 0선, 이 순서만 눈에 익히면 됩니다.</p>
     <div class="dl">
-      <a class="btn solid" href="pdf/macd-2026-11-24.pdf" download="MACD_실전_완전정복_2026-11-24.pdf">PDF 내려받기</a>
+      <a class="btn solid" href="pdf/macd-2026-11-24.pdf" download="MACD_실전_차트_도감_2026-11-24.pdf">PDF 내려받기</a>
       <a class="btn ghost" href="pdf/macd-2026-11-24.pdf" target="_blank" rel="noopener">PDF 열기</a>
     </div>
   </header>
 
   <main>
-<p class="lead">MACD는 <strong>방향 지표가 아니라 속도 지표</strong>입니다. MACD선은 12·26 EMA의 '간격', 시그널은 그 간격의 9봉 평균, 히스토그램은 <strong>간격이 벌어지는 속도</strong>입니다. 그래서 순서가 정해져 있습니다 — ① 히스토그램 기울기 꺾임(가장 빠름) → ② MACD·시그널 교차 → ③ 0선 돌파(가장 늦고 가장 확실).</p>
-<div class="callout strong"><div class="co-lab">한 줄 결론</div><p>크로스만 보고 들어가고, 히스토그램은 쳐다보지 않고, 0선을 무시하는 것. 이 셋이 MACD로 돈을 잃는 전부입니다. 청산은 히스토그램이, 진입은 크로스가, 필터는 0선이 맡습니다.</p></div>
-<div class="tbl">
-<div class="tbl-h">
-<h3>공식 — 세 줄이면 끝난다</h3>
-<span class="tbl-a">키움 영웅문 함수식과 동일</span>
+<p class="lead">MACD는 외우는 지표가 아니라 <strong>눈에 익히는 그림</strong>입니다. 긴 설명은 걷어 내고, 3분봉을 25~30봉만 크게 확대해 <strong>그 자리</strong>에 표시했습니다. 한 장에 3줄 — 모양·뜻·행동만 보면 됩니다.</p>
+<div class="read3">
+  <span><i>①</i>막대 꺾임 = 예고</span>
+  <span><i>②</i>크로스 = 확정</span>
+  <span><i>③</i>0선 = 방향</span>
 </div>
-<table><thead><tr>
-<th>구분</th>
-<th>계산</th>
-<th>의미</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">MACD선</th>
-<td data-l="계산">EMA(종가,12) - EMA(종가,26)</td>
-<td data-l="의미">0 위면 단기가 장기 위</td>
-</tr>
-<tr>
-<th scope="row">시그널선</th>
-<td data-l="계산">MACD선의 EMA(9)</td>
-<td data-l="의미">MACD선의 느린 복사본</td>
-</tr>
-<tr>
-<th scope="row">히스토그램</th>
-<td data-l="계산">MACD선 - 시그널선</td>
-<td data-l="의미">간격이 벌어지는 속도</td>
-</tr>
-<tr>
-<th scope="row">EMA 계수</th>
-<td data-l="계산">2 ÷ (기간+1) → 12:0.1538 26:0.0741 9:0.2</td>
-<td data-l="의미">최근 값에 더 무게</td>
-</tr>
-</tbody></table></div>
+<div class="callout strong"><div class="co-lab">한 줄 결론</div><p>청산은 히스토그램이, 진입은 크로스가, 방향은 0선이 맡습니다. 이 셋을 뒤집어 쓰는 것이 MACD로 돈을 잃는 전부입니다.</p></div>
+<section class="dg">
+  <div class="dg-h"><span class="dg-n">도감 1</span><h2>3단 신호 — 어디서 찍히나</h2></div>
+  <p class="dg-sub">히스토그램 꺾임 → 크로스 → 0선, 한 파동 안에서 세 번 말한다</p>
+  <figure class="fig">
+    <img src="img/macd_dogam1_3signal.png" alt="3단 신호 — 어디서 찍히나 — MACD 차트" loading="lazy" decoding="async">
+    <figcaption>코스피200 선물 3분봉 27봉 확대. ① 09:12 히스토그램 꺾임, ② 09:36 데드크로스, ③ 10:03 0선 이탈 — 같은 파동에서 51분 차이.</figcaption>
+  </figure>
+  <ul class="dg3">
+<li class="m1"><b>모양</b><span>고점 직후 막대가 처음 짧아진 봉(①), 두 선이 교차한 봉(②), MACD가 0선을 뚫은 봉(③)이 차례로 찍힌다.</span></li>
+<li class="m2"><b>뜻</b><span>힘이 꺾인 뒤에 교차가 오고, 교차 뒤에 추세가 뒤집힌다 — 셋은 같은 사건의 다른 시점이다.</span></li>
+<li class="m3"><b>행동</b><span>①에서 청산 준비, ②에서 신규 진입 금지, ③부터 방향을 바꾼다.</span></li>
+  </ul>
+</section>
+<section class="dg">
+  <div class="dg-h"><span class="dg-n">도감 2</span><h2>0선 위 데드크로스 vs 0선 아래</h2></div>
+  <p class="dg-sub">같은 교차인데 위는 눌림, 아래는 하락 재개</p>
+  <figure class="fig">
+    <img src="img/macd_dogam2_zero_cross.png" alt="0선 위 데드크로스 vs 0선 아래 — MACD 차트" loading="lazy" decoding="async">
+    <figcaption>위: 상승 추세 중 MACD가 0선 위에서 교차(09:57) — 눌림. 아래: 하락 추세 중 0선 아래에서 교차(13:36) — 재하락.</figcaption>
+  </figure>
+  <ul class="dg3">
+<li class="m1"><b>모양</b><span>위는 상승 중 잠깐 꺾인 자리(MACD가 0선 위), 아래는 반등이 꺾인 자리(MACD가 0선 아래).</span></li>
+<li class="m2"><b>뜻</b><span>교차 자체가 아니라 0선 위치가 뜻을 정한다 — 위는 눌림, 아래는 추세 지속.</span></li>
+<li class="m3"><b>행동</b><span>0선 위 데드는 롱 청산·관망(숏 금지), 0선 아래 데드는 숏 1순위.</span></li>
+  </ul>
+</section>
+<section class="dg">
+  <div class="dg-h"><span class="dg-n">도감 3</span><h2>다이버전스 — 고점은 높아지는데 힘은 빠진다</h2></div>
+  <p class="dg-sub">가격과 MACD의 추세선이 반대로 벌어지는 자리</p>
+  <figure class="fig">
+    <img src="img/macd_dogam3_divergence.png" alt="다이버전스 — 고점은 높아지는데 힘은 빠진다 — MACD 차트" loading="lazy" decoding="async">
+    <figcaption>위: 가격 고점은 778.8 → 779.2로 높아지는데 MACD 고점은 0.83 → 0.50으로 낮아진다. 아래: 저점은 낮아지는데 MACD 저점은 올라온다.</figcaption>
+  </figure>
+  <ul class="dg3">
+<li class="m1"><b>모양</b><span>가격에는 우상향(↗) 추세선, MACD에는 우하향(↘) 추세선이 그려진다 — 아래는 그 반대.</span></li>
+<li class="m2"><b>뜻</b><span>가격은 가는데 힘이 따라오지 못한다 = 추세의 마지막 구간.</span></li>
+<li class="m3"><b>행동</b><span>기존 포지션은 청산. 역방향 진입은 새 크로스가 확인된 뒤에.</span></li>
+  </ul>
+</section>
+<section class="dg">
+  <div class="dg-h"><span class="dg-n">도감 4</span><h2>횡보 휩소 — 아무 말도 하지 않는 구간</h2></div>
+  <p class="dg-sub">막대는 납작, 0선은 들락날락 — 여기서 지는 게 계좌가 녹는 길</p>
+  <figure class="fig">
+    <img src="img/macd_dogam4_whipsaw.png" alt="횡보 휩소 — 아무 말도 하지 않는 구간 — MACD 차트" loading="lazy" decoding="async">
+    <figcaption>11:30~12:50 28봉. 가격은 777.5~778.5 박스, 0선 교차 9회, 히스토그램 최대 0.04.</figcaption>
+  </figure>
+  <ul class="dg3">
+<li class="m1"><b>모양</b><span>가격은 박스 안, 막대는 납작하고, 0선을 두세 봉마다 넘나든다.</span></li>
+<li class="m2"><b>뜻</b><span>방향 정보가 없다 — 이 구간의 어떤 크로스도 신뢰도가 없다.</span></li>
+<li class="m3"><b>행동</b><span>매매 금지. 20봉 안에 0선 교차가 2회 이상이면 그날 MACD는 꺼 둔다.</span></li>
+  </ul>
+</section>
+<section class="dg">
+  <div class="dg-h"><span class="dg-n">도감 5</span><h2>MACD는 방향, 스토캐스틱은 방아쇠</h2></div>
+  <p class="dg-sub">3단 차트에서 방향과 시점이 동시에 맞는 한 봉</p>
+  <figure class="fig">
+    <img src="img/macd_dogam5_stoch_entry.png" alt="MACD는 방향, 스토캐스틱은 방아쇠 — MACD 차트" loading="lazy" decoding="async">
+    <figcaption>09:20~10:41 28봉. MACD는 0선 위(0.38~0.83) 유지, 스토캐스틱 %K는 20 아래(11)에서 %D를 상향 돌파 — 그 봉이 09:56.</figcaption>
+  </figure>
+  <ul class="dg3">
+<li class="m1"><b>모양</b><span>위 창 MACD가 0선 위에 있는 동안, 아래 창 스토캐스틱이 20 아래로 빠졌다 골든크로스.</span></li>
+<li class="m2"><b>뜻</b><span>상승 추세의 눌림이 끝나는 자리 — 방향과 시점이 동시에 맞는다.</span></li>
+<li class="m3"><b>행동</b><span>그 봉 마감에 롱 진입, 신호봉 저점 −1틱 이탈이면 즉시 손절.</span></li>
+  </ul>
+</section>
+<section class="dg">
+  <div class="dg-h"><span class="dg-n">도감 6</span><h2>나가는 문은 히스토그램이 먼저 연다</h2></div>
+  <p class="dg-sub">크로스를 기다리면 그만큼 늦다</p>
+  <figure class="fig">
+    <img src="img/macd_dogam6_hist_exit.png" alt="나가는 문은 히스토그램이 먼저 연다 — MACD 차트" loading="lazy" decoding="async">
+    <figcaption>10:30~11:45 26봉. 10:42 막대 최대(0.15) → 두 봉 연속 축소 → 10:48 청산, 가격 고점은 10:45. 크로스는 11:00에야 났다.</figcaption>
+  </figure>
+  <ul class="dg3">
+<li class="m1"><b>모양</b><span>막대가 최대로 길어진 뒤 두 봉 연속 짧아진다. 가격은 아직 고점 근처다.</span></li>
+<li class="m2"><b>뜻</b><span>힘이 빠지기 시작한 것 — 크로스보다 다섯 봉 빠르다.</span></li>
+<li class="m3"><b>행동</b><span>청산. 새 크로스가 날 때까지 재진입하지 않는다.</span></li>
+  </ul>
+</section>
+<h2>실전 규칙 여섯 줄</h2>
 <div class="tbl">
-<div class="tbl-h">
-<h3>신호 셋의 속도 — 이 순서가 전부다</h3>
-<span class="tbl-a">2026-11-24 가상 3분봉 실측</span>
-</div>
-<table><thead><tr>
-<th>신호</th>
-<th>지연</th>
-<th>가격</th>
-<th>1계약</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">히스토그램 피크아웃</th>
-<td data-l="지연">0봉</td>
-<td data-l="가격">09:15 781.35</td>
-<td data-l="1계약">—</td>
-</tr>
-<tr>
-<th scope="row">MACD·시그널 데드크로스</th>
-<td data-l="지연">5봉(15분)</td>
-<td data-l="가격">779.75 (-1.60p)</td>
-<td data-l="1계약">32틱 400,000원</td>
-</tr>
-<tr>
-<th scope="row">0선 이탈</th>
-<td data-l="지연">23봉(69분)</td>
-<td data-l="가격">778.10 (-3.25p)</td>
-<td data-l="1계약">65틱 812,500원</td>
-</tr>
+<div class="tbl-h"><h3>차트에서 본 것을 규칙으로 옮기면</h3><span class="tbl-a">코스피200 선물 3분봉 기준</span></div>
+<table><thead><tr><th>규칙</th><th>내용</th><th>이유</th></tr></thead><tbody>
+<tr><th scope="row">청산은 히스토그램</th><td data-l="내용">막대가 2봉 연속 짧아지면 나온다</td><td data-l="이유">크로스를 기다리면 5~10봉 늦다</td></tr>
+<tr><th scope="row">진입은 크로스</th><td data-l="내용">두 선이 교차한 봉 마감에만 들어간다</td><td data-l="이유">봉 마감 전 진입은 금지</td></tr>
+<tr><th scope="row">필터는 0선</th><td data-l="내용">0선 위면 롱만, 아래면 숏만</td><td data-l="이유">위 데드는 숏 금지, 아래 골든은 롱 금지</td></tr>
+<tr><th scope="row">위치는 되돌림</th><td data-l="내용">신호봉 고점·저점이 손절 좌표</td><td data-l="이유">표준 손절 6틱(75,000원) 이내</td></tr>
+<tr><th scope="row">시간은 장 초반</th><td data-l="내용">09:00~10:30이 가장 정직하다</td><td data-l="이유">12:00 전후·15:35 이후는 신호 무시</td></tr>
+<tr><th scope="row">횟수는 하루 두 번</th><td data-l="내용">2연패면 그날은 끝</td><td data-l="이유">지표가 아니라 계좌를 지키는 규칙</td></tr>
 </tbody></table></div>
+<h2>무효화·손절</h2>
 <div class="tbl">
-<div class="tbl-h">
-<h3>크로스는 '어디서' 났는가로 뜻이 바뀐다</h3>
-</div>
-<table><thead><tr>
-<th>위치</th>
-<th>뜻</th>
-<th>행동</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">0선 위 골든</th>
-<td data-l="뜻">상승 추세 중 눌림 뒤 재상승</td>
-<td data-l="행동">롱 1순위</td>
-</tr>
-<tr>
-<th scope="row">0선 위 데드</th>
-<td data-l="뜻">상승 중 숨 고르기</td>
-<td data-l="행동">청산·관망, 숏 금지</td>
-</tr>
-<tr>
-<th scope="row">0선 아래 골든</th>
-<td data-l="뜻">하락 중 반등 시도</td>
-<td data-l="행동">숏 익절, 롱은 대기</td>
-</tr>
-<tr>
-<th scope="row">0선 아래 데드</th>
-<td data-l="뜻">하락 추세 지속</td>
-<td data-l="행동">숏 1순위</td>
-</tr>
-<tr>
-<th scope="row">0선 부근 혼조</th>
-<td data-l="뜻">정보 없음</td>
-<td data-l="행동">매매 금지</td>
-</tr>
+<div class="tbl-h"><h3>이렇게 되면 신호는 끝난 것</h3></div>
+<table><thead><tr><th>조건</th><th>행동</th></tr></thead><tbody>
+<tr><th scope="row">신호봉 마감 전 진입</th><td data-l="행동">금지 — 다시 그려질 수 있다</td></tr>
+<tr><th scope="row">신호봉 저점 −1틱 이탈</th><td data-l="행동">즉시 손절, 새 크로스만 재진입</td></tr>
+<tr><th scope="row">히스토그램이 반대로 확대</th><td data-l="행동">즉시 청산</td></tr>
+<tr><th scope="row">3봉 안에 축소가 안 나옴</th><td data-l="행동">신호 폐기</td></tr>
+<tr><th scope="row">0선 재이탈</th><td data-l="행동">청산</td></tr>
+<tr><th scope="row">2연패</th><td data-l="행동">당일 중단</td></tr>
 </tbody></table></div>
-<div class="tbl">
-<div class="tbl-h">
-<h3>히스토그램 — 같은 막대, 세 가지 뜻</h3>
-</div>
-<table><thead><tr>
-<th>상태</th>
-<th>모습</th>
-<th>행동</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">확대</th>
-<td data-l="모습">빨강(파랑)이 길어짐</td>
-<td data-l="행동">보유, 역매매 금지</td>
-</tr>
-<tr>
-<th scope="row">축소</th>
-<td data-l="모습">2봉 연속 옅어짐</td>
-<td data-l="행동">청산 준비, 신규 금지</td>
-</tr>
-<tr>
-<th scope="row">부호 전환</th>
-<td data-l="모습">빨강↔파랑</td>
-<td data-l="행동">방아쇠, 0선 위치 확인</td>
-</tr>
-<tr>
-<th scope="row">0선에 납작</th>
-<td data-l="모습">막대가 실처럼 얇음</td>
-<td data-l="행동">관망</td>
-</tr>
-</tbody></table></div>
-<div class="tbl">
-<div class="tbl-h">
-<h3>다이버전스 네 가지</h3>
-</div>
-<table><thead><tr>
-<th>종류</th>
-<th>가격</th>
-<th>MACD</th>
-<th>해석</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">일반 상승</th>
-<td data-l="가격">저점 갱신(LL)</td>
-<td data-l="MACD">저점 상승(HL)</td>
-<td data-l="해석">반전 상승</td>
-</tr>
-<tr>
-<th scope="row">일반 하락</th>
-<td data-l="가격">고점 갱신(HH)</td>
-<td data-l="MACD">고점 하락(LH)</td>
-<td data-l="해석">반전 하락</td>
-</tr>
-<tr>
-<th scope="row">히든 상승</th>
-<td data-l="가격">저점 높임(HL)</td>
-<td data-l="MACD">저점 낮춤(LL)</td>
-<td data-l="해석">상승 지속(눌림 매수)</td>
-</tr>
-<tr>
-<th scope="row">히든 하락</th>
-<td data-l="가격">고점 낮춤(LH)</td>
-<td data-l="MACD">고점 높임(HH)</td>
-<td data-l="해석">하락 지속(반등 매도)</td>
-</tr>
-</tbody></table></div>
-<div class="tbl">
-<div class="tbl-h">
-<h3>세팅 — 숫자를 바꾸면 무엇을 잃나</h3>
-</div>
-<table><thead><tr>
-<th>세팅</th>
-<th>쓰는 자리</th>
-<th>대가</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">12-26-9</th>
-<td data-l="쓰는 자리">표준. 일봉·60분·3분</td>
-<td data-l="대가">잡음 적고 늦음</td>
-</tr>
-<tr>
-<th scope="row">6-19-9</th>
-<td data-l="쓰는 자리">아펠의 매수용 조합</td>
-<td data-l="대가">0선 위 골든이 잦음</td>
-</tr>
-<tr>
-<th scope="row">5-35-5</th>
-<td data-l="쓰는 자리">단타용으로 유통</td>
-<td data-l="대가">거래 급증, 승률 하락</td>
-</tr>
-<tr>
-<th scope="row">3-10-16</th>
-<td data-l="쓰는 자리">스캘핑</td>
-<td data-l="대가">크로스는 빠르나 확인 늦음</td>
-</tr>
-<tr>
-<th scope="row">21-31-1</th>
-<td data-l="쓰는 자리">1~15분봉 대안</td>
-<td data-l="대가">교차가 봉마다 뒤집힘</td>
-</tr>
-</tbody></table></div>
-<div class="tbl">
-<div class="tbl-h">
-<h3>아펠의 비대칭 — 사는 문은 빠르게, 파는 문은 느리게</h3>
-<span class="tbl-a">Technical Analysis 8장</span>
-</div>
-<table><thead><tr>
-<th>국면</th>
-<th>매수</th>
-<th>매도</th>
-<th>이유</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">강한 상승</th>
-<td data-l="매수">6-19</td>
-<td data-l="매도">19-39</td>
-<td data-l="이유">빠르게 사고 아주 느리게 판다</td>
-</tr>
-<tr>
-<th scope="row">중립~약상승</th>
-<td data-l="매수">12-26</td>
-<td data-l="매도">19-39</td>
-<td data-l="이유">표준 매수, 느린 매도</td>
-</tr>
-<tr>
-<th scope="row">명확한 하락</th>
-<td data-l="매수">12-26</td>
-<td data-l="매도">12-26</td>
-<td data-l="이유">양쪽 표준</td>
-</tr>
-</tbody></table></div>
-<div class="tbl">
-<div class="tbl-h">
-<h3>키움 영웅문 세 창</h3>
-</div>
-<table><thead><tr>
-<th>지표</th>
-<th>그려지는 것</th>
-<th>기본값</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">MACD (추세 13)</th>
-<td data-l="그려지는 것">막대+두 선 한 창</td>
-<td data-l="기본값">12·26·9</td>
-</tr>
-<tr>
-<th scope="row">MACD Histogram (46)</th>
-<td data-l="그려지는 것">막대만</td>
-<td data-l="기본값">12·26·9</td>
-</tr>
-<tr>
-<th scope="row">Price Oscillator (53)</th>
-<td data-l="그려지는 것">선 하나(%)</td>
-<td data-l="기본값">10·20</td>
-</tr>
-</tbody></table></div>
-<div class="tbl">
-<div class="tbl-h">
-<h3>MACD + 스토캐스틱</h3>
-<span class="tbl-a">방향은 위 창, 시점은 아래 창</span>
-</div>
-<table><thead><tr>
-<th>MACD 상태</th>
-<th>스토캐스틱</th>
-<th>행동</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">0선 위 + 히스토 확대</th>
-<td data-l="스토캐스틱">20 이하 골든크로스</td>
-<td data-l="행동">롱 1순위</td>
-</tr>
-<tr>
-<th scope="row">0선 위 + 히스토 축소</th>
-<td data-l="스토캐스틱">80 데드크로스</td>
-<td data-l="행동">청산·관망, 숏 금지</td>
-</tr>
-<tr>
-<th scope="row">0선 아래 + 파랑 확대</th>
-<td data-l="스토캐스틱">80 이상 데드크로스</td>
-<td data-l="행동">숏 1순위</td>
-</tr>
-<tr>
-<th scope="row">0선 아래 + 파랑 축소</th>
-<td data-l="스토캐스틱">20 골든크로스</td>
-<td data-l="행동">숏 청산, 롱 금지</td>
-</tr>
-<tr>
-<th scope="row">0선 부근 혼조</th>
-<td data-l="스토캐스틱">중앙 교차</td>
-<td data-l="행동">관망</td>
-</tr>
-</tbody></table></div>
-<div class="tbl">
-<div class="tbl-h">
-<h3>세션 경계 — 지표가 거짓말하는 구간</h3>
-</div>
-<table><thead><tr>
-<th>시간</th>
-<th>현상</th>
-<th>대응</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">08:45~09:00</th>
-<td data-l="현상">갭이 EMA에 실려 MACD 점프</td>
-<td data-l="대응">신호 무시, 09:00부터</td>
-</tr>
-<tr>
-<th scope="row">09:00~10:30</th>
-<td data-l="현상">변동성 최대, 지표가 정직</td>
-<td data-l="대응">주력 구간</td>
-</tr>
-<tr>
-<th scope="row">12:00 전후</th>
-<td data-l="현상">히스토 0선에 납작</td>
-<td data-l="대응">신규 진입 금지</td>
-</tr>
-<tr>
-<th scope="row">15:35~15:45</th>
-<td data-l="현상">종가 단일가, 히스토 왜곡</td>
-<td data-l="대응">마지막 봉 신호 무시</td>
-</tr>
-<tr>
-<th scope="row">18:00~06:00</th>
-<td data-l="현상">야간 유동성 얇음</td>
-<td data-l="대응">3분 이상, 사이즈 축소</td>
-</tr>
-</tbody></table></div>
-<div class="tbl">
-<div class="tbl-h">
-<h3>무효화·손절</h3>
-</div>
-<table><thead><tr>
-<th>조건</th>
-<th>행동</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">신호봉 마감 전 진입</th>
-<td data-l="행동">금지</td>
-</tr>
-<tr>
-<th scope="row">신호봉 저점 -1틱 이탈</th>
-<td data-l="행동">즉시 손절, 새 크로스만 재진입</td>
-</tr>
-<tr>
-<th scope="row">히스토가 반대로 확대</th>
-<td data-l="행동">즉시 청산</td>
-</tr>
-<tr>
-<th scope="row">3봉 내 히스토 축소 실패</th>
-<td data-l="행동">신호 폐기</td>
-</tr>
-<tr>
-<th scope="row">0선 재이탈</th>
-<td data-l="행동">청산</td>
-</tr>
-<tr>
-<th scope="row">2연패</th>
-<td data-l="행동">당일 중단</td>
-</tr>
-</tbody></table></div>
-<div class="tbl">
-<div class="tbl-h">
-<h3>틱·금액 환산</h3>
-<span class="tbl-a">코스피200 선물 1계약, 승수 25만원</span>
-</div>
-<table><thead><tr>
-<th>가격 폭</th>
-<th>틱</th>
-<th>손익</th>
-<th>쓰는 자리</th>
-</tr></thead><tbody>
-<tr>
-<th scope="row">0.05p</th>
-<td data-l="틱">1틱</td>
-<td data-l="손익">12,500원</td>
-<td data-l="쓰는 자리">호가 한 칸</td>
-</tr>
-<tr>
-<th scope="row">0.15p</th>
-<td data-l="틱">3틱</td>
-<td data-l="손익">37,500원</td>
-<td data-l="쓰는 자리">타이트한 손절</td>
-</tr>
-<tr>
-<th scope="row">0.30p</th>
-<td data-l="틱">6틱</td>
-<td data-l="손익">75,000원</td>
-<td data-l="쓰는 자리">표준 손절</td>
-</tr>
-<tr>
-<th scope="row">0.50p</th>
-<td data-l="틱">10틱</td>
-<td data-l="손익">125,000원</td>
-<td data-l="쓰는 자리">선진입의 대가</td>
-</tr>
-<tr>
-<th scope="row">1.00p</th>
-<td data-l="틱">20틱</td>
-<td data-l="손익">250,000원</td>
-<td data-l="쓰는 자리">스윙 손절</td>
-</tr>
-</tbody></table></div>
-<p>가상 3분봉으로 계산한 하루가 이 구조를 그대로 보여 줍니다. 09:15 히스토그램 0.393(최대) → 09:18 0.351 → 09:21 0.277 → 09:27 0.081 → 09:30 -0.021(부호 전환). 고점 781.35에서 교차 확인 779.75까지 <strong>32틱(400,000원)</strong>이 이미 빠져 있었습니다. 같은 날 09:51에는 가격이 781.30으로 고점과 1틱 차이였는데 MACD는 1.417 → 0.982로 낮아져 하락 다이버전스가 겹쳤고, 10:24에야 0선을 이탈했습니다. <strong>청산은 히스토가, 진입은 크로스가, 방향은 0선이</strong> 맡겨야 하는 이유가 숫자로 나옵니다.</p>
-<p>백테스트도 같은 말을 합니다. 니케이225 선물 일봉 2011~2019년에 표준 12·26·9를 그대로 돌리면 169거래 중 68.6%가 손실이고 총손익 -4,180포인트였습니다(19,456개 조합 중 10,636위). 반대로 나스닥100 선물 일봉 16년에서는 같은 표준값이 롱 승률 45.0%·수익 팩터 1.32를 냈고, 5-35-5는 거래가 352회로 늘면서 승률 41.8%·1.14로 나빠졌습니다. <strong>빠르게 만든다고 좋아지지 않고, 값은 시장마다 다시 확인해야 합니다.</strong></p>
 <h2>장중 8단계 체크</h2>
 <div class="checks"><div class="chk-top"><b class="cnt">0</b><span class="of">/ 8 통과</span><div class="bar"><i></i></div><button type="button" class="mini reset">초기화</button></div><ul><li><label><input type="checkbox" data-i="0"><span class="bx"></span><span class="tx">60분 MACD 0선·히스토 방향 — 오늘 매수만/매도만 결정됐나</span></label></li><li><label><input type="checkbox" data-i="1"><span class="bx"></span><span class="tx">20·60 이평 배열 — 같은 방향인가</span></label></li><li><label><input type="checkbox" data-i="2"><span class="bx"></span><span class="tx">전일 고저종·시초가와의 거리 — 목표와 손절 좌표가 있나</span></label></li><li><label><input type="checkbox" data-i="3"><span class="bx"></span><span class="tx">3분 히스토그램 기울기 — 확대인가 축소인가</span></label></li><li><label><input type="checkbox" data-i="4"><span class="bx"></span><span class="tx">크로스의 0선 위치 — 0선 위 골든 / 아래 데드인가</span></label></li><li><label><input type="checkbox" data-i="5"><span class="bx"></span><span class="tx">다이버전스 — 가격 신고가에 MACD 고점이 낮아졌나</span></label></li><li><label><input type="checkbox" data-i="6"><span class="bx"></span><span class="tx">세션 시간 — 08:45~09:00·12:00·15:35~가 아닌가</span></label></li><li><label><input type="checkbox" data-i="7"><span class="bx"></span><span class="tx">손절 폭 — 신호봉 ±1틱, 6틱 이내인가</span></label></li></ul></div>
 <p>여덟 중 6개 이상 통과할 때만 진입하고, ⑤(0선 위치)와 ⑧(손절 폭)은 필수입니다. 둘이 빠지면 나머지가 다 맞아도 들어가지 않습니다.</p>
-<p>전체 10쪽 자료(아펠·아스프리 원전, 계산 전 과정, 차트 그림, 백테스트 표, 출처 18곳)는 <a class="pdflink" href="pdf/macd-2026-11-24.pdf">이 글 PDF 내려받기</a> 에 정리해 두었습니다.</p>
-<p class="src">출처: Appel 『The Moving Average Convergence-Divergence Trading Method』(1979)·『Technical Analysis: Power Tools for Active Investors』(2005), Aspray TASC V.6:8·V.6:9(1988), StockCharts ChartSchool, 키움증권 영웅문 지표 도움말(13·46·53), TradingView, CMT Association, Kang(2022/2023) 니케이225 선물 연구, NorthTape(2026) NQ 백테스트, KRX·증권사 상품명세 등 18곳. 본문 3분봉 수치는 계산 설명용 가상 시세입니다.</p>
+<p>차트 6장과 같은 내용을 인쇄용으로 묶은 <a class="pdflink" href="pdf/macd-2026-11-24.pdf">PDF 내려받기</a> 도 있습니다. 계산 전 과정·아펠 원전·백테스트 표까지 담았습니다.</p>
+<p class="src">차트는 모두 계산 설명용 <strong>가상 3분봉</strong>(코스피200 선물 0.05p 틱, 08:45 시작)입니다. 실제 11/24 시세가 아닙니다. 히스토그램 막대는 모양이 보이도록 2배로 그렸고, 부호와 방향은 그대로입니다. 출처: Appel 『The Moving Average Convergence-Divergence Trading Method』(1979)·『Technical Analysis』(2005), Aspray TASC V.6:8·V.6:9(1988), StockCharts ChartSchool, 키움증권 영웅문 지표 도움말(13·46·53).</p>
   </main>
 
   <footer class="ft">

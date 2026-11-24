@@ -193,3 +193,28 @@ tbody tr:nth-child(even){ background:#fdfbf5 }
   background:#fdf1f3; border:1px solid #f5d5dc; border-radius:8px; padding:2px 9px; white-space:nowrap;
 }
 .pdflink::before{ content:"⤓ " }
+
+/* ---------- 차트 도감 ---------- */
+.dg{ margin:36px 0 6px }
+.dg-h{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:0 }
+.dg-n{
+  font-size:11.5px; font-weight:900; letter-spacing:.5px; color:#fff;
+  background:var(--navy); border-radius:999px; padding:4px 11px; white-space:nowrap;
+}
+.dg h2{ border:0; margin:0; padding:0; font-size:20px; letter-spacing:-.6px }
+.dg-sub{ font-size:13.5px; color:var(--sub); margin:7px 0 0; line-height:1.65; letter-spacing:-.2px }
+.dg .fig{ margin:14px 0 0 }
+.dg3{ list-style:none; margin:12px 0 0; padding:0; border-top:1px solid var(--line) }
+.dg3 li{
+  display:flex; gap:12px; align-items:flex-start; padding:10px 0;
+  border-bottom:1px solid var(--line); font-size:15px; line-height:1.72; letter-spacing:-.2px;
+}
+.dg3 b{ flex:0 0 32px; font-size:11.5px; font-weight:900; letter-spacing:.4px; padding-top:4px; color:var(--dim) }
+.dg3 .m1 b{ color:#1d4ed8 } .dg3 .m2 b{ color:var(--navy) } .dg3 .m3 b{ color:var(--red) }
+.dg3 span{ flex:1 1 auto }
+.read3{ display:flex; gap:8px; flex-wrap:wrap; margin:18px 0 6px }
+.read3 span{
+  font-size:12.5px; font-weight:800; color:var(--navy); background:#f7f1e4;
+  border:1px solid var(--line2); border-radius:999px; padding:6px 12px;
+}
+.read3 span i{ color:var(--org); font-style:normal; margin-right:4px }
