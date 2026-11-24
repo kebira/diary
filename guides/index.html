@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#fbf8f1" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="케비라 실전 노트" />
+<title>케비라 실전 노트 · 스토캐스틱 · MACD · 거래량·미결제·델타</title>
+<meta name="description" content="코스피200 선물·옵션 실전 3종 — 스토캐스틱(진입 시점), MACD(방향·속도), 거래량·미결제약정·델타(진입 심사). 2026-11-24 실측 수치와 장중 8단계 체크, PDF 포함." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guides.css">
+<style>
+  .hub-hero{ padding:30px 20px 8px; background:
+    radial-gradient(120% 80% at 100% 0%, #fdf3e2 0%, rgba(253,243,226,0) 60%),
+    linear-gradient(180deg,#fffdf8,#fbf8f1); }
+  .hub-hero h1{ font-size:33px; margin-top:12px }
+  @media(min-width:520px){ .hub-hero h1{ font-size:38px } }
+  .hub-hero .sub{ font-size:14.5px; max-width:34em }
+  .order{
+    margin:20px 20px 4px; padding:14px 16px; border-radius:14px; background:var(--navy); color:#e8eef7;
+    box-shadow:0 10px 26px rgba(15,23,42,.18);
+  }
+  .order .t{ font-size:11px; font-weight:900; letter-spacing:.8px; color:#fbbf24; margin-bottom:9px }
+  .order ol{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px 4px; align-items:center }
+  .order li{ font-size:13px; font-weight:800; background:rgba(255,255,255,.08); border-radius:9px; padding:6px 10px }
+  .order li.now{ background:#fbbf24; color:#1b1508 }
+  .order .arw{ color:#6b8ab5; font-size:12px; padding:0 1px }
+  .order p{ margin:10px 0 0; font-size:11.5px; color:#9fb0c7; line-height:1.6 }
+
+  .cards{ padding:14px 16px 0 }
+  .card a{ color:inherit; text-decoration:none }
+  .card h2 a{ display:inline-block }
+  .card .goa{ font-size:13.5px; font-weight:900; color:var(--navy); text-decoration:none }
+  .card{
+    display:block; text-decoration:none; color:inherit; background:#fff;
+    border:1px solid var(--line2); border-radius:16px; padding:17px 17px 15px; margin-bottom:13px;
+    box-shadow:0 2px 10px rgba(80,60,30,.05); position:relative; overflow:hidden;
+  }
+  .card::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--org) }
+  .card.c2::before{ background:var(--blu) }
+  .card.c3::before{ background:var(--grn) }
+  .card .no{ font-family:"Gowun Batang",serif; font-size:12px; font-weight:800; color:var(--dim); letter-spacing:.6px }
+  .card h2{
+    font-family:"Gowun Batang",serif; font-size:22px; font-weight:800; letter-spacing:-.7px;
+    margin:4px 0 0; border:none; padding:0;
+  }
+  .card .role{ font-size:11.5px; font-weight:900; color:var(--org); letter-spacing:.4px; margin-top:4px }
+  .card.c2 .role{ color:var(--blu) } .card.c3 .role{ color:var(--grn) }
+  .card .desc{ font-size:13.5px; color:#4a4238; line-height:1.7; margin:9px 0 0 }
+  .card .tags{ display:flex; flex-wrap:wrap; gap:5px; margin-top:11px }
+  .card .tags span{ font-size:11px; font-weight:700; color:#776c5c; background:#f7f1e4; border-radius:6px; padding:3px 8px }
+  .card .go{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:14px;
+    padding-top:12px; border-top:1px dashed var(--line2) }
+  .card .go b{ font-size:13.5px; font-weight:900; color:var(--navy) }
+  .card .go .pdfb{ font-size:11.5px; font-weight:800; color:var(--sub); text-decoration:none;
+    border:1px solid var(--line2); border-radius:8px; padding:6px 10px; background:#fffdf8 }
+
+  .sec-t{ margin:26px 20px 10px; font-family:"Gowun Batang",serif; font-size:16.5px; font-weight:800; letter-spacing:-.5px }
+  .sec-t small{ display:block; font-family:"Noto Sans KR",sans-serif; font-size:11.5px; color:var(--dim); font-weight:500; margin-top:3px; letter-spacing:-.2px }
+  .links{ padding:0 16px }
+  .links a{
+    display:flex; align-items:center; gap:11px; text-decoration:none; color:inherit;
+    background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:8px;
+  }
+  .links a .ic{ flex:0 0 30px; width:30px; height:30px; border-radius:9px; background:#f7f1e4; display:grid; place-items:center; font-size:15px }
+  .links a .tx b{ display:block; font-size:14px; font-weight:800; letter-spacing:-.3px }
+  .links a .tx i{ font-style:normal; font-size:11.5px; color:var(--dim) }
+  .links a .ch{ margin-left:auto; color:#c3b9a6; font-size:16px }
+  .stamp2{ font-size:11px; color:var(--dim); text-align:center; margin:22px 0 0 }
+</style>
+</head>
+<body data-slug="hub">
+<div class="sheet">
+
+  <div class="bar">
+    <a class="back" href="../">‹ 케비라</a>
+    <span class="bar-t">케비라 · Kebira</span>
+  </div>
+
+  <header class="hub-hero">
+    <span class="kick">2026-11-24 · 코스피200 12월물</span>
+    <h1>실전 노트<br>세 갈래</h1>
+    <p class="sub">지표를 아는 것과 지표로 버는 것 사이에는 <strong>방향 · 시점 · 심사</strong> 세 단계가 있습니다. 오늘 장의 실측 수치로 그 셋을 다시 정리했습니다.</p>
+  </header>
+
+  <div class="order">
+    <div class="t">읽는 순서</div>
+    <ol>
+      <li>① 자리</li><li class="arw">→</li>
+      <li>② MACD</li><li class="arw">→</li>
+      <li>③ 스토캐스틱</li><li class="arw">→</li>
+      <li class="now">④ 거래량·미결제·델타</li>
+    </ol>
+    <p>자리는 가격이 정하고, 방향은 MACD가, 시점은 스토캐스틱이, 마지막 심사는 거래량·미결제·델타가 맡습니다. 순서를 바꾸면 지표가 아니라 도박이 됩니다.</p>
+  </div>
+
+  <section class="cards">
+
+    <div class="card c1">
+      <div class="no">실전 노트 01</div>
+      <h2><a href="stochastic.html">스토캐스틱</a></h2>
+      <div class="role">진입 시점 지표</div>
+      <p class="desc">80·20은 신호가 아니라 <strong>위치</strong>입니다. 실제 신호는 극단 구간의 교차, 다이버전스, 매립의 해제 셋뿐. 3분봉 삼중 창으로 방아쇠와 힘의 방향을 나눠 봅니다.</p>
+      <div class="tags"><span>3분 5-3-3</span><span>10-6-6</span><span>20-12-12</span><span>8단계 체크</span><span>8쪽 PDF</span></div>
+      <div class="go"><a class="goa" href="stochastic.html">웹으로 보기 →</a><a class="pdfb" href="pdf/stochastic-2026-11-24.pdf" download="스토캐스틱_실전_완전정복_2026-11-24.pdf">PDF 내려받기</a></div>
+    </div>
+
+    <div class="card c2">
+      <div class="no">실전 노트 02</div>
+      <h2><a href="macd.html">MACD</a></h2>
+      <div class="role">방향 · 속도 지표</div>
+      <p class="desc">MACD는 방향이 아니라 <strong>속도</strong>입니다. 청산은 히스토그램이, 진입은 크로스가, 필터는 0선이 맡습니다. 오늘 히스토그램 피크에서 교차까지 32틱이 이미 빠져 있었습니다.</p>
+      <div class="tags"><span>히스토그램 피크아웃</span><span>0선 위치</span><span>아펠 비대칭</span><span>10쪽 PDF</span></div>
+      <div class="go"><a class="goa" href="macd.html">웹으로 보기 →</a><a class="pdfb" href="pdf/macd-2026-11-24.pdf" download="MACD_실전_완전정복_2026-11-24.pdf">PDF 내려받기</a></div>
+    </div>
+
+    <div class="card c3">
+      <div class="no">실전 노트 03</div>
+      <h2><a href="volume-oi-delta.html">거래량 · 미결제 · 델타</a></h2>
+      <div class="role">진입 심사 지표</div>
+      <p class="desc">오늘 선물은 <strong>+7.08%</strong> 올랐는데 거래량은 6.9% 줄고 미결제는 0.37% 늘었을 뿐. 신규 매수도 숏 커버링도 아닌 <strong>힘 빠진 상승</strong>이었습니다. 그 판정을 내리는 세 지표.</p>
+      <div class="tags"><span>V/OI 0.842</span><span>미결제 벽</span><span>델타 곡선</span><span>4단계 심사</span><span>10쪽 PDF</span></div>
+      <div class="go"><a class="goa" href="volume-oi-delta.html">웹으로 보기 →</a><a class="pdfb" href="pdf/volume-oi-delta-2026-11-24.pdf" download="거래량_미결제_델타_실전_완전정복_2026-11-24.pdf">PDF 내려받기</a></div>
+    </div>
+
+  </section>
+
+  <div class="sec-t">함께 보면 좋은 페이지<small>같은 시세(12월물)로 이어지는 케비라 페이지들</small></div>
+  <div class="links">
+    <a href="../brief/"><span class="ic">📈</span><span class="tx"><b>브리핑 대시보드</b><i>08:30 개장 전 · 11:10 장중 · 16:00 마감</i></span><span class="ch">›</span></a>
+    <a href="../guide/"><span class="ic">📚</span><span class="tx"><b>실전 백과 100선</b><i>기초 · 옵션 · 스프레드 · 그릭스</i></span><span class="ch">›</span></a>
+    <a href="../100days/"><span class="ic">🌱</span><span class="tx"><b>100일 옵션 코스</b><i>쌩초보에서 실전까지</i></span><span class="ch">›</span></a>
+    <a href="../mid/"><span class="ic">🎯</span><span class="tx"><b>중급반 60강</b><i>호가창 · 행사가 · 월물 · 델타</i></span><span class="ch">›</span></a>
+    <a href="../futures/"><span class="ic">✍️</span><span class="tx"><b>300문제</b><i>풀이와 실전 숫자로 익히기</i></span><span class="ch">›</span></a>
+    <a href="../quiz/"><span class="ic">🧠</span><span class="tx"><b>영어·주식 퀴즈</b><i>실전 용어 300문제</i></span><span class="ch">›</span></a>
+  </div>
+
+  <p class="stamp2">2026-11-24 작성 · 케비라 한연수 · 수치는 계산 설명용 가상 시세를 포함합니다</p>
+</div>
+</body>
+</html>

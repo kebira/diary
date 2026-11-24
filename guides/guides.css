@@ -1,0 +1,195 @@
+/* 케비라 실전 노트 — 공통 스타일 (2026-11-24) */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --paper:#fbf8f1; --card:#fffdf8; --bg:#eee8db;
+  --ink:#241f1a; --sub:#6f665c; --dim:#948a7c;
+  --line:#e6ded0; --line2:#d9cfbc;
+  --navy:#1e293b; --red:#be123c; --org:#c2621b; --grn:#15803d; --blu:#1d4ed8;
+  --mark:#fdf0d5;
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; padding:0; background:var(--bg); color:var(--ink);
+  font-family:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px; line-height:1.78; letter-spacing:-.2px;
+  word-break:keep-all; overflow-wrap:anywhere; -webkit-font-smoothing:antialiased;
+}
+.sheet{
+  max-width:780px; margin:0 auto; min-height:100dvh; background:var(--card);
+  box-shadow:0 0 0 1px var(--line), 0 18px 60px rgba(70,55,35,.10);
+  padding:0 0 34px;
+}
+@media(min-width:820px){ .sheet{border-radius:0} }
+
+/* ---------- 상단 바 ---------- */
+.bar{
+  position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between;
+  gap:10px; padding:11px 18px; background:rgba(255,253,248,.94);
+  backdrop-filter:saturate(150%) blur(8px); border-bottom:1px solid var(--line);
+}
+.back{ color:var(--sub); text-decoration:none; font-size:13.5px; font-weight:700; letter-spacing:-.3px }
+.back:active{ color:var(--ink) }
+.bar-t{ font-family:"Gowun Batang",serif; font-size:12.5px; color:var(--dim); letter-spacing:.4px }
+
+/* ---------- 헤더 ---------- */
+.hd{ padding:26px 20px 6px }
+.kick{
+  display:inline-block; font-size:11.5px; font-weight:900; letter-spacing:.9px;
+  color:var(--org); background:#fbf1e3; border:1px solid #f0e0c8; border-radius:999px;
+  padding:3px 11px;
+}
+h1{
+  font-family:"Gowun Batang","Noto Sans KR",serif; font-weight:800;
+  font-size:27px; line-height:1.35; letter-spacing:-.9px; margin:13px 0 0;
+}
+@media(min-width:520px){ h1{ font-size:31px } }
+.sub{ font-size:14px; color:var(--sub); margin:10px 0 0; line-height:1.7 }
+.dl{ display:flex; gap:8px; flex-wrap:wrap; margin:18px 0 4px }
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  min-height:44px; padding:9px 16px; border-radius:11px; text-decoration:none;
+  font-size:14px; font-weight:800; letter-spacing:-.3px; border:1px solid transparent;
+}
+.btn.solid{ background:var(--navy); color:#fff }
+.btn.ghost{ background:#fff; color:var(--ink); border-color:var(--line2) }
+.btn:active{ transform:translateY(1px) }
+
+/* ---------- 본문 ---------- */
+main{ padding:8px 20px 0 }
+p{ margin:15px 0 }
+.lead{ font-size:16.5px; line-height:1.85; color:#2b241d }
+.lead strong, p strong{ background:linear-gradient(transparent 62%, var(--mark) 62%); padding:0 1px }
+h2{
+  font-family:"Gowun Batang",serif; font-size:20px; letter-spacing:-.6px; font-weight:800;
+  margin:38px 0 12px; padding-top:18px; border-top:2px solid var(--ink);
+}
+code{
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace; font-size:12.5px;
+  background:#f4efe3; border:1px solid #e8dfcc; border-radius:6px; padding:1px 5px;
+  word-break:break-all;
+}
+
+/* ---------- 표 ---------- */
+.tbl{ margin:20px 0 4px }
+.tbl-h{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:7px }
+.tbl-h h3{ font-size:14.5px; font-weight:900; letter-spacing:-.4px; margin:0; color:var(--navy) }
+.tbl-h h3::before{ content:"▍"; color:var(--org); margin-right:2px }
+.tbl-a{ font-size:11px; color:var(--dim); letter-spacing:-.2px }
+table{ width:100%; border-collapse:collapse; font-size:14px; background:#fff;
+  border:1px solid var(--line2); border-radius:12px; overflow:hidden }
+thead th{
+  background:#f7f1e4; font-size:12px; color:#6b6151; font-weight:800; letter-spacing:-.2px;
+  text-align:left; padding:9px 11px; border-bottom:1px solid var(--line2); white-space:nowrap;
+}
+tbody th, tbody td{
+  padding:10px 11px; border-bottom:1px solid #f0e9dc; text-align:left; vertical-align:top; line-height:1.6;
+}
+tbody th{ font-weight:800; color:var(--navy); font-size:13.5px; white-space:nowrap }
+tbody tr:last-child th, tbody tr:last-child td{ border-bottom:none }
+tbody tr:nth-child(even){ background:#fdfbf5 }
+
+/* 좁은 화면 — 행을 카드로 */
+@media(max-width:560px){
+  table, thead, tbody, tr, th, td{ display:block; width:100% }
+  thead{ display:none }
+  table{ border-radius:12px; border:none; background:transparent; overflow:visible }
+  tbody tr{
+    background:#fff !important; border:1px solid var(--line2); border-radius:12px;
+    margin-bottom:9px; padding:4px 0; overflow:hidden;
+  }
+  tbody th{
+    background:#f7f1e4; padding:9px 12px; border-bottom:1px solid var(--line);
+    white-space:normal; font-size:14px;
+  }
+  tbody td{
+    display:flex; gap:10px; padding:8px 12px; font-size:14px; border-bottom:1px dashed #efe7d8;
+  }
+  tbody td:last-child{ border-bottom:none }
+  tbody td::before{
+    content:attr(data-l); flex:0 0 30%; color:var(--dim); font-size:11.5px;
+    font-weight:800; letter-spacing:-.2px; padding-top:2px;
+  }
+}
+
+/* ---------- 콜아웃 ---------- */
+.callout{
+  margin:22px 0; border-radius:14px; padding:15px 17px 16px;
+  border:1px solid #e9e0cc; background:#fbf6ea;
+}
+.callout .co-lab{
+  font-size:11.5px; font-weight:900; letter-spacing:.5px; color:var(--org); margin-bottom:5px;
+}
+.callout p{ margin:0; font-size:15px; line-height:1.8 }
+.callout.strong{
+  background:linear-gradient(160deg,#1e293b,#0f172a); border-color:#0f172a; color:#eef3fb;
+  box-shadow:0 10px 26px rgba(15,23,42,.18);
+}
+.callout.strong .co-lab{ color:#fbbf24 }
+.callout.strong strong{ background:none; color:#fde68a; padding:0 }
+.callout.neutral{ background:#f2f7f4; border-color:#d8e8dd }
+.callout.neutral .co-lab{ color:var(--grn) }
+
+/* ---------- 그림 ---------- */
+.fig{ margin:22px 0; padding:0 }
+.fig img{ width:100%; height:auto; display:block; border:1px solid var(--line2); border-radius:12px; background:#fff }
+.fig figcaption{ font-size:12px; color:var(--sub); line-height:1.6; margin-top:8px; letter-spacing:-.2px }
+
+/* ---------- 체크리스트 ---------- */
+.checks{ margin:20px 0 6px; border:1px solid var(--line2); border-radius:14px; background:#fff; overflow:hidden }
+.chk-top{
+  display:flex; align-items:center; gap:9px; padding:11px 14px;
+  background:#f7f1e4; border-bottom:1px solid var(--line2); flex-wrap:wrap;
+}
+.chk-top .cnt{ font-size:17px; font-weight:900; color:var(--navy); line-height:1 }
+.chk-top .of{ font-size:12px; color:var(--sub); font-weight:700 }
+.chk-top .bar{ flex:1 1 90px; height:6px; background:#e6ddca; border-radius:99px; overflow:hidden; min-width:70px }
+.chk-top .bar i{ display:block; height:100%; width:0; border-radius:99px; background:var(--grn); transition:width .25s ease }
+.chk-top.ok .bar i{ background:var(--grn) }
+.chk-top .mini{
+  margin-left:auto; font:inherit; font-size:11.5px; font-weight:800; color:var(--sub);
+  background:#fff; border:1px solid var(--line2); border-radius:8px; padding:5px 10px; cursor:pointer;
+}
+.checks ul{ list-style:none; margin:0; padding:6px 0 }
+.checks li{ border-bottom:1px solid #f4eee1 }
+.checks li:last-child{ border-bottom:none }
+.checks label{ display:flex; align-items:flex-start; gap:11px; padding:12px 14px; cursor:pointer }
+.checks input{ position:absolute; opacity:0; width:0; height:0 }
+.checks .bx{
+  flex:0 0 22px; width:22px; height:22px; margin-top:1px; border-radius:7px;
+  border:1.8px solid #cfc4ae; background:#fff; position:relative; transition:.15s;
+}
+.checks input:checked + .bx{ background:var(--grn); border-color:var(--grn) }
+.checks input:checked + .bx::after{
+  content:""; position:absolute; left:6.5px; top:2.5px; width:6px; height:11px;
+  border:solid #fff; border-width:0 2.2px 2.2px 0; transform:rotate(42deg);
+}
+.checks input:focus-visible + .bx{ box-shadow:0 0 0 3px rgba(21,128,61,.22) }
+.checks .tx{ font-size:14.5px; line-height:1.65; letter-spacing:-.2px }
+.checks input:checked ~ .tx{ color:var(--dim); text-decoration:line-through; text-decoration-color:#c9bfa9 }
+
+/* ---------- 출처 ---------- */
+.src{
+  margin:26px 0 0; padding:13px 15px; font-size:11.8px; line-height:1.7; color:#7a7164;
+  background:#f8f4ea; border-radius:11px; border:1px dashed var(--line2);
+}
+
+/* ---------- 푸터 ---------- */
+.ft{ margin:34px 20px 0; padding-top:20px; border-top:1px solid var(--line) }
+.fbtn{
+  display:block; text-align:center; text-decoration:none; padding:13px; border-radius:12px;
+  background:#f7f1e4; color:var(--navy); font-weight:900; font-size:14px; border:1px solid var(--line2);
+}
+.sib{ display:flex; flex-wrap:wrap; gap:7px; margin-top:12px }
+.sib a{
+  font-size:12.5px; font-weight:700; color:var(--sub); text-decoration:none;
+  border:1px solid var(--line); border-radius:999px; padding:6px 12px; background:#fff;
+}
+.sib a:active{ background:#f7f1e4 }
+.stamp{ font-size:11px; color:var(--dim); text-align:center; margin:18px 0 0; letter-spacing:.2px }
+
+/* 본문 속 PDF 링크 */
+.pdflink{
+  display:inline-block; font-size:13px; font-weight:900; color:var(--red); text-decoration:none;
+  background:#fdf1f3; border:1px solid #f5d5dc; border-radius:8px; padding:2px 9px; white-space:nowrap;
+}
+.pdflink::before{ content:"⤓ " }

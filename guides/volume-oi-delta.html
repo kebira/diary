@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#fbf8f1" />
+<title>📊 거래량·미결제약정·옵션 델타 실전 완전 정복 · 케비라 실전 노트</title>
+<meta name="description" content="📊 거래량·미결제약정·옵션 델타 실전 완전 정복 — 코스피200 선물·옵션 실전 기준으로 정리한 케비라 실전 노트." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guides.css">
+</head>
+<body data-slug="volume-oi-delta">
+<div class="sheet">
+
+  <div class="bar">
+    <a class="back" href="./">‹ 실전 노트</a>
+    <span class="bar-t">케비라 · Kebira</span>
+  </div>
+
+  <header class="hd">
+    <div class="kick">03 · 진입 심사 지표</div>
+    <h1>📊 거래량·미결제약정·옵션 델타 실전 완전 정복</h1>
+    <p class="sub">얼마나 받아냈고(거래량), 누가 남아 있고(미결제), 어느 쪽에 얼마나 걸려 있나(델타). 방향은 가격이 정하고, 이 셋은 그 방향을 믿을지 심사합니다.</p>
+    <div class="dl">
+      <a class="btn solid" href="pdf/volume-oi-delta-2026-11-24.pdf" download="거래량_미결제_델타_실전_완전정복_2026-11-24.pdf">PDF 내려받기</a>
+      <a class="btn ghost" href="pdf/volume-oi-delta-2026-11-24.pdf" target="_blank" rel="noopener">PDF 열기</a>
+    </div>
+  </header>
+
+  <main>
+<p class="lead">거래량은 <strong>얼마나 받아냈나</strong>, 미결제약정은 <strong>누가 남아 있나</strong>, 델타는 <strong>어느 쪽에 얼마나 걸려 있나</strong>를 답합니다. 셋 다 방향을 말해 주지 않습니다. 방향은 가격이 정하고, 이 셋은 그 방향을 믿을지 말지를 심사합니다. 그래서 순서도 정해져 있습니다 — 자리(가격) → 방향(MACD) → 시점(스토캐스틱) → <strong>심사(거래량·미결제·델타)</strong>.</p>
+<div class="callout strong"><div class="co-lab">한 줄 결론</div><p>가격은 +7.08% 올랐는데 거래량은 6.9% 줄고 미결제는 646계약(0.37%) 늘었을 뿐입니다. ①(신규 매수 유입)도 ②(숏 커버링)도 아닌 '힘 빠진 상승'입니다. 오늘 같은 날 추격 매수가 전부 손실 구간에 들어갑니다.</p></div>
+<div class="tbl">
+<div class="tbl-h">
+<h3>세 지표의 역할</h3>
+</div>
+<table><thead><tr>
+<th>지표</th>
+<th>답하는 것</th>
+<th>대표 오독</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">거래량</th>
+<td data-l="답하는 것">그 가격을 감당한 참여의 두께</td>
+<td data-l="대표 오독">크면 매수 신호 — 산 쪽·판 쪽은 같다</td>
+</tr>
+<tr>
+<th scope="row">미결제</th>
+<td data-l="답하는 것">신규 유입인가 기존 청산인가</td>
+<td data-l="대표 오독">늘면 강세 — 새 매수·새 매도가 동시에 생긴다</td>
+</tr>
+<tr>
+<th scope="row">델타</th>
+<td data-l="답하는 것">방향 노출·내재 확률·선물 환산</td>
+<td data-l="대표 오독">0.5면 반반 — 실제 확률은 47.3%</td>
+</tr>
+<tr>
+<th scope="row">V/OI</th>
+<td data-l="답하는 것">회전율 = 청산·승계의 비중</td>
+<td data-l="대표 오독">높으면 활발 — 방향 정보는 없다</td>
+</tr>
+</tbody></table></div>
+<div class="tbl">
+<div class="tbl-h">
+<h3>가격 × 거래량 × 미결제 여덟 칸</h3>
+<span class="tbl-a">2026-11-24 실측 적용</span>
+</div>
+<table><thead><tr>
+<th>조합</th>
+<th>판독</th>
+<th>행동</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">상승·증가·증가</th>
+<td data-l="판독">신규 매수 유입(롱 빌드업)</td>
+<td data-l="행동">추세 지속, 눌림 매수</td>
+</tr>
+<tr>
+<th scope="row">상승·감소·감소</th>
+<td data-l="판독">숏 커버링, 새 매수 없음</td>
+<td data-l="행동">꼭대기 경계, 추격 금지</td>
+</tr>
+<tr>
+<th scope="row">하락·증가·증가</th>
+<td data-l="판독">신규 매도 유입(숏 빌드업)</td>
+<td data-l="행동">추세 지속, 반등 매도</td>
+</tr>
+<tr>
+<th scope="row">하락·감소·감소</th>
+<td data-l="판독">롱 청산·손절</td>
+<td data-l="행동">바닥권 접근</td>
+</tr>
+<tr>
+<th scope="row">횡보·감소·급증</th>
+<td data-l="판독">에너지 응축</td>
+<td data-l="행동">돌파만 따라간다</td>
+</tr>
+<tr>
+<th scope="row">상승·증가·감소</th>
+<td data-l="판독">청산 물량이 밀어올림</td>
+<td data-l="행동">당일 안에 끝난다</td>
+</tr>
+<tr>
+<th scope="row">하락·증가·감소</th>
+<td data-l="판독">투매 + 청산</td>
+<td data-l="행동">반등 짧다</td>
+</tr>
+<tr>
+<th scope="row">정체·감소·정체</th>
+<td data-l="판독">정보 없음</td>
+<td data-l="행동">관망</td>
+</tr>
+</tbody></table></div>
+<div class="tbl">
+<div class="tbl-h">
+<h3>2026-11-24 실측 — 오늘은 어느 칸인가</h3>
+</div>
+<table><thead><tr>
+<th>항목</th>
+<th>값</th>
+<th>의미</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">종가 / 등락</th>
+<td data-l="값">778.10 (+7.08%)</td>
+<td data-l="의미">갭이 만든 상승</td>
+</tr>
+<tr>
+<th scope="row">시가 → 종가</th>
+<td data-l="값">781.85 → 778.10 (-3.75p)</td>
+<td data-l="의미">정규장은 오히려 반납</td>
+</tr>
+<tr>
+<th scope="row">거래량</th>
+<td data-l="값">145,772 (-6.9%)</td>
+<td data-l="의미">참여 감소</td>
+</tr>
+<tr>
+<th scope="row">미결제</th>
+<td data-l="값">173,213 (+646, +0.37%)</td>
+<td data-l="의미">신규 유입 미미</td>
+</tr>
+<tr>
+<th scope="row">V/OI</th>
+<td data-l="값">0.842 (전일 0.907)</td>
+<td data-l="의미">청산·승계 우위</td>
+</tr>
+<tr>
+<th scope="row">야간선물</th>
+<td data-l="값">777.95 (+51.30p, +7.06%)</td>
+<td data-l="의미">상승은 밤에 완성</td>
+</tr>
+<tr>
+<th scope="row">판정</th>
+<td data-l="값">①도 ②도 아닌 힘 빠진 상승</td>
+<td data-l="의미">추격 금지</td>
+</tr>
+</tbody></table></div>
+<div class="tbl">
+<div class="tbl-h">
+<h3>가짜 돌파 vs 진짜 돌파</h3>
+</div>
+<table><thead><tr>
+<th>항목</th>
+<th>진짜</th>
+<th>가짜</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">거래량</th>
+<td data-l="진짜">5봉 평균 1.8~2.0배 이상</td>
+<td data-l="가짜">평균 이하·1.2~1.8배</td>
+</tr>
+<tr>
+<th scope="row">미결제</th>
+<td data-l="진짜">돌파 후 5~10분 내 순증</td>
+<td data-l="가짜">감소·정체(청산성)</td>
+</tr>
+<tr>
+<th scope="row">종가</th>
+<td data-l="진짜">레벨 위 2봉 연속 마감</td>
+<td data-l="가짜">꼬리만 찍고 복귀</td>
+</tr>
+<tr>
+<th scope="row">호가·체결</th>
+<td data-l="진짜">체결강도 100 이상 유지</td>
+<td data-l="가짜">매도벽 앞 정체</td>
+</tr>
+<tr>
+<th scope="row">시간</th>
+<td data-l="진짜">09:30~14:30</td>
+<td data-l="가짜">개장·12:00·단일가</td>
+</tr>
+</tbody></table></div>
+<div class="tbl">
+<div class="tbl-h">
+<h3>델타 구간별 성격</h3>
+</div>
+<table><thead><tr>
+<th>구간</th>
+<th>델타</th>
+<th>처방</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">심부 내가격</th>
+<td data-l="델타">0.9~1.0</td>
+<td data-l="처방">선물 대체·헤지 다리</td>
+</tr>
+<tr>
+<th scope="row">내가격</th>
+<td data-l="델타">0.7~0.9</td>
+<td data-l="처방">추세 추종</td>
+</tr>
+<tr>
+<th scope="row">등가</th>
+<td data-l="델타">0.45~0.55</td>
+<td data-l="처방">양매도 기준, 헤지 재계산</td>
+</tr>
+<tr>
+<th scope="row">외가격</th>
+<td data-l="델타">0.15~0.35</td>
+<td data-l="처방">프리미엄 매수</td>
+</tr>
+<tr>
+<th scope="row">극외가</th>
+<td data-l="델타">0.1 미만</td>
+<td data-l="처방">로또, 물타기 금지</td>
+</tr>
+</tbody></table></div>
+<div class="tbl">
+<div class="tbl-h">
+<h3>12월물 미결제 벽 (11/24 15:46)</h3>
+</div>
+<table><thead><tr>
+<th>구분</th>
+<th>행사가 · 미결제</th>
+<th>해석</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">콜 최대</th>
+<td data-l="행사가 · 미결제">900 · 8,245 (+900)</td>
+<td data-l="해석">상단 헤지 성격</td>
+</tr>
+<tr>
+<th scope="row">콜 근월</th>
+<td data-l="행사가 · 미결제">800 · 4,369</td>
+<td data-l="해석">내일 첫 저항</td>
+</tr>
+<tr>
+<th scope="row">콜 청산</th>
+<td data-l="행사가 · 미결제">850 · 6,566 (-2,000)</td>
+<td data-l="해석">벽이 얇아짐</td>
+</tr>
+<tr>
+<th scope="row">풋 최대</th>
+<td data-l="행사가 · 미결제">300 · 11,067</td>
+<td data-l="해석">지지선 아님(폭락 헤지)</td>
+</tr>
+<tr>
+<th scope="row">풋 근월</th>
+<td data-l="행사가 · 미결제">750 · 4,528</td>
+<td data-l="해석">내일 첫 지지</td>
+</tr>
+<tr>
+<th scope="row">풋 라운드</th>
+<td data-l="행사가 · 미결제">550 · 8,195 / 600 · 7,216</td>
+<td data-l="해석">대기 매수</td>
+</tr>
+</tbody></table></div>
+<figure class="fig"><img src="img/vol_oi_delta_2026-11-24.png" alt="행사가별 미결제약정(콜·풋)과 델타 곡선, 2026-11-24 코스피200 옵션" loading="lazy"><figcaption>행사가별 미결제약정과 델타 곡선 — 11/24 종가 778.10, 콜 벽 850·900 / 풋 벽 550~600. 델타 합은 등가 ±20p에서 1.0에 붙고, 벗어날수록 벌어지며 그 폭이 스큐입니다.</figcaption></figure>
+<div class="callout neutral"><div class="co-lab">실측으로 확인한 것</div><p>780콜 델타 0.5225 + 풋 델타 0.4768 = 0.9993. 등가 ±20p에서는 합이 1.0이 성립하고 650·850 같은 외가에서 0.90~0.96까지 벌어집니다. 그 벌어진 폭이 곧 스큐의 크기입니다. 델타 0.5225는 확률이 아니라 N(d1)이고, 실제 ITM 확률은 47.3%(N(d2))입니다.</p></div>
+<div class="tbl">
+<div class="tbl-h">
+<h3>4단계 진입 심사</h3>
+</div>
+<table><thead><tr>
+<th>단계</th>
+<th>보는 것</th>
+<th>통과 조건</th>
+</tr></thead><tbody>
+<tr>
+<th scope="row">① 자리</th>
+<td data-l="보는 것">기준선·미결제 4분면</td>
+<td data-l="통과 조건">기준선 ±0.5p 밖</td>
+</tr>
+<tr>
+<th scope="row">② 방향</th>
+<td data-l="보는 것">60분 MACD 0선·히스토</td>
+<td data-l="통과 조건">0선 위 골든/아래 데드</td>
+</tr>
+<tr>
+<th scope="row">③ 시점</th>
+<td data-l="보는 것">3분 스토캐스틱</td>
+<td data-l="통과 조건">추세 방향 눌림 교차</td>
+</tr>
+<tr>
+<th scope="row">④ 심사</th>
+<td data-l="보는 것">5봉 1.8배 + OI 순증 + 델타</td>
+<td data-l="통과 조건">3개 중 2개 이상(OI 필수)</td>
+</tr>
+</tbody></table></div>
+<h2>장중 8단계 체크</h2>
+<div class="checks"><div class="chk-top"><b class="cnt">0</b><span class="of">/ 8 통과</span><div class="bar"><i></i></div><button type="button" class="mini reset">초기화</button></div><ul><li><label><input type="checkbox" data-i="0"><span class="bx"></span><span class="tx">1. 기준선 3개 — 오늘은 789.05 / 767.30 / 778.10</span></label></li><li><label><input type="checkbox" data-i="1"><span class="bx"></span><span class="tx">2. 미결제 4분면 — 어느 칸인가(오늘은 '힘 빠진 상승')</span></label></li><li><label><input type="checkbox" data-i="2"><span class="bx"></span><span class="tx">3. 60분 MACD 0선·히스토그램 방향</span></label></li><li><label><input type="checkbox" data-i="3"><span class="bx"></span><span class="tx">4. 3분 거래량 5봉 평균 1.8배</span></label></li><li><label><input type="checkbox" data-i="4"><span class="bx"></span><span class="tx">5. 그 봉에서 미결제 순증(순감이면 진입 금지)</span></label></li><li><label><input type="checkbox" data-i="5"><span class="bx"></span><span class="tx">6. 등가 콜 델타가 내 방향으로 움직이나</span></label></li><li><label><input type="checkbox" data-i="6"><span class="bx"></span><span class="tx">7. 미결제 벽 — 콜 800·850 / 풋 750·700 사이인가</span></label></li><li><label><input type="checkbox" data-i="7"><span class="bx"></span><span class="tx">8. 손절 폭 6틱(0.30p, 75,000원) 이내</span></label></li></ul></div>
+<p>여덟 중 6개 이상 통과할 때만 진입하고, ④(미결제 방향)와 ⑧(손절 폭)은 필수입니다. 함정은 다섯 구간입니다 — 롤오버 2주(11/26~12/10, 근월+차월 합산), 08:30~08:45·15:35~15:45 단일가(판정 무효), 12:00 전후(거래량 급감), 사이드카 발동일(사이즈 1/3), 야간선물 상승(시초 재료로만).</p>
+<p>전체 10쪽 자료(4분면 여덟 칸, 11/24 실측 해석, 돌파 판정표, 델타·미결제 벽, 양매도 손익분기, 통합 4단계, 11/25 적용표, 출처)는 <a class="pdflink" href="pdf/volume-oi-delta-2026-11-24.pdf">이 글 PDF 내려받기</a> 에 정리해 두었습니다.</p>
+<p class="src">출처: KRX 코스피200 옵션·선물 상품명세(증권사 4곳 교차 확인), 지표담 전광판 t2301(2026-11-24 15:46:07), 키움 [0441]·한국투자 [5135], ICE·TradingCharts·StockCharts(PVO·OBV), Granville(1963), Ni·Pearson·Poteshman JFE 78(1) 2005, Bessembinder·Seguin JFQA 28(1) 1993, Yu·Wang JBF 2004, Indicatr(2026) 돌파 2,807건, Finabase(2026) 162건, ChartDrift(2026) OBV 검증. 델타·프리미엄·미결제는 거래소 산출값이고, 하루 세타(2.675p)·손익분기(±24.8p)는 블랙-숄즈 계산치(r 3.0% 가정)입니다.</p>
+  </main>
+
+  <footer class="ft">
+    <a class="fbtn" href="./">실전 노트 전체 보기</a>
+    <nav class="sib">
+      <a href="../brief/">브리핑 대시보드</a>
+      <a href="../100days/">100일 옵션 코스</a>
+      <a href="../mid/">중급 60강</a>
+      <a href="../guide/">실전 백과 100선</a>
+    </nav>
+    <p class="stamp">2026-11-24 작성 · 케비라 한연수</p>
+  </footer>
+</div>
+<script src="guides.js"></script>
+</body>
+</html>
