@@ -14,11 +14,14 @@
 <script>
   /* 장중 갱신용 캐시 회피 — GitHub Pages HTML 캐시(max-age=600) 때문에
      링크로 열었을 때 10분 전 화면이 보이는 것을 막는다. 쿼리 없이 열리면 한 번만 새로 받는다. */
-  if (location.protocol !== "file:" && !/[?&]t=/.test(location.search)) {
-    location.replace(location.pathname + "?t=" + Date.now());
-  } else if (/[?&]t=/.test(location.search)) {
-    /* 받은 뒤에는 주소창을 깔끔하게 (공유·즐겨찾기용) */
-    try { history.replaceState(null, "", location.pathname); } catch (e) {}
+  var qp = new URLSearchParams(location.search);
+  if (location.protocol !== "file:" && !qp.has("t")) {
+    qp.set("t", String(Date.now()));
+    location.replace(location.pathname + "?" + qp.toString());
+  } else if (qp.has("t")) {
+    /* 받은 뒤에는 주소창을 깔끔하게 (공유·즐겨찾기용). ?s=세션id 는 남긴다. */
+    qp.delete("t");
+    try { history.replaceState(null, "", location.pathname + (qp.toString() ? "?" + qp.toString() : "")); } catch (e) {}
   }
 </script>
 <style>
@@ -1540,10 +1543,10 @@ function mWeatherDay(m) {
   const airSub = (w.pm10 || w.pm25) ? `PM10 ${esc(w.pm10 || "-")} · PM2.5 ${esc(w.pm25 || "-")}` : "08:20 확인";
   return `
   <section class="card">
-    ${mHead("⑤", "오늘 날씨 · 내 일정", w.asOf || "")}
+    ${mHead("⑤", "오늘 날씨 · 내 일정", (w.place ? esc(w.place) + " · " : "") + esc(w.asOf || ""))}
     <div class="mbody">
       <div class="wgrid">
-        <div class="wcell hi"><i>지금${w.place ? ` · ${esc(w.place)}` : ""}</i>
+        <div class="wcell hi"><i>지금</i>
           <b>${esc(w.now || "—")}°</b>
           <span>체감 ${esc(w.feels || "—")}° · ${esc(w.cond || "")}</span></div>
         <div class="wcell"><i>최고 / 최저</i><b>${esc(w.high || "—")}° / ${esc(w.low || "—")}°</b><span>강수 ${esc(w.rain || "—")}</span></div>
@@ -1616,6 +1619,12 @@ function mergeMorning(payload) {
     const res = await fetch(MORNING_JSON + "?v=" + Date.now(), { cache: "no-store" });
     if (res.ok) mergeMorning(await res.json());
   } catch (e) { /* 파일을 못 읽으면 index.html 안의 기본 세션으로 보여준다 */ }
+  /* ?s=2026-11-24-0830 처럼 특정 세션을 바로 열 수 있다(미리보기·공유용) */
+  const want = new URLSearchParams(location.search).get("s");
+  if (want) {
+    const k = SESSIONS.findIndex((x) => x.id === want);
+    if (k >= 0) current = k;
+  }
   renderTabs();
   render();
 })();
