@@ -1233,6 +1233,9 @@ function renderTabs() {
   wrap.querySelectorAll(".tab").forEach((b) => {
     b.addEventListener("click", () => { current = Number(b.dataset.i); renderTabs(); render(); window.scrollTo({ top: 0 }); });
   });
+  /* 선택된 탭이 화면 밖이면 가운데로 (딥링크 ?s= 로 열 때 유용) */
+  const onTab = wrap.querySelector(".tab.on");
+  if (onTab) wrap.scrollLeft = Math.max(0, onTab.offsetLeft - wrap.clientWidth / 2 + onTab.clientWidth / 2);
 }
 
 /* ── 시세 카드 ── */
