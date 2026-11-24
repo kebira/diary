@@ -1540,7 +1540,7 @@ function mWeatherDay(m) {
   const sched = m.schedule || [];
   if (!w.place && !sched.length) return "";
   const air = w.airGrade ? `<b class="${w.airGrade === "좋음" ? "good" : w.airGrade === "보통" ? "mid" : "bad"}">${esc(w.airGrade)}</b>` : `<b class="flat">—</b>`;
-  const airSub = (w.pm10 || w.pm25) ? `PM10 ${esc(w.pm10 || "-")} · PM2.5 ${esc(w.pm25 || "-")}` : "08:20 확인";
+  const airSub = (w.pm10 || w.pm25) ? `PM10 ${esc(w.pm10 || "-")} · PM2.5 ${esc(w.pm25 || "-")}` : "";
   return `
   <section class="card">
     ${mHead("⑤", "오늘 날씨 · 내 일정", (w.place ? esc(w.place) + " · " : "") + esc(w.asOf || ""))}
