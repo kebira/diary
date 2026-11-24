@@ -53,7 +53,7 @@ def diff_of(a, b):
 
 def diff_text(d, r):
     if d is None:
-        return "08:35 확인"
+        return "08:40 확인"
     return f"{d:+,.2f}p ({r:+.2f}%)"
 
 
@@ -100,7 +100,7 @@ def check(doc):
     if not isinstance(m.get("schedule"), list):
         errs.append("⑤schedule 이 배열이 아님")
     if s.get("status") == "pending":
-        warns.append("status=pending — 08:30 채움 전 상태")
+        warns.append("status=pending — 08:40 채움 전 상태")
     return errs, warns
 
 
@@ -196,7 +196,7 @@ def mail_html(s):
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
 {cell(e((w.get("now") or "—") + "°"), "지금" + (" · " + e(w.get("place","")) if w.get("place") else ""), "체감 " + e((w.get("feels") or "—") + "° · " + (w.get("cond") or "")))}
 {cell(e((w.get("high") or "—") + "° / " + (w.get("low") or "—") + "°"), "최고 / 최저", "강수 " + e(w.get("rain") or "—"))}
-{cell(e(w.get("airGrade") or "—"), "미세먼지", ("PM10 " + e(w.get("pm10") or "-") + " · PM2.5 " + e(w.get("pm25") or "-")) if w.get("pm10") else "08:30 확인")}
+{cell(e(w.get("airGrade") or "—"), "미세먼지", ("PM10 " + e(w.get("pm10") or "-") + " · PM2.5 " + e(w.get("pm25") or "-")) if w.get("pm10") else "08:40 확인")}
 </tr></table>
 <div style="margin-top:10px;font-size:11px;font-weight:700;color:#64748b">오늘 일정 · Google 캘린더</div>
 {sched_html}
