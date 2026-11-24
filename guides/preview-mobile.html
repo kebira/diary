@@ -18,16 +18,27 @@
 <div class="row">
   <div class="col">
     <p class="lab">01 스토캐스틱 차트 도감 <span>· 390×844</span></p>
-    <div class="phone"><iframe src="stochastic.html" scrolling="no"></iframe></div>
+    <div class="phone"><iframe src="stochastic.html"></iframe></div>
   </div>
   <div class="col">
     <p class="lab">02 MACD 차트 도감 <span>· 390×844</span></p>
-    <div class="phone"><iframe src="macd.html" scrolling="no"></iframe></div>
+    <div class="phone"><iframe src="macd.html"></iframe></div>
   </div>
   <div class="col">
     <p class="lab">03 거래량·미결제·델타 차트 도감 <span>· 390×844</span></p>
-    <div class="phone"><iframe src="volume-oi-delta.html" scrolling="no"></iframe></div>
+    <div class="phone"><iframe src="volume-oi-delta.html"></iframe></div>
   </div>
 </div>
+<script>
+const q = new URLSearchParams(location.search);
+const y = q.get("y");
+if (y) {
+  const go = () => document.querySelectorAll("iframe").forEach(f => {
+    try { f.contentWindow.scrollTo(0, Number(y)); } catch (e) {}
+  });
+  window.addEventListener("load", () => setTimeout(go, 1200));
+  setTimeout(go, 2000);
+}
+</script>
 </body>
 </html>
