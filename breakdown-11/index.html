@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e1116" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="케비라 저가붕괴" />
+<title>케비라 저가붕괴 대시보드 · 26년 11월물 코스피200 선물 전일 저가 붕괴일 추가 하락 폭</title>
+<meta name="description" content="26년 11월물 기간 코스피200 선물(2612 근월물) 24거래일 중 전일 저가가 붕괴된 11일의 추가 하락 폭(전일 저가 − 당일 저가). 2026-10-12 ~ 11-12." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e1116;
+    --card:#161b22;
+    --line:#242c38;
+    --ink:#e8eef7;
+    --sub:#9aa7b8;
+    --dim:#66717f;
+    --acc:#e0566a;
+    --acc2:#ef8d9c;
+    --gold:#f4c663;
+    --cyan:#22d3ee;
+    --cyan2:#67e8f9;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:#070a0e}
+  body{
+    color:var(--ink);
+    font-family:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    font-size:15px; line-height:1.45; word-break:keep-all; -webkit-font-smoothing:antialiased;
+  }
+  b,strong{font-weight:800}
+  em{font-style:normal}
+  .num,.v{font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1}
+
+  .app{
+    max-width:430px; margin:0 auto; min-height:100dvh;
+    background:radial-gradient(120% 45% at 50% 0%, #1a1f2c 0%, var(--bg) 62%, #080b10 100%);
+    display:flex; flex-direction:column; position:relative; padding-bottom:8px;
+  }
+  @media (min-width:431px){
+    .app{box-shadow:0 0 0 1px #1c2430, 0 24px 60px rgba(0,0,0,.55)}
+  }
+
+  .rainbow{display:flex; height:4px; flex:0 0 4px}
+  .rainbow i{flex:1}
+  .rainbow i:nth-child(1){background:#ef4444}
+  .rainbow i:nth-child(2){background:#f59e0b}
+  .rainbow i:nth-child(3){background:#facc15}
+  .rainbow i:nth-child(4){background:#22c55e}
+  .rainbow i:nth-child(5){background:#3b82f6}
+  .rainbow i:nth-child(6){background:#6366f1}
+  .rainbow i:nth-child(7){background:#a855f7}
+
+  .top{display:flex; align-items:center; gap:9px; padding:13px 16px 4px}
+  .kb{
+    flex:0 0 auto; width:30px; height:30px; border-radius:9px;
+    background:linear-gradient(150deg,#6366f1,#a855f7);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:15px; color:#fff; letter-spacing:-.5px;
+    box-shadow:0 2px 10px rgba(124,58,237,.35);
+  }
+  .top .txt b{display:block; font-size:14.5px; font-weight:900; letter-spacing:-.4px; line-height:1.2}
+  .top .txt span{display:block; font-size:10.5px; color:var(--dim); letter-spacing:.2px; margin-top:1px; font-weight:700}
+
+  .hero{padding:14px 16px 12px}
+  .eyebrow{
+    display:inline-block; font-size:11.5px; font-weight:900; letter-spacing:.4px;
+    color:#f0c98a; background:rgba(244,198,99,.10); border:1px solid rgba(244,198,99,.28);
+    border-radius:99px; padding:4px 10px;
+  }
+  h1{margin:11px 0 0; font-size:30px; line-height:1.19; font-weight:900; letter-spacing:-1.2px}
+  h1 b{color:var(--acc2)}
+  .sub{margin:8px 0 0; font-size:12px; color:var(--sub); font-weight:700; letter-spacing:-.3px}
+  .sub b{color:#cfdae8}
+  .sub i{font-style:normal; color:var(--dim); font-weight:800}
+
+  .stats{display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:6px 16px 4px}
+  .stat{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:12px 13px 11px; position:relative; overflow:hidden;
+  }
+  .stat .k{display:block; font-size:11.5px; font-weight:800; color:var(--sub); letter-spacing:.1px}
+  .stat .v{display:block; margin:4px 0 2px; font-size:26px; font-weight:900; letter-spacing:-1.1px; line-height:1.05}
+  .stat .v em{font-size:14px; font-weight:800; margin-left:2px; letter-spacing:-.2px; opacity:.75}
+  .stat .x{display:block; font-size:11px; font-weight:800; color:var(--dim); letter-spacing:.1px}
+  .stat.acc{border-color:rgba(224,86,106,.42); background:linear-gradient(160deg,rgba(224,86,106,.12),var(--card) 62%)}
+  .stat.acc .v{color:var(--acc2)}
+  .stat.acc .x{color:#b0707c}
+  .stat.avg .v{color:#dbe6f3}
+  .stat.avg .x{color:#7d8897}
+  .stat.max{border-color:rgba(244,198,99,.42); background:linear-gradient(160deg,rgba(244,198,99,.10),var(--card) 62%)}
+  .stat.max .v{color:var(--gold)}
+  .stat.max .x{color:#d8b16d}
+  .stat.min{border-color:rgba(34,211,238,.38); background:linear-gradient(160deg,rgba(34,211,238,.10),var(--card) 62%)}
+  .stat.min .v{color:var(--cyan2)}
+  .stat.min .x{color:#7fbfd0}
+
+  .panel{
+    margin:11px 16px 0; background:var(--card); border:1px solid var(--line);
+    border-radius:16px; overflow:hidden;
+  }
+  .phead{
+    display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+    padding:12px 14px 10px; border-bottom:1px solid var(--line);
+  }
+  .phead b{font-size:13.5px; font-weight:900; letter-spacing:-.2px}
+  .phead span{font-size:10.5px; font-weight:800; color:var(--dim); letter-spacing:.2px}
+
+  ul.rows{list-style:none; margin:0; padding:4px 0}
+  .row{
+    display:flex; align-items:center; gap:8px;
+    padding:8px 14px; position:relative;
+  }
+  .row + .row{border-top:1px solid rgba(36,44,56,.5)}
+  .row .d{
+    flex:0 0 47px; font-size:14.5px; font-weight:800; color:#cfdae8;
+    letter-spacing:-.2px; font-variant-numeric:tabular-nums;
+  }
+  .row .w{
+    flex:0 0 15px; font-size:12.5px; font-weight:800; color:var(--dim); text-align:center;
+  }
+  .bar{
+    flex:1 1 auto; min-width:0; height:13px; border-radius:5px;
+    background:#1c2430; position:relative; overflow:visible;
+  }
+  .fill{
+    position:absolute; left:0; top:0; bottom:0; border-radius:0 5px 5px 0; min-width:3px;
+    background:linear-gradient(90deg,#6f2333,#cf5266 78%,#ef8d9c);
+  }
+  .bar::after{
+    content:""; position:absolute; left:45.35%; top:-5px; bottom:-5px; width:0;
+    border-left:1px dashed rgba(232,238,247,.55); z-index:3;
+  }
+  .row .v{
+    flex:0 0 74px; text-align:right; font-size:15.5px; font-weight:900;
+    letter-spacing:-.5px; color:var(--acc2); font-variant-numeric:tabular-nums;
+  }
+  .row .v em{font-size:11px; font-weight:800; margin-left:1px; color:#a86a75}
+
+  .row.scale{padding-top:16px; padding-bottom:2px}
+  .row.scale + .row{border-top:0}
+  .row.scale .d,.row.scale .w{font-size:9.5px; font-weight:800; color:#4d5866; letter-spacing:.2px}
+  .row.scale .bar{background:transparent; height:10px}
+  .row.scale .bar::after{border-left:0}
+  .sc{position:absolute; top:50%; transform:translateY(-50%); font-size:9px; font-weight:800; color:#4d5866; letter-spacing:.1px}
+  .sc.s0{left:0}
+  .sc.s1{left:25%; transform:translate(-50%,-50%)}
+  .sc.s2{left:50%; transform:translate(-50%,-50%)}
+  .sc.s3{left:75%; transform:translate(-50%,-50%)}
+  .sc.s4{right:0}
+  .sc.avg{transform:translate(-50%,-50%); color:#8e99a8; white-space:nowrap; top:-12px}
+
+  .row .tag{
+    position:absolute; left:14px; top:3px; z-index:4;
+    font-size:9.5px; font-weight:900; letter-spacing:.4px; line-height:1;
+    padding:3.5px 7px; border-radius:5px;
+  }
+  .row.max,.row.min{padding-top:22px}
+  .row.max .bar,.row.min .bar{height:14px}
+
+  .row.max{background:linear-gradient(90deg,rgba(244,198,99,.14),rgba(244,198,99,.02) 72%)}
+  .row.max .d{color:#fff}
+  .row.max .tag{color:#3d2a05; background:linear-gradient(180deg,#f9de9b,#e3b355); box-shadow:0 0 10px rgba(244,198,99,.35)}
+  .row.max .fill{background:linear-gradient(90deg,#c9973a,#f7d787); box-shadow:0 0 12px rgba(244,198,99,.45)}
+  .row.max .v{color:var(--gold); font-size:17.5px}
+  .row.max .v em{color:#d8b16d}
+  .row.max::before{
+    content:""; position:absolute; left:0; top:6px; bottom:6px; width:3px;
+    background:var(--gold); border-radius:0 3px 3px 0; box-shadow:0 0 10px rgba(244,198,99,.7);
+  }
+  .row.min{background:linear-gradient(90deg,rgba(34,211,238,.16),rgba(34,211,238,.02) 72%)}
+  .row.min .d{color:#fff}
+  .row.min .w{color:#9fe9f5}
+  .row.min .tag{color:#03242b; background:linear-gradient(180deg,#a5f3fc,#22d3ee); box-shadow:0 0 12px rgba(34,211,238,.55)}
+  .row.min .fill{background:linear-gradient(90deg,#0891b2,#22d3ee 74%,#c9f9ff); box-shadow:0 0 14px rgba(34,211,238,.55), 0 0 4px rgba(34,211,238,.9); min-width:5px}
+  .row.min .v{color:var(--cyan2); font-size:17.5px}
+  .row.min .v em{color:#8adcea}
+  .row.min::before{
+    content:""; position:absolute; left:0; top:6px; bottom:6px; width:3px;
+    background:var(--cyan); border-radius:0 3px 3px 0; box-shadow:0 0 10px rgba(34,211,238,.85);
+  }
+
+  .leg{
+    display:flex; flex-wrap:wrap; gap:6px 12px; padding:11px 14px 12px;
+    border-top:1px solid var(--line); font-size:10.5px; font-weight:800; color:var(--sub);
+  }
+  .leg i{display:inline-block; width:14px; height:8px; border-radius:2px; margin-right:4px; vertical-align:1px}
+  .leg .l-base i{background:linear-gradient(90deg,#6f2333,#cf5266 78%,#ef8d9c)}
+  .leg .l-max i{background:linear-gradient(90deg,#c9973a,#f7d787)}
+  .leg .l-min i{background:linear-gradient(90deg,#0891b2,#22d3ee)}
+  .leg .l-avg i{width:1px; height:12px; background:none; border-left:1px dashed rgba(232,238,247,.7); border-radius:0; margin:0 7px 0 6px; vertical-align:-2px}
+  .note{
+    margin:0; padding:0 14px 12px; font-size:9.5px; line-height:1.65;
+    font-weight:700; color:#5d6875; letter-spacing:.1px;
+  }
+  .note b{color:#798697; font-weight:800}
+
+  .floor{
+    margin:11px 16px 0; border:1px solid rgba(244,198,99,.22); border-radius:16px; overflow:hidden;
+    background:linear-gradient(180deg,#151c24 0%,#111720 100%);
+  }
+  .fhead{
+    display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+    padding:12px 14px 10px; border-bottom:1px solid var(--line);
+  }
+  .fhead b{font-size:13.5px; font-weight:900; letter-spacing:-.2px}
+  .fhead span{font-size:10.5px; font-weight:800; color:var(--dim); letter-spacing:.2px}
+  .frow{
+    display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:0 8px;
+    padding:13px 14px 14px; position:relative;
+  }
+  .frow + .frow{border-top:1px solid rgba(36,44,56,.7)}
+  .frow .fchip{font-size:10px; font-weight:900; letter-spacing:.4px; padding:4px 7px; border-radius:5px; line-height:1}
+  .frow .fd{font-size:14px; font-weight:900; color:#e2ecf8; letter-spacing:-.2px}
+  .frow .fd i{font-style:normal; font-size:11.5px; font-weight:800; color:var(--sub); margin-left:2px}
+  .frow .fv{font-size:27px; font-weight:900; line-height:1; letter-spacing:-1.2px}
+  .frow .fv em{font-size:13px; font-weight:800; margin-left:1px; letter-spacing:-.2px; opacity:.8}
+  .frow .fbar{grid-column:1/-1; height:8px; border-radius:4px; background:#1c2430; margin-top:10px; position:relative; overflow:visible}
+  .frow .fbar::after{
+    content:""; position:absolute; left:45.35%; top:-3px; bottom:-3px; width:0;
+    border-left:1px dashed rgba(232,238,247,.5);
+  }
+  .frow .fbar i{position:absolute; left:0; top:0; bottom:0; border-radius:4px; min-width:3px}
+  .frow.fmax{background:linear-gradient(90deg,rgba(244,198,99,.12),transparent 78%)}
+  .frow.fmax .fchip{color:#3d2a05; background:linear-gradient(180deg,#f9de9b,#e3b355)}
+  .frow.fmax .fv{color:var(--gold)}
+  .frow.fmax .fbar i{background:linear-gradient(90deg,#c9973a,#f7d787); box-shadow:0 0 10px rgba(244,198,99,.5)}
+  .frow.fmin{background:linear-gradient(90deg,rgba(34,211,238,.12),transparent 78%)}
+  .frow.fmin .fchip{color:#03242b; background:linear-gradient(180deg,#a5f3fc,#22d3ee)}
+  .frow.fmin .fv{color:var(--cyan2)}
+  .frow.fmin .fbar i{background:linear-gradient(90deg,#0891b2,#22d3ee); box-shadow:0 0 10px rgba(34,211,238,.6)}
+  .frow.fmax::before,.frow.fmin::before{content:""; position:absolute; left:0; top:0; bottom:0; width:3px}
+  .frow.fmax::before{background:var(--gold)}
+  .frow.fmin::before{background:var(--cyan); box-shadow:0 0 10px rgba(34,211,238,.8)}
+
+  footer{padding:14px 18px 22px; text-align:center}
+  footer p{margin:0; font-size:10px; line-height:1.65; color:var(--dim); font-weight:700; letter-spacing:.1px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="rainbow"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <header class="top">
+    <div class="kb">K</div>
+    <div class="txt">
+      <b>케비라</b>
+      <span>코스피200 선물 · 전일 저가 붕괴</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">26년 11월물 기간</span>
+    <h1>전일 저가 붕괴<br><b>추가 하락 폭</b></h1>
+    <p class="sub">10.12 (월) ~ 11.12 (목) · 24거래일 중 <b>11일 붕괴</b> <i>(46%)</i> · 미붕괴 13일 제외</p>
+  </section>
+
+  <section class="stats">
+    <div class="stat acc">
+      <span class="k">전일 저가 붕괴</span>
+      <b class="v">11<em>일</em></b>
+      <span class="x">24거래일 중 · 46%</span>
+    </div>
+    <div class="stat avg">
+      <span class="k">평균 하락 폭</span>
+      <b class="v">39.91<em>p</em></b>
+      <span class="x">붕괴 11일 평균</span>
+    </div>
+    <div class="stat max">
+      <span class="k">최대 하락</span>
+      <b class="v">82.75<em>p</em></b>
+      <span class="x">10.15 (목)</span>
+    </div>
+    <div class="stat min">
+      <span class="k">최소 하락</span>
+      <b class="v">0.50<em>p</em></b>
+      <span class="x">11.03 (화)</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="phead">
+      <b>붕괴 11일 · 추가 하락 폭 (p)</b>
+      <span>0 ~ 88p</span>
+    </div>
+    <ul class="rows">
+      <li class="row scale"><span class="d">날짜</span><span class="w">요일</span><span class="bar"><span class="sc s0">0</span><span class="sc s1">22</span><span class="sc s2">44</span><span class="sc s3">66</span><span class="sc s4">88p</span><span class="sc avg" style="left:45.35%">평균 39.91p</span></span><span class="v"></span></li>
+      <li class="row"><span class="d">10-12</span><span class="w">월</span><span class="bar"><span class="fill" style="width:46.93%"></span></span><span class="v">41.30<em>p</em></span></li>
+      <li class="row"><span class="d">10-13</span><span class="w">화</span><span class="bar"><span class="fill" style="width:87.05%"></span></span><span class="v">76.60<em>p</em></span></li>
+      <li class="row max"><span class="tag">최대</span><span class="d">10-15</span><span class="w">목</span><span class="bar"><span class="fill" style="width:94.03%"></span></span><span class="v">82.75<em>p</em></span></li>
+      <li class="row"><span class="d">10-19</span><span class="w">월</span><span class="bar"><span class="fill" style="width:34.03%"></span></span><span class="v">29.95<em>p</em></span></li>
+      <li class="row"><span class="d">10-22</span><span class="w">목</span><span class="bar"><span class="fill" style="width:26.31%"></span></span><span class="v">23.15<em>p</em></span></li>
+      <li class="row"><span class="d">10-23</span><span class="w">금</span><span class="bar"><span class="fill" style="width:31.14%"></span></span><span class="v">27.40<em>p</em></span></li>
+      <li class="row"><span class="d">10-30</span><span class="w">금</span><span class="bar"><span class="fill" style="width:43.30%"></span></span><span class="v">38.10<em>p</em></span></li>
+      <li class="row min"><span class="tag">최소</span><span class="d">11-03</span><span class="w">화</span><span class="bar"><span class="fill" style="width:0.57%"></span></span><span class="v">0.50<em>p</em></span></li>
+      <li class="row"><span class="d">11-04</span><span class="w">수</span><span class="bar"><span class="fill" style="width:36.93%"></span></span><span class="v">32.50<em>p</em></span></li>
+      <li class="row"><span class="d">11-05</span><span class="w">목</span><span class="bar"><span class="fill" style="width:18.47%"></span></span><span class="v">16.25<em>p</em></span></li>
+      <li class="row"><span class="d">11-06</span><span class="w">금</span><span class="bar"><span class="fill" style="width:80.11%"></span></span><span class="v">70.50<em>p</em></span></li>
+    </ul>
+    <div class="leg">
+      <span class="l-base"><i></i>붕괴 11일 추가 하락</span>
+      <span class="l-avg"><i></i>평균 39.91p</span>
+      <span class="l-max"><i></i>최대 10.15</span>
+      <span class="l-min"><i></i>최소 11.03</span>
+    </div>
+    <p class="note"><b>24거래일 중 11일 붕괴(46%) · 미붕괴 13일 제외.</b> 값은 전일 저가 − 당일 저가(양수 p). 10월물 만기일(10/08 목) 저가를 기준으로 10/12부터 산출했습니다.</p>
+  </section>
+
+  <section class="floor">
+    <div class="fhead">
+      <b>최대 · 최소 하락 폭</b>
+      <span>붕괴 11일 기준</span>
+    </div>
+    <div class="frow fmax">
+      <span class="fchip">최대</span>
+      <span class="fd">10.15 <i>(목)</i></span>
+      <span class="fv">82.75<em>p</em></span>
+      <span class="fbar"><i style="width:94.03%"></i></span>
+    </div>
+    <div class="frow fmin">
+      <span class="fchip">최소</span>
+      <span class="fd">11.03 <i>(화)</i></span>
+      <span class="fv">0.50<em>p</em></span>
+      <span class="fbar"><i style="width:0.57%"></i></span>
+    </div>
+  </section>
+
+  <footer>
+    <p>코스피200 정규 선물 2612 근월물 기준 (KRX 확정치) · 기준일 10/08 (목) 저가 · 구간 내 휴장 없음</p>
+  </footer>
+</div>
+</body>
+</html>
