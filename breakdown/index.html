@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e1116" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="케비라 저가이탈" />
+<title>케비라 저가이탈 대시보드 · 26년 10월물 코스피200 선물 전일 저가 이탈 폭</title>
+<meta name="description" content="26년 10월물 기간 코스피200 선물(2612 근월물) 일별 전일 저가 대비 이탈 폭 대시보드. 2026-09-11 ~ 10-08, 17거래일." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e1116;
+    --card:#161b22;
+    --card2:#1b2129;
+    --line:#242c38;
+    --ink:#e8eef7;
+    --sub:#9aa7b8;
+    --dim:#66717f;
+    --brk:#e0566a;
+    --brk2:#f58b9a;
+    --gold:#f4c663;
+    --cyan:#22d3ee;
+    --cyan2:#67e8f9;
+    --calm:#5d8296;
+    --calm2:#a3c2d1;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:#070a0e}
+  body{
+    color:var(--ink);
+    font-family:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    font-size:15px; line-height:1.45; word-break:keep-all; -webkit-font-smoothing:antialiased;
+  }
+  b,strong{font-weight:800}
+  em{font-style:normal}
+  .num,.v{font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1}
+
+  .app{
+    max-width:480px; margin:0 auto; min-height:100dvh;
+    background:radial-gradient(120% 45% at 50% 0%, #1a1f2c 0%, var(--bg) 62%, #080b10 100%);
+    display:flex; flex-direction:column; position:relative; padding-bottom:8px;
+  }
+  @media (min-width:481px){
+    .app{box-shadow:0 0 0 1px #1c2430, 0 24px 60px rgba(0,0,0,.55)}
+  }
+
+  /* 브랜드 7색 바 */
+  .rainbow{display:flex; height:4px; flex:0 0 4px}
+  .rainbow i{flex:1}
+  .rainbow i:nth-child(1){background:#ef4444}
+  .rainbow i:nth-child(2){background:#f59e0b}
+  .rainbow i:nth-child(3){background:#facc15}
+  .rainbow i:nth-child(4){background:#22c55e}
+  .rainbow i:nth-child(5){background:#3b82f6}
+  .rainbow i:nth-child(6){background:#6366f1}
+  .rainbow i:nth-child(7){background:#a855f7}
+
+  .top{display:flex; align-items:center; gap:9px; padding:13px 16px 4px}
+  .kb{
+    flex:0 0 auto; width:30px; height:30px; border-radius:9px;
+    background:linear-gradient(150deg,#6366f1,#a855f7);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:15px; color:#fff; letter-spacing:-.5px;
+    box-shadow:0 2px 10px rgba(124,58,237,.35);
+  }
+  .top .txt b{display:block; font-size:14.5px; font-weight:900; letter-spacing:-.4px; line-height:1.2}
+  .top .txt span{display:block; font-size:10.5px; color:var(--dim); letter-spacing:.2px; margin-top:1px; font-weight:700}
+
+  .hero{padding:14px 16px 12px}
+  .eyebrow{
+    display:inline-block; font-size:11.5px; font-weight:900; letter-spacing:.4px;
+    color:#f0c98a; background:rgba(244,198,99,.10); border:1px solid rgba(244,198,99,.28);
+    border-radius:99px; padding:4px 10px;
+  }
+  h1{margin:11px 0 0; font-size:30px; line-height:1.19; font-weight:900; letter-spacing:-1.2px}
+  h1 b{color:var(--brk2)}
+  .sub{margin:8px 0 0; font-size:13px; color:var(--sub); font-weight:700; letter-spacing:-.1px}
+
+  /* 요약 카드 */
+  .stats{display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:6px 16px 4px}
+  .stat{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:12px 13px 11px; position:relative; overflow:hidden;
+  }
+  .stat .k{display:block; font-size:11.5px; font-weight:800; color:var(--sub); letter-spacing:.1px}
+  .stat .v{display:block; margin:4px 0 2px; font-size:26px; font-weight:900; letter-spacing:-1.1px; line-height:1.05}
+  .stat .v em{font-size:14px; font-weight:800; margin-left:2px; letter-spacing:-.2px; opacity:.75}
+  .stat .x{display:block; font-size:11px; font-weight:800; color:var(--dim); letter-spacing:.1px}
+  .stat.brk{border-color:rgba(224,86,106,.42); background:linear-gradient(160deg,rgba(224,86,106,.12),var(--card) 62%)}
+  .stat.brk .v{color:var(--brk2)}
+  .stat.brk .x{color:#b0707c}
+  .stat.avg .v{color:#dbe6f3}
+  .stat.max{border-color:rgba(244,198,99,.42); background:linear-gradient(160deg,rgba(244,198,99,.10),var(--card) 62%)}
+  .stat.max .v{color:var(--gold)}
+  .stat.max .x{color:#d8b16d}
+  .stat.hold{border-color:rgba(93,130,150,.40); background:linear-gradient(160deg,rgba(93,130,150,.12),var(--card) 62%)}
+  .stat.hold .v{color:var(--calm2)}
+  .stat.hold .x{color:#7495a5}
+
+  /* 목록 카드 */
+  .panel{
+    margin:11px 16px 0; background:var(--card); border:1px solid var(--line);
+    border-radius:16px; overflow:hidden;
+  }
+  .phead{
+    display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+    padding:12px 14px 10px; border-bottom:1px solid var(--line);
+  }
+  .phead b{font-size:13.5px; font-weight:900; letter-spacing:-.2px}
+  .phead span{font-size:10.5px; font-weight:800; color:var(--dim); letter-spacing:.2px}
+
+  ul.rows{list-style:none; margin:0; padding:4px 0}
+  .row{
+    display:flex; align-items:center; gap:8px;
+    padding:7px 14px; position:relative;
+  }
+  .row + .row{border-top:1px solid rgba(36,44,56,.5)}
+  .row .d{
+    flex:0 0 47px; font-size:14.5px; font-weight:800; color:#cfdae8;
+    letter-spacing:-.2px; font-variant-numeric:tabular-nums;
+  }
+  .row .w{
+    flex:0 0 15px; font-size:12.5px; font-weight:800; color:var(--dim); text-align:center;
+  }
+  .bar{
+    flex:1 1 auto; min-width:0; height:12px; border-radius:5px;
+    background:#1b2230; position:relative; overflow:visible;
+  }
+  /* 0선 = 전일 저가 */
+  .bar::before{
+    content:""; position:absolute; left:50%; top:-3px; bottom:-3px; width:1px;
+    background:rgba(232,238,247,.30); z-index:3;
+  }
+  .fill{position:absolute; top:0; bottom:0; min-width:2px}
+  .fill.p{left:50%; border-radius:0 5px 5px 0; background:linear-gradient(90deg,#3e5c6c,#5d8296)}
+  .fill.n{right:50%; border-radius:5px 0 0 5px; background:linear-gradient(90deg,#a33246,#e0566a)}
+  .row .v{
+    flex:0 0 76px; text-align:right; font-size:15.5px; font-weight:900;
+    letter-spacing:-.5px; font-variant-numeric:tabular-nums;
+  }
+  .row .v em{font-size:11px; font-weight:800; margin-left:1px; opacity:.7}
+  .row .v.p{color:#9ec0d1}
+  .row .v.p em{color:#6e93a5}
+  .row .v.n{color:#ef8d9c}
+  .row .v.n em{color:#a86a75}
+
+  /* 눈금 행 */
+  .row.scale{padding-top:5px; padding-bottom:3px}
+  .row.scale + .row{border-top:0}
+  .row.scale .d,.row.scale .w{font-size:9.5px; font-weight:800; color:#4d5866; letter-spacing:.2px}
+  .row.scale .bar{background:transparent; height:12px}
+  .row.scale .bar::before{background:rgba(232,238,247,.20); top:0; bottom:0}
+  .sc{position:absolute; top:50%; transform:translateY(-50%); font-size:9px; font-weight:800; color:#4d5866; letter-spacing:.1px}
+  .sc.l{left:0}
+  .sc.c{left:50%; transform:translate(-50%,-50%); color:#6d7a8a}
+  .sc.r{right:0}
+
+  /* 배지 */
+  .row .tag{
+    position:absolute; left:14px; top:3px; z-index:4;
+    font-size:9.5px; font-weight:900; letter-spacing:.4px; line-height:1;
+    padding:3.5px 7px; border-radius:5px;
+  }
+  .row.max,.row.min{padding-top:22px}
+  .row.max .bar,.row.min .bar{height:13px}
+
+  /* 최대 이탈 */
+  .row.max{background:linear-gradient(270deg,rgba(244,198,99,.02) 28%,rgba(244,198,99,.13))}
+  .row.max .d{color:#fff}
+  .row.max .tag{color:#3d2a05; background:linear-gradient(180deg,#f9de9b,#e3b355); box-shadow:0 0 10px rgba(244,198,99,.35)}
+  .row.max .fill.n{
+    background:linear-gradient(90deg,#c9973a,#f7d787);
+    box-shadow:0 0 12px rgba(244,198,99,.45);
+  }
+  .row.max .v.n{color:var(--gold); font-size:17.5px}
+  .row.max .v.n em{color:#d8b16d; opacity:1}
+  .row.max::after{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:var(--gold); border-radius:0 3px 3px 0;
+    box-shadow:0 0 10px rgba(244,198,99,.7);
+  }
+  /* 최소 이탈 */
+  .row.min{background:linear-gradient(270deg,rgba(34,211,238,.02) 26%,rgba(34,211,238,.15))}
+  .row.min .d{color:#fff}
+  .row.min .tag{color:#03242b; background:linear-gradient(180deg,#a5f3fc,#22d3ee); box-shadow:0 0 12px rgba(34,211,238,.55)}
+  .row.min .fill.n{
+    background:linear-gradient(90deg,#0891b2,#22d3ee 74%,#c9f9ff);
+    box-shadow:0 0 14px rgba(34,211,238,.55), 0 0 4px rgba(34,211,238,.9);
+    min-width:5px;
+  }
+  .row.min .v.n{color:var(--cyan2); font-size:17.5px}
+  .row.min .v.n em{color:#8adcea; opacity:1}
+  .row.min::after{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:var(--cyan); border-radius:0 3px 3px 0;
+    box-shadow:0 0 10px rgba(34,211,238,.85);
+  }
+
+  /* 범례 */
+  .leg{
+    display:flex; flex-wrap:wrap; gap:6px 12px; padding:11px 14px 12px;
+    border-top:1px solid var(--line); font-size:10.5px; font-weight:800; color:var(--sub);
+  }
+  .leg i{display:inline-block; width:14px; height:8px; border-radius:2px; margin-right:4px; vertical-align:1px}
+  .leg .l-brk i{background:linear-gradient(90deg,#a33246,#e0566a)}
+  .leg .l-hold i{background:linear-gradient(90deg,#3e5c6c,#5d8296)}
+  .leg .l-max i{background:linear-gradient(90deg,#c9973a,#f7d787)}
+  .leg .l-min i{background:linear-gradient(90deg,#0891b2,#22d3ee)}
+  .leg .l-zero i{width:1px; height:12px; background:rgba(232,238,247,.45); border-radius:0; margin:0 6px 0 8px; vertical-align:-2px}
+  .note{
+    margin:0; padding:0 14px 12px; font-size:9.5px; line-height:1.6;
+    font-weight:700; color:#5d6875; letter-spacing:.1px;
+  }
+
+  /* 하단 최대·최소 별도 카드 */
+  .floor{
+    margin:11px 16px 0; border:1px solid rgba(244,198,99,.22); border-radius:16px; overflow:hidden;
+    background:linear-gradient(180deg,#151c24 0%,#111720 100%);
+  }
+  .fhead{
+    display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+    padding:12px 14px 10px; border-bottom:1px solid var(--line);
+  }
+  .fhead b{font-size:13.5px; font-weight:900; letter-spacing:-.2px}
+  .fhead span{font-size:10.5px; font-weight:800; color:var(--dim); letter-spacing:.2px}
+  .frow{
+    display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:0 8px;
+    padding:12px 14px 13px; position:relative;
+  }
+  .frow + .frow{border-top:1px solid rgba(36,44,56,.7)}
+  .frow .fchip{font-size:10px; font-weight:900; letter-spacing:.4px; padding:4px 7px; border-radius:5px; line-height:1}
+  .frow .fd{font-size:14px; font-weight:900; color:#e2ecf8; letter-spacing:-.2px}
+  .frow .fd i{font-style:normal; font-size:11.5px; font-weight:800; color:var(--sub); margin-left:2px}
+  .frow .fv{font-size:26px; font-weight:900; line-height:1; letter-spacing:-1.1px}
+  .frow .fv em{font-size:13px; font-weight:800; margin-left:1px; letter-spacing:-.2px; opacity:.8}
+  .frow .fbar{grid-column:1/-1; height:8px; border-radius:4px; background:#1b2230; margin-top:9px; position:relative}
+  .frow .fbar::before{content:""; position:absolute; left:50%; top:-2px; bottom:-2px; width:1px; background:rgba(232,238,247,.28)}
+  .frow .fbar i{position:absolute; top:0; bottom:0; border-radius:4px; min-width:2px}
+  .frow .fbar i.r{left:50%}
+  .frow .fbar i.l{right:50%}
+  .frow.fmax{background:linear-gradient(90deg,rgba(244,198,99,.10),transparent 76%)}
+  .frow.fmax .fchip{color:#3d2a05; background:linear-gradient(180deg,#f9de9b,#e3b355)}
+  .frow.fmax .fv{color:var(--gold)}
+  .frow.fmax .fbar i{background:linear-gradient(90deg,#c9973a,#f7d787); box-shadow:0 0 10px rgba(244,198,99,.5)}
+  .frow.fmin{background:linear-gradient(90deg,rgba(34,211,238,.11),transparent 76%)}
+  .frow.fmin .fchip{color:#03242b; background:linear-gradient(180deg,#a5f3fc,#22d3ee)}
+  .frow.fmin .fv{color:var(--cyan2)}
+  .frow.fmin .fbar i{background:linear-gradient(90deg,#0891b2,#22d3ee); box-shadow:0 0 10px rgba(34,211,238,.6)}
+  .frow.fref .fchip{color:#c9d3e0; background:#2a3340; border:1px solid #37414f}
+  .frow.fref .fd{color:#9aa7b8; font-size:13px}
+  .frow.fref .fv{color:#9ec0d1; font-size:21px}
+  .frow.fref .fbar i{background:linear-gradient(90deg,#3e5c6c,#5d8296)}
+  .frow.fmax::before,.frow.fmin::before,.frow.fref::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+  }
+  .frow.fmax::before{background:var(--gold)}
+  .frow.fmin::before{background:var(--cyan); box-shadow:0 0 10px rgba(34,211,238,.8)}
+  .frow.fref::before{background:#3b4c58}
+
+  footer{padding:14px 18px 22px; text-align:center}
+  footer p{margin:0; font-size:10px; line-height:1.65; color:var(--dim); font-weight:700; letter-spacing:.1px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="rainbow"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <header class="top">
+    <div class="kb">K</div>
+    <div class="txt">
+      <b>케비라</b>
+      <span>코스피200 선물 · 전일 저가 이탈</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">26년 10월물 기간</span>
+    <h1>전일 저가<br><b>이탈 폭</b></h1>
+    <p class="sub">09.11 (금) ~ 10.08 (목) · 17거래일 · 2612 근월물</p>
+  </section>
+
+  <section class="stats">
+    <div class="stat brk">
+      <span class="k">전일 저가 이탈</span>
+      <b class="v">9<em>일</em></b>
+      <span class="x">17거래일 중 · 53%</span>
+    </div>
+    <div class="stat avg">
+      <span class="k">이탈 시 평균</span>
+      <b class="v">−17.29<em>p</em></b>
+      <span class="x">이탈 9일 평균</span>
+    </div>
+    <div class="stat max">
+      <span class="k">최대 이탈</span>
+      <b class="v">−30.90<em>p</em></b>
+      <span class="x">10/08 (목)</span>
+    </div>
+    <div class="stat hold">
+      <span class="k">미이탈 (방어)</span>
+      <b class="v">8<em>일</em></b>
+      <span class="x">최대 방어 +27.50p</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="phead">
+      <b>일별 전일 저가 대비 (p)</b>
+      <span>0 = 전일 저가 · ±32p</span>
+    </div>
+    <ul class="rows">
+      <li class="row scale"><span class="d">날짜</span><span class="w">요일</span><span class="bar"><span class="sc l">−32p</span><span class="sc c">0</span><span class="sc r">+32p</span></span><span class="v"></span></li>
+      <li class="row"><span class="d">09-11</span><span class="w">금</span><span class="bar"><span class="fill n" style="width:29.45%"></span></span><span class="v n">−18.85<em>p</em></span></li>
+      <li class="row"><span class="d">09-14</span><span class="w">월</span><span class="bar"><span class="fill n" style="width:40.63%"></span></span><span class="v n">−26.00<em>p</em></span></li>
+      <li class="row"><span class="d">09-15</span><span class="w">화</span><span class="bar"><span class="fill n" style="width:17.81%"></span></span><span class="v n">−11.40<em>p</em></span></li>
+      <li class="row"><span class="d">09-16</span><span class="w">수</span><span class="bar"><span class="fill p" style="width:3.67%"></span></span><span class="v p">+2.35<em>p</em></span></li>
+      <li class="row"><span class="d">09-17</span><span class="w">목</span><span class="bar"><span class="fill p" style="width:30.55%"></span></span><span class="v p">+19.55<em>p</em></span></li>
+      <li class="row"><span class="d">09-18</span><span class="w">금</span><span class="bar"><span class="fill p" style="width:36.17%"></span></span><span class="v p">+23.15<em>p</em></span></li>
+      <li class="row"><span class="d">09-21</span><span class="w">월</span><span class="bar"><span class="fill p" style="width:27.34%"></span></span><span class="v p">+17.50<em>p</em></span></li>
+      <li class="row"><span class="d">09-22</span><span class="w">화</span><span class="bar"><span class="fill p" style="width:21.25%"></span></span><span class="v p">+13.60<em>p</em></span></li>
+      <li class="row"><span class="d">09-23</span><span class="w">수</span><span class="bar"><span class="fill p" style="width:8.67%"></span></span><span class="v p">+5.55<em>p</em></span></li>
+      <li class="row"><span class="d">09-28</span><span class="w">월</span><span class="bar"><span class="fill n" style="width:41.80%"></span></span><span class="v n">−26.75<em>p</em></span></li>
+      <li class="row"><span class="d">09-29</span><span class="w">화</span><span class="bar"><span class="fill n" style="width:14.38%"></span></span><span class="v n">−9.20<em>p</em></span></li>
+      <li class="row"><span class="d">09-30</span><span class="w">수</span><span class="bar"><span class="fill p" style="width:6.33%"></span></span><span class="v p">+4.05<em>p</em></span></li>
+      <li class="row"><span class="d">10-01</span><span class="w">목</span><span class="bar"><span class="fill n" style="width:16.64%"></span></span><span class="v n">−10.65<em>p</em></span></li>
+      <li class="row"><span class="d">10-02</span><span class="w">금</span><span class="bar"><span class="fill p" style="width:42.97%"></span></span><span class="v p">+27.50<em>p</em></span></li>
+      <li class="row min"><span class="tag">최소이탈</span><span class="d">10-06</span><span class="w">화</span><span class="bar"><span class="fill n" style="width:8.91%"></span></span><span class="v n">−5.70<em>p</em></span></li>
+      <li class="row"><span class="d">10-07</span><span class="w">수</span><span class="bar"><span class="fill n" style="width:25.23%"></span></span><span class="v n">−16.15<em>p</em></span></li>
+      <li class="row max"><span class="tag">최대이탈</span><span class="d">10-08</span><span class="w">목</span><span class="bar"><span class="fill n" style="width:48.28%"></span></span><span class="v n">−30.90<em>p</em></span></li>
+    </ul>
+    <div class="leg">
+      <span class="l-brk"><i></i>이탈 9일</span>
+      <span class="l-hold"><i></i>미이탈 8일</span>
+      <span class="l-max"><i></i>최대 이탈 10/08</span>
+      <span class="l-min"><i></i>최소 이탈 10/06</span>
+    </div>
+    <p class="note">09-10(목)은 9월물 만기일 — 2612 동일 계약 저가 기준으로 09-11부터 산출했습니다.</p>
+  </section>
+
+  <section class="floor">
+    <div class="fhead">
+      <b>최대 · 최소 이탈</b>
+      <span>이탈 9일 기준</span>
+    </div>
+    <div class="frow fmax">
+      <span class="fchip">최대 이탈</span>
+      <span class="fd">10/08 <i>(목)</i></span>
+      <span class="fv">−30.90<em>p</em></span>
+      <span class="fbar"><i class="l" style="width:48.28%"></i></span>
+    </div>
+    <div class="frow fmin">
+      <span class="fchip">최소 이탈</span>
+      <span class="fd">10/06 <i>(화)</i></span>
+      <span class="fv">−5.70<em>p</em></span>
+      <span class="fbar"><i class="l" style="width:8.91%"></i></span>
+    </div>
+    <div class="frow fref">
+      <span class="fchip">최대 방어</span>
+      <span class="fd">10/02 <i>(금)</i> <span style="font-size:10px;color:#66717f">미이탈 중</span></span>
+      <span class="fv">+27.50<em>p</em></span>
+      <span class="fbar"><i class="r" style="width:42.97%"></i></span>
+    </div>
+  </section>
+
+  <footer>
+    <p>코스피200 정규 선물 2612 근월물 기준 (KRX 확정치) · 휴장: 9/24~25 추석, 10/5 대체공휴일</p>
+  </footer>
+</div>
+</body>
+</html>
