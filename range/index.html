@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e1116" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="케비라 진폭" />
+<title>케비라 진폭 대시보드 · 26년 10월물 코스피200 선물 일별 진폭</title>
+<meta name="description" content="26년 10월물 기간 코스피200 선물 일별 진폭 대시보드. 2026-09-11 ~ 10-08, 17거래일." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e1116;
+    --card:#161b22;
+    --card2:#1b2129;
+    --line:#242c38;
+    --ink:#e8eef7;
+    --sub:#9aa7b8;
+    --dim:#66717f;
+    --blue:#4d86d6;
+    --amber:#f59e0b;
+    --gold:#f4c663;
+    --teal:#4f8f9e;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:#070a0e}
+  body{
+    color:var(--ink);
+    font-family:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    font-size:15px; line-height:1.45; word-break:keep-all; -webkit-font-smoothing:antialiased;
+  }
+  b,strong{font-weight:800}
+  em{font-style:normal}
+  .num,v{font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1}
+
+  .app{
+    max-width:480px; margin:0 auto; min-height:100dvh;
+    background:radial-gradient(120% 45% at 50% 0%, #17202c 0%, var(--bg) 62%, #080b10 100%);
+    display:flex; flex-direction:column; position:relative; padding-bottom:8px;
+  }
+  @media (min-width:481px){
+    .app{box-shadow:0 0 0 1px #1c2430, 0 24px 60px rgba(0,0,0,.55)}
+  }
+
+  /* 브랜드 7색 바 */
+  .rainbow{display:flex; height:4px; flex:0 0 4px}
+  .rainbow i{flex:1}
+  .rainbow i:nth-child(1){background:#ef4444}
+  .rainbow i:nth-child(2){background:#f59e0b}
+  .rainbow i:nth-child(3){background:#facc15}
+  .rainbow i:nth-child(4){background:#22c55e}
+  .rainbow i:nth-child(5){background:#3b82f6}
+  .rainbow i:nth-child(6){background:#6366f1}
+  .rainbow i:nth-child(7){background:#a855f7}
+
+  /* 상단 브랜드 */
+  .top{display:flex; align-items:center; gap:9px; padding:13px 16px 4px}
+  .kb{
+    flex:0 0 auto; width:30px; height:30px; border-radius:9px;
+    background:linear-gradient(150deg,#6366f1,#a855f7);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:15px; color:#fff; letter-spacing:-.5px;
+    box-shadow:0 2px 10px rgba(124,58,237,.35);
+  }
+  .top .txt b{display:block; font-size:14.5px; font-weight:900; letter-spacing:-.4px; line-height:1.2}
+  .top .txt span{display:block; font-size:10.5px; color:var(--dim); letter-spacing:.2px; margin-top:1px; font-weight:700}
+
+  /* 제목 */
+  .hero{padding:14px 16px 12px}
+  .eyebrow{
+    display:inline-block; font-size:11.5px; font-weight:900; letter-spacing:.4px;
+    color:#f0c98a; background:rgba(244,198,99,.10); border:1px solid rgba(244,198,99,.28);
+    border-radius:99px; padding:4px 10px;
+  }
+  h1{margin:11px 0 0; font-size:30px; line-height:1.19; font-weight:900; letter-spacing:-1.2px}
+  h1 b{color:var(--gold)}
+  .sub{margin:8px 0 0; font-size:13px; color:var(--sub); font-weight:700; letter-spacing:-.1px}
+
+  /* 요약 카드 */
+  .stats{display:grid; grid-template-columns:1fr 1fr; gap:9px; padding:6px 16px 4px}
+  .stat{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:12px 13px 11px; position:relative; overflow:hidden;
+  }
+  .stat .k{display:block; font-size:11.5px; font-weight:800; color:var(--sub); letter-spacing:.1px}
+  .stat .v{display:block; margin:4px 0 2px; font-size:26px; font-weight:900; letter-spacing:-1.1px; line-height:1.05}
+  .stat .v em{font-size:14px; font-weight:800; margin-left:2px; letter-spacing:-.2px; opacity:.75}
+  .stat .x{display:block; font-size:11px; font-weight:800; color:var(--dim); letter-spacing:.1px}
+  .stat.max{border-color:rgba(244,198,99,.42); background:linear-gradient(160deg,rgba(244,198,99,.10),var(--card) 62%)}
+  .stat.max .v{color:var(--gold)}
+  .stat.max .x{color:#d8b16d}
+  .stat.min .v{color:#8fc0cf}
+  .stat.min .x{color:#8fb0bb}
+  .stat.hit .v{color:var(--amber)}
+  .stat.hit .x{color:#c99a5a}
+
+  /* 목록 카드 */
+  .panel{
+    margin:11px 16px 0; background:var(--card); border:1px solid var(--line);
+    border-radius:16px; overflow:hidden;
+  }
+  .phead{
+    display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+    padding:12px 14px 10px; border-bottom:1px solid var(--line);
+  }
+  .phead b{font-size:13.5px; font-weight:900; letter-spacing:-.2px}
+  .phead span{font-size:10.5px; font-weight:800; color:var(--dim); letter-spacing:.2px}
+
+  ul.rows{list-style:none; margin:0; padding:4px 0}
+  .row{
+    display:flex; align-items:center; gap:8px;
+    padding:7px 14px; position:relative;
+  }
+  .row + .row{border-top:1px solid rgba(36,44,56,.5)}
+  .row .d{
+    flex:0 0 47px; font-size:14.5px; font-weight:800; color:#cfdae8;
+    letter-spacing:-.2px; font-variant-numeric:tabular-nums;
+  }
+  .row .w{
+    flex:0 0 15px; font-size:12.5px; font-weight:800; color:var(--dim); text-align:center;
+  }
+  .row .w.sat,.row .w.sun{color:#7f8b9b}
+  .bar{
+    flex:1 1 auto; min-width:0; height:10px; border-radius:5px;
+    background:#202734; position:relative; overflow:visible;
+  }
+  .fill{
+    display:block; height:100%; border-radius:5px; min-width:3px;
+    background:linear-gradient(90deg,#2c4a70,#4d86d6);
+  }
+  /* 평균 점선 */
+  .bar::after{
+    content:""; position:absolute; left:66.45%; top:-3px; bottom:-3px; width:1px;
+    background:rgba(232,238,247,.26); z-index:2;
+  }
+  .row .v{
+    flex:0 0 68px; text-align:right; font-size:15.5px; font-weight:900;
+    letter-spacing:-.4px; color:#dde7f3; font-variant-numeric:tabular-nums;
+  }
+  .row .v em{font-size:11px; font-weight:800; color:var(--dim); margin-left:1px}
+
+  /* 30p 이상 */
+  .row.hit .fill{background:linear-gradient(90deg,#9a5c14,#f59e0b)}
+  .row.hit .v{color:#f8b74a}
+  .row.hit .v em{color:#b98a44}
+  /* 최대 */
+  .row.max{background:linear-gradient(90deg,rgba(244,198,99,.13),rgba(244,198,99,.02) 70%)}
+  .row.max .d{color:#fff}
+  .row.max .fill{
+    background:linear-gradient(90deg,#c9973a,#f7d787);
+    box-shadow:0 0 12px rgba(244,198,99,.45);
+  }
+  .row.max .v{color:var(--gold); font-size:17px}
+  .row.max .v em{color:#d8b16d}
+  .row.max::before{
+    content:""; position:absolute; left:0; top:5px; bottom:5px; width:3px;
+    background:var(--gold); border-radius:0 3px 3px 0;
+  }
+  /* 최소 */
+  .row.min{background:linear-gradient(90deg,rgba(79,143,158,.10),rgba(79,143,158,.01) 70%)}
+  .row.min .fill{background:linear-gradient(90deg,#2b4d57,#4f8f9e)}
+  .row.min .v{color:#93c3d0}
+  .row.min .v em{color:#6c8f99}
+  .row.min::before{
+    content:""; position:absolute; left:0; top:5px; bottom:5px; width:3px;
+    background:#4f8f9e; border-radius:0 3px 3px 0;
+  }
+
+  /* 범례 */
+  .leg{
+    display:flex; flex-wrap:wrap; gap:6px 13px; padding:11px 14px 12px;
+    border-top:1px solid var(--line); font-size:10.5px; font-weight:800; color:var(--sub);
+  }
+  .leg i{display:inline-block; width:14px; height:8px; border-radius:2px; margin-right:4px; vertical-align:1px}
+  .leg .l-max i{background:linear-gradient(90deg,#c9973a,#f7d787)}
+  .leg .l-hit i{background:linear-gradient(90deg,#9a5c14,#f59e0b)}
+  .leg .l-min i{background:linear-gradient(90deg,#2b4d57,#4f8f9e)}
+  .leg .l-avg i{width:1px; height:12px; background:rgba(232,238,247,.5); border-radius:0; margin:0 6px 0 6px; vertical-align:-2px}
+
+  /* 출처 */
+  footer{padding:14px 18px 22px; text-align:center}
+  footer p{margin:0; font-size:10px; line-height:1.65; color:var(--dim); font-weight:700; letter-spacing:.1px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="rainbow"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <header class="top">
+    <div class="kb">K</div>
+    <div class="txt">
+      <b>케비라</b>
+      <span>코스피200 선물 · 진폭 분석</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">26년 10월물 기간</span>
+    <h1>코스피200 선물<br><b>일별 진폭</b></h1>
+    <p class="sub">09.11 (금) ~ 10.08 (목) · 17거래일</p>
+  </section>
+
+  <section class="stats">
+    <div class="stat avg">
+      <span class="k">평균 진폭</span>
+      <b class="v">26.58<em>p</em></b>
+      <span class="x">17거래일</span>
+    </div>
+    <div class="stat max">
+      <span class="k">최대</span>
+      <b class="v">38.70<em>p</em></b>
+      <span class="x">10/08 목</span>
+    </div>
+    <div class="stat min">
+      <span class="k">최소</span>
+      <b class="v">16.20<em>p</em></b>
+      <span class="x">09/18 금</span>
+    </div>
+    <div class="stat hit">
+      <span class="k">30p 이상</span>
+      <b class="v">6<em>일</em></b>
+      <span class="x">17거래일 중</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="phead">
+      <b>일별 진폭 (p)</b>
+      <span>막대 40p 기준</span>
+    </div>
+    <ul class="rows">
+      <li class="row"><span class="d">09-11</span><span class="w">금</span><span class="bar"><span class="fill" style="width:68.25%"></span></span><span class="v">27.30<em>p</em></span></li>
+      <li class="row"><span class="d">09-14</span><span class="w">월</span><span class="bar"><span class="fill" style="width:55.00%"></span></span><span class="v">22.00<em>p</em></span></li>
+      <li class="row"><span class="d">09-15</span><span class="w">화</span><span class="bar"><span class="fill" style="width:59.50%"></span></span><span class="v">23.80<em>p</em></span></li>
+      <li class="row"><span class="d">09-16</span><span class="w">수</span><span class="bar"><span class="fill" style="width:63.88%"></span></span><span class="v">25.55<em>p</em></span></li>
+      <li class="row"><span class="d">09-17</span><span class="w">목</span><span class="bar"><span class="fill" style="width:48.88%"></span></span><span class="v">19.55<em>p</em></span></li>
+      <li class="row min"><span class="d">09-18</span><span class="w">금</span><span class="bar"><span class="fill" style="width:40.50%"></span></span><span class="v">16.20<em>p</em></span></li>
+      <li class="row"><span class="d">09-21</span><span class="w">월</span><span class="bar"><span class="fill" style="width:53.13%"></span></span><span class="v">21.25<em>p</em></span></li>
+      <li class="row hit"><span class="d">09-22</span><span class="w">화</span><span class="bar"><span class="fill" style="width:82.00%"></span></span><span class="v">32.80<em>p</em></span></li>
+      <li class="row"><span class="d">09-23</span><span class="w">수</span><span class="bar"><span class="fill" style="width:63.88%"></span></span><span class="v">25.55<em>p</em></span></li>
+      <li class="row hit"><span class="d">09-28</span><span class="w">월</span><span class="bar"><span class="fill" style="width:89.50%"></span></span><span class="v">35.80<em>p</em></span></li>
+      <li class="row"><span class="d">09-29</span><span class="w">화</span><span class="bar"><span class="fill" style="width:50.88%"></span></span><span class="v">20.35<em>p</em></span></li>
+      <li class="row"><span class="d">09-30</span><span class="w">수</span><span class="bar"><span class="fill" style="width:67.25%"></span></span><span class="v">26.90<em>p</em></span></li>
+      <li class="row hit"><span class="d">10-01</span><span class="w">목</span><span class="bar"><span class="fill" style="width:91.63%"></span></span><span class="v">36.65<em>p</em></span></li>
+      <li class="row"><span class="d">10-02</span><span class="w">금</span><span class="bar"><span class="fill" style="width:42.38%"></span></span><span class="v">16.95<em>p</em></span></li>
+      <li class="row hit"><span class="d">10-06</span><span class="w">화</span><span class="bar"><span class="fill" style="width:76.63%"></span></span><span class="v">30.65<em>p</em></span></li>
+      <li class="row hit"><span class="d">10-07</span><span class="w">수</span><span class="bar"><span class="fill" style="width:79.75%"></span></span><span class="v">31.90<em>p</em></span></li>
+      <li class="row max"><span class="d">10-08</span><span class="w">목</span><span class="bar"><span class="fill" style="width:96.75%"></span></span><span class="v">38.70<em>p</em></span></li>
+    </ul>
+    <div class="leg">
+      <span class="l-max"><i></i>최대 10/08</span>
+      <span class="l-hit"><i></i>30p 이상 6일</span>
+      <span class="l-min"><i></i>최소 09/18</span>
+      <span class="l-avg"><i></i>평균 26.58p</span>
+    </div>
+  </section>
+
+  <footer>
+    <p>코스피200 정규 선물 2612 근월물 기준 (KRX 확정치)<br>휴장: 9/24~25 추석, 10/5 대체공휴일</p>
+  </footer>
+</div>
+</body>
+</html>
