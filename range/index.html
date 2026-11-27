@@ -24,6 +24,8 @@
     --amber:#f59e0b;
     --gold:#f4c663;
     --teal:#4f8f9e;
+    --cyan:#22d3ee;
+    --cyan2:#67e8f9;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;background:#070a0e}
@@ -92,8 +94,9 @@
   .stat.max{border-color:rgba(244,198,99,.42); background:linear-gradient(160deg,rgba(244,198,99,.10),var(--card) 62%)}
   .stat.max .v{color:var(--gold)}
   .stat.max .x{color:#d8b16d}
-  .stat.min .v{color:#8fc0cf}
-  .stat.min .x{color:#8fb0bb}
+  .stat.min{border-color:rgba(34,211,238,.38); background:linear-gradient(160deg,rgba(34,211,238,.10),var(--card) 62%)}
+  .stat.min .v{color:var(--cyan2)}
+  .stat.min .x{color:#7fbfd0}
   .stat.hit .v{color:var(--amber)}
   .stat.hit .x{color:#c99a5a}
 
@@ -146,27 +149,44 @@
   .row.hit .fill{background:linear-gradient(90deg,#9a5c14,#f59e0b)}
   .row.hit .v{color:#f8b74a}
   .row.hit .v em{color:#b98a44}
+  /* 배지 (최대·최소 행 머리) */
+  .row.max .tag,.row.min .tag{
+    position:absolute; left:14px; top:3px; z-index:3;
+    font-size:9.5px; font-weight:900; letter-spacing:.4px; line-height:1;
+    padding:3.5px 7px; border-radius:5px;
+  }
+  .row.max,.row.min{padding-top:21px}
+  .row.max .bar,.row.min .bar{height:12px}
   /* 최대 */
   .row.max{background:linear-gradient(90deg,rgba(244,198,99,.13),rgba(244,198,99,.02) 70%)}
   .row.max .d{color:#fff}
+  .row.max .tag{color:#3d2a05; background:linear-gradient(180deg,#f9de9b,#e3b355); box-shadow:0 0 10px rgba(244,198,99,.35)}
   .row.max .fill{
     background:linear-gradient(90deg,#c9973a,#f7d787);
     box-shadow:0 0 12px rgba(244,198,99,.45);
   }
-  .row.max .v{color:var(--gold); font-size:17px}
+  .row.max .v{color:var(--gold); font-size:18px}
   .row.max .v em{color:#d8b16d}
   .row.max::before{
-    content:""; position:absolute; left:0; top:5px; bottom:5px; width:3px;
+    content:""; position:absolute; left:0; top:6px; bottom:6px; width:3px;
     background:var(--gold); border-radius:0 3px 3px 0;
+    box-shadow:0 0 10px rgba(244,198,99,.7);
   }
   /* 최소 */
-  .row.min{background:linear-gradient(90deg,rgba(79,143,158,.10),rgba(79,143,158,.01) 70%)}
-  .row.min .fill{background:linear-gradient(90deg,#2b4d57,#4f8f9e)}
-  .row.min .v{color:#93c3d0}
-  .row.min .v em{color:#6c8f99}
+  .row.min{background:linear-gradient(90deg,rgba(34,211,238,.17),rgba(34,211,238,.02) 72%)}
+  .row.min .d{color:#fff}
+  .row.min .w{color:#9fe9f5}
+  .row.min .tag{color:#03242b; background:linear-gradient(180deg,#a5f3fc,#22d3ee); box-shadow:0 0 12px rgba(34,211,238,.55)}
+  .row.min .fill{
+    background:linear-gradient(90deg,#0891b2,#22d3ee 74%,#c9f9ff);
+    box-shadow:0 0 16px rgba(34,211,238,.6), 0 0 4px rgba(34,211,238,.95);
+  }
+  .row.min .v{color:var(--cyan2); font-size:18px}
+  .row.min .v em{color:#8adcea}
   .row.min::before{
-    content:""; position:absolute; left:0; top:5px; bottom:5px; width:3px;
-    background:#4f8f9e; border-radius:0 3px 3px 0;
+    content:""; position:absolute; left:0; top:6px; bottom:6px; width:3px;
+    background:var(--cyan); border-radius:0 3px 3px 0;
+    box-shadow:0 0 10px rgba(34,211,238,.85);
   }
 
   /* 범례 */
@@ -177,8 +197,44 @@
   .leg i{display:inline-block; width:14px; height:8px; border-radius:2px; margin-right:4px; vertical-align:1px}
   .leg .l-max i{background:linear-gradient(90deg,#c9973a,#f7d787)}
   .leg .l-hit i{background:linear-gradient(90deg,#9a5c14,#f59e0b)}
-  .leg .l-min i{background:linear-gradient(90deg,#2b4d57,#4f8f9e)}
+  .leg .l-min i{background:linear-gradient(90deg,#0891b2,#22d3ee)}
+  .leg .l-min{color:#9fe0ec}
   .leg .l-avg i{width:1px; height:12px; background:rgba(232,238,247,.5); border-radius:0; margin:0 6px 0 6px; vertical-align:-2px}
+
+  /* 하단 최대·최소 별도 표기 */
+  .floor{
+    margin:11px 16px 0; border:1px solid rgba(34,211,238,.24); border-radius:16px; overflow:hidden;
+    background:linear-gradient(180deg,#151c24 0%,#111720 100%);
+  }
+  .fhead{
+    display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+    padding:12px 14px 10px; border-bottom:1px solid var(--line);
+  }
+  .fhead b{font-size:13.5px; font-weight:900; letter-spacing:-.2px}
+  .fhead span{font-size:10.5px; font-weight:800; color:var(--dim); letter-spacing:.2px}
+  .frow{
+    display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:0 8px;
+    padding:11px 14px 12px; position:relative;
+  }
+  .frow + .frow{border-top:1px solid rgba(36,44,56,.7)}
+  .frow .fchip{font-size:10px; font-weight:900; letter-spacing:.4px; padding:4px 7px; border-radius:5px; line-height:1}
+  .frow .fd{font-size:14px; font-weight:900; color:#e2ecf8; letter-spacing:-.2px}
+  .frow .fd i{font-style:normal; font-size:11.5px; font-weight:800; color:var(--sub); margin-left:2px}
+  .frow .fv{font-size:25px; font-weight:900; line-height:1; letter-spacing:-1.1px}
+  .frow .fv em{font-size:13px; font-weight:800; margin-left:1px; letter-spacing:-.2px; opacity:.8}
+  .frow .fbar{grid-column:1/-1; height:7px; border-radius:4px; background:#1e2531; margin-top:8px; overflow:hidden}
+  .frow .fbar i{display:block; height:100%; border-radius:4px}
+  .frow.fmax{background:linear-gradient(90deg,rgba(244,198,99,.09),transparent 75%)}
+  .frow.fmax .fchip{color:#3d2a05; background:linear-gradient(180deg,#f9de9b,#e3b355)}
+  .frow.fmax .fv{color:var(--gold)}
+  .frow.fmax .fbar i{background:linear-gradient(90deg,#c9973a,#f7d787); box-shadow:0 0 10px rgba(244,198,99,.5)}
+  .frow.fmin{background:linear-gradient(90deg,rgba(34,211,238,.11),transparent 75%)}
+  .frow.fmin .fchip{color:#03242b; background:linear-gradient(180deg,#a5f3fc,#22d3ee)}
+  .frow.fmin .fv{color:var(--cyan2)}
+  .frow.fmin .fbar i{background:linear-gradient(90deg,#0891b2,#22d3ee); box-shadow:0 0 10px rgba(34,211,238,.6)}
+  .frow.fmax::before,.frow.fmin::before{content:""; position:absolute; left:0; top:0; bottom:0; width:3px}
+  .frow.fmax::before{background:var(--gold)}
+  .frow.fmin::before{background:var(--cyan); box-shadow:0 0 10px rgba(34,211,238,.8)}
 
   /* 출처 */
   footer{padding:14px 18px 22px; text-align:center}
@@ -237,7 +293,7 @@
       <li class="row"><span class="d">09-15</span><span class="w">화</span><span class="bar"><span class="fill" style="width:59.50%"></span></span><span class="v">23.80<em>p</em></span></li>
       <li class="row"><span class="d">09-16</span><span class="w">수</span><span class="bar"><span class="fill" style="width:63.88%"></span></span><span class="v">25.55<em>p</em></span></li>
       <li class="row"><span class="d">09-17</span><span class="w">목</span><span class="bar"><span class="fill" style="width:48.88%"></span></span><span class="v">19.55<em>p</em></span></li>
-      <li class="row min"><span class="d">09-18</span><span class="w">금</span><span class="bar"><span class="fill" style="width:40.50%"></span></span><span class="v">16.20<em>p</em></span></li>
+      <li class="row min"><span class="tag">최소</span><span class="d">09-18</span><span class="w">금</span><span class="bar"><span class="fill" style="width:40.50%"></span></span><span class="v">16.20<em>p</em></span></li>
       <li class="row"><span class="d">09-21</span><span class="w">월</span><span class="bar"><span class="fill" style="width:53.13%"></span></span><span class="v">21.25<em>p</em></span></li>
       <li class="row hit"><span class="d">09-22</span><span class="w">화</span><span class="bar"><span class="fill" style="width:82.00%"></span></span><span class="v">32.80<em>p</em></span></li>
       <li class="row"><span class="d">09-23</span><span class="w">수</span><span class="bar"><span class="fill" style="width:63.88%"></span></span><span class="v">25.55<em>p</em></span></li>
@@ -248,13 +304,32 @@
       <li class="row"><span class="d">10-02</span><span class="w">금</span><span class="bar"><span class="fill" style="width:42.38%"></span></span><span class="v">16.95<em>p</em></span></li>
       <li class="row hit"><span class="d">10-06</span><span class="w">화</span><span class="bar"><span class="fill" style="width:76.63%"></span></span><span class="v">30.65<em>p</em></span></li>
       <li class="row hit"><span class="d">10-07</span><span class="w">수</span><span class="bar"><span class="fill" style="width:79.75%"></span></span><span class="v">31.90<em>p</em></span></li>
-      <li class="row max"><span class="d">10-08</span><span class="w">목</span><span class="bar"><span class="fill" style="width:96.75%"></span></span><span class="v">38.70<em>p</em></span></li>
+      <li class="row max"><span class="tag">최대</span><span class="d">10-08</span><span class="w">목</span><span class="bar"><span class="fill" style="width:96.75%"></span></span><span class="v">38.70<em>p</em></span></li>
     </ul>
     <div class="leg">
       <span class="l-max"><i></i>최대 10/08</span>
       <span class="l-hit"><i></i>30p 이상 6일</span>
       <span class="l-min"><i></i>최소 09/18</span>
       <span class="l-avg"><i></i>평균 26.58p</span>
+    </div>
+  </section>
+
+  <section class="floor">
+    <div class="fhead">
+      <b>최대 · 최소 진폭</b>
+      <span>17거래일 · 막대 40p 기준</span>
+    </div>
+    <div class="frow fmax">
+      <span class="fchip">최대</span>
+      <span class="fd">10/08 <i>(목)</i></span>
+      <span class="fv">38.70<em>p</em></span>
+      <span class="fbar"><i style="width:96.75%"></i></span>
+    </div>
+    <div class="frow fmin">
+      <span class="fchip">최소</span>
+      <span class="fd">09/18 <i>(금)</i></span>
+      <span class="fv">16.20<em>p</em></span>
+      <span class="fbar"><i style="width:40.50%"></i></span>
     </div>
   </section>
 
