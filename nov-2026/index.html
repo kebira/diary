@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e1116" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="케비라 시고시저" />
+<title>케비라 시고·시저 대시보드 · 26년 11월물 코스피200 선물</title>
+<meta name="description" content="26년 11월물(2026-10-12 ~ 2026-11-12) 코스피200 선물 24거래일 시가·고가·저가·종가와 시고·시저·진폭. 평균 진폭 40.26p, 평균 시고 +20.67p, 평균 시저 -19.59p." />
+<meta property="og:title" content="케비라 시고·시저 대시보드 · 26년 11월물" />
+<meta property="og:description" content="코스피200 선물 26년 11월물 24거래일 시가/고가/저가/종가 &amp; 시고/시저" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e1116; --card:#161b22; --card2:#1b2129; --line:#242c38;
+    --ink:#e8eef7; --sub:#9aa7b8; --dim:#66717f;
+    --red:#f0727f; --red2:#ff9aa4; --blue:#4d9fe0; --blue2:#7fc4f2;
+    --gold:#f4c663;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:#070a0e}
+  body{color:var(--ink);font-family:"Noto Sans KR","Noto Sans CJK KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:15px;line-height:1.45;
+    word-break:keep-all;-webkit-font-smoothing:antialiased}
+  b,strong{font-weight:900} em,i{font-style:normal}
+  .num,b{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+  .app{max-width:480px;margin:0 auto;min-height:100dvh;
+    background:radial-gradient(120% 45% at 50% 0%,#17202c 0%,var(--bg) 62%,#080b10 100%);
+    display:flex;flex-direction:column;position:relative;padding-bottom:10px}
+  @media (min-width:481px){.app{box-shadow:0 0 0 1px #1c2430,0 24px 60px rgba(0,0,0,.55)}}
+
+  .rainbow{display:flex;height:4px;flex:0 0 4px}
+  .rainbow i{flex:1}
+  .rainbow i:nth-child(1){background:#ef4444} .rainbow i:nth-child(2){background:#f59e0b}
+  .rainbow i:nth-child(3){background:#facc15} .rainbow i:nth-child(4){background:#22c55e}
+  .rainbow i:nth-child(5){background:#3b82f6} .rainbow i:nth-child(6){background:#6366f1}
+  .rainbow i:nth-child(7){background:#a855f7}
+
+  .top{display:flex;align-items:center;gap:9px;padding:13px 16px 4px}
+  .kb{flex:0 0 auto;width:30px;height:30px;border-radius:9px;
+    background:linear-gradient(150deg,#6366f1,#a855f7);display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:15px;color:#fff;letter-spacing:-.5px;box-shadow:0 2px 10px rgba(124,58,237,.35)}
+  .top .txt b{display:block;font-size:14.5px;font-weight:900;letter-spacing:-.4px;line-height:1.2}
+  .top .txt span{display:block;font-size:10.5px;color:var(--dim);letter-spacing:.2px;margin-top:1px;font-weight:700}
+
+  .hero{padding:14px 16px 10px}
+  .eyebrow{display:inline-block;font-size:11.5px;font-weight:900;letter-spacing:.4px;color:#f0c98a;
+    background:rgba(244,198,99,.10);border:1px solid rgba(244,198,99,.28);border-radius:99px;padding:4px 10px}
+  h1{margin:11px 0 0;font-size:27px;line-height:1.2;font-weight:900;letter-spacing:-1.2px}
+  h1 b{color:var(--gold)}
+  h1 .r{color:var(--red)} h1 .bl{color:var(--blue2)}
+  .sub{margin:8px 0 0;font-size:12.5px;color:var(--sub);font-weight:800;letter-spacing:-.1px}
+
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:6px 16px 4px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 13px 10px;position:relative;overflow:hidden}
+  .stat .k{display:block;font-size:11.5px;font-weight:800;color:var(--sub);letter-spacing:.1px}
+  .stat .v{display:block;margin:4px 0 2px;font-size:25px;font-weight:900;letter-spacing:-1.1px;line-height:1.05}
+  .stat .v em{font-size:13.5px;font-weight:800;margin-left:2px;letter-spacing:-.2px;opacity:.75}
+  .stat .x{display:block;font-size:11px;font-weight:800;color:var(--dim);letter-spacing:.1px}
+  .stat.gold{border-color:rgba(244,198,99,.38);background:linear-gradient(160deg,rgba(244,198,99,.10),var(--card) 62%)}
+  .stat.gold .v{color:var(--gold)} .stat.gold .x{color:#d8b16d}
+  .stat.red{border-color:rgba(240,114,127,.34);background:linear-gradient(160deg,rgba(240,114,127,.10),var(--card) 62%)}
+  .stat.red .v{color:var(--red2)} .stat.red .x{color:#cf8f95}
+  .stat.blue{border-color:rgba(77,159,224,.34);background:linear-gradient(160deg,rgba(77,159,224,.10),var(--card) 62%)}
+  .stat.blue .v{color:var(--blue2)} .stat.blue .x{color:#8fb6d6}
+
+  /* 보기 전환 */
+  .switch{display:flex;gap:6px;margin:12px 16px 0;padding:4px;background:#121821;border:1px solid var(--line);border-radius:12px}
+  .switch button{flex:1;min-height:36px;border:0;border-radius:9px;background:transparent;color:var(--sub);
+    font:inherit;font-size:12.5px;font-weight:900;letter-spacing:-.2px;cursor:pointer;transition:.15s}
+  .switch button.on{background:linear-gradient(180deg,#2a3442,#212a36);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 2px 10px rgba(0,0,0,.35)}
+
+  .panel{margin:11px 16px 0;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .phead{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:11px 14px 9px;border-bottom:1px solid var(--line)}
+  .phead b{font-size:13.5px;font-weight:900;letter-spacing:-.2px}
+  .phead span{font-size:10.5px;font-weight:800;color:var(--dim);letter-spacing:.2px}
+
+  ul.rows{list-style:none;margin:0;padding:0}
+  .drow{padding:9px 13px 10px;border-bottom:1px solid rgba(36,44,56,.7);position:relative}
+  .drow:last-child{border-bottom:0}
+  .l1{display:flex;align-items:center;gap:6px}
+  .l1 .d{font-size:15px;font-weight:900;color:#eaf1f9;letter-spacing:-.3px}
+  .l1 .w{font-size:12px;font-weight:900;color:var(--dim)}
+  .bg{font-size:10px;font-weight:900;line-height:1;padding:3.5px 6px;border-radius:5px;letter-spacing:.1px}
+  .bg.up{color:#3d1a1f;background:linear-gradient(180deg,#ffb3ba,#f0727f)}
+  .bg.dn{color:#0a2437;background:linear-gradient(180deg,#a8d8f7,#4d9fe0)}
+  .bg.flat{color:#cfd8e3;background:#2b3340}
+  .bg.first{color:#8d99a8;background:#202834}
+  .rtag{font-size:9px;font-weight:900;letter-spacing:.3px;padding:3px 5px;border-radius:4px;
+    color:#3d2a05;background:linear-gradient(180deg,#f9de9b,#e3b355)}
+  .l1 .rng{margin-left:auto;display:flex;align-items:baseline;gap:4px}
+  .l1 .rng i{font-size:10px;font-weight:800;color:var(--sub);letter-spacing:.1px}
+  .l1 .rng b{font-size:16px;font-weight:900;color:var(--gold);letter-spacing:-.5px}
+
+  .l2{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:7px}
+  .l2 div{background:#121821;border:1px solid #1e2631;border-radius:8px;padding:5px 7px 6px;text-align:center}
+  .l2 i{display:block;font-size:9.5px;font-weight:800;color:var(--dim);letter-spacing:.3px}
+  .l2 b{display:block;margin-top:1px;font-size:13.5px;font-weight:900;color:#dde7f3;letter-spacing:-.3px}
+
+  .l3{display:flex;align-items:center;gap:9px;margin-top:7px}
+  .l3 .sj,.l3 .sg{display:flex;align-items:baseline;gap:5px}
+  .l3 .sj i,.l3 .sg i{font-size:10px;font-weight:900;letter-spacing:.2px}
+  .l3 .sj b,.l3 .sg b{font-size:15px;font-weight:900;letter-spacing:-.4px}
+  .l3 .sj i{color:#5f8db5} .l3 .sj b{color:var(--blue)}
+  .l3 .sg i{color:#b3717a} .l3 .sg b{color:var(--red)}
+  .mbar{margin-left:auto;position:relative;width:36px;height:44px;flex:0 0 36px;
+    background:#0f1520;border:1px solid #1f2836;border-radius:7px}
+  .mbar::before{content:"";position:absolute;left:4px;right:4px;top:50%;height:1px;background:#5c6a7c;z-index:2}
+  .mbar .mu{position:absolute;left:50%;transform:translateX(-50%);width:7px;bottom:50%;
+    background:linear-gradient(180deg,#ff9aa4,#e0566a);border-radius:1px;box-shadow:0 0 6px rgba(240,114,127,.4)}
+  .mbar .md{position:absolute;left:50%;transform:translateX(-50%);width:7px;top:50%;
+    background:linear-gradient(0deg,#7fc4f2,#2b7cb8);border-radius:1px;box-shadow:0 0 6px rgba(77,159,224,.4)}
+
+  .drow.mx-rng{background:linear-gradient(90deg,rgba(244,198,99,.09),rgba(244,198,99,.01) 70%)}
+  .drow.mx-sg .l3 .sg b{text-shadow:0 0 12px rgba(240,114,127,.55)}
+  .drow.mx-sj .l3 .sj b{text-shadow:0 0 12px rgba(77,159,224,.55)}
+  .drow.mx-rng::before,.drow.mx-sg::before,.drow.mx-sj::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0}
+  .drow.mx-rng::before{background:var(--gold);box-shadow:0 0 10px rgba(244,198,99,.6)}
+  .drow.mx-sg::before{background:var(--red);box-shadow:0 0 10px rgba(240,114,127,.55)}
+  .drow.mx-sj::before{background:var(--blue);box-shadow:0 0 10px rgba(77,159,224,.55)}
+  .drow.mx-rng.mx-sg::before{background:var(--gold)}
+
+  .leg{display:flex;flex-wrap:wrap;gap:5px 12px;padding:10px 14px 11px;border-top:1px solid var(--line);
+    font-size:10px;font-weight:800;color:var(--sub)}
+  .leg .sw{display:inline-block;width:16px;height:6px;border-radius:2px;margin-right:4px;vertical-align:1px}
+  .leg .sw.g{background:linear-gradient(90deg,#c9973a,#f7d787)}
+  .leg .sw.r{background:linear-gradient(90deg,#e0566a,#ff9aa4)}
+  .leg .sw.b{background:linear-gradient(0deg,#2b7cb8,#7fc4f2)}
+
+  /* 요약 하단 */
+  .floor{margin:11px 16px 0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#151c24,#111720)}
+  .frow{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:0 8px;padding:10px 14px 11px;position:relative}
+  .frow+.frow{border-top:1px solid rgba(36,44,56,.7)}
+  .frow .fc{font-size:10px;font-weight:900;letter-spacing:.3px;padding:4px 7px;border-radius:5px;line-height:1}
+  .frow .fd{font-size:13.5px;font-weight:900;color:#e2ecf8;letter-spacing:-.2px}
+  .frow .fd i{font-size:11.5px;font-weight:800;color:var(--sub);margin-left:2px}
+  .frow .fv{font-size:21px;font-weight:900;line-height:1;letter-spacing:-1px}
+  .frow .fv em{font-size:12px;font-weight:800;margin-left:1px;opacity:.8}
+  .frow .fb{grid-column:1/-1;height:5px;border-radius:3px;background:#1e2531;margin-top:7px;overflow:hidden}
+  .frow .fb i{display:block;height:100%;border-radius:3px}
+  .frow.fr{background:linear-gradient(90deg,rgba(240,114,127,.08),transparent 75%)}
+  .frow.fr .fc{color:#3d1a1f;background:linear-gradient(180deg,#ffb3ba,#f0727f)}
+  .frow.fr .fv{color:var(--red2)}
+  .frow.fr .fb i{background:linear-gradient(90deg,#e0566a,#ff9aa4)}
+  .frow.fb2{background:linear-gradient(90deg,rgba(77,159,224,.09),transparent 75%)}
+  .frow.fb2 .fc{color:#0a2437;background:linear-gradient(180deg,#a8d8f7,#4d9fe0)}
+  .frow.fb2 .fv{color:var(--blue2)}
+  .frow.fb2 .fb i{background:linear-gradient(90deg,#2b7cb8,#7fc4f2)}
+
+  /* 가로표형 */
+  .wide{display:none;margin:11px 16px 0;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .wide .whead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 14px 9px;border-bottom:1px solid var(--line)}
+  .wide .whead b{font-size:13.5px;font-weight:900}
+  .copy{border:1px solid rgba(244,198,99,.34);background:rgba(244,198,99,.10);color:#f0c98a;
+    font:inherit;font-size:11px;font-weight:900;letter-spacing:-.1px;border-radius:8px;padding:7px 10px;cursor:pointer}
+  .copy:active{transform:translateY(1px)}
+  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table.wt{border-collapse:collapse;width:100%;table-layout:fixed;font-variant-numeric:tabular-nums}
+  table.wt th{position:sticky;top:0;background:#161d26;color:#8b98a8;font-size:9px;font-weight:900;
+    letter-spacing:.1px;padding:8px 3px;text-align:right;border-bottom:1px solid #2a3341;white-space:nowrap}
+  table.wt th:first-child{text-align:left;padding-left:9px;width:60px;position:sticky;left:0;z-index:3;background:#161d26}
+  table.wt th.rng{color:#e0b45c} table.wt th.sj{color:var(--blue)} table.wt th.sg{color:var(--red)}
+  table.wt td{padding:7px 3px;text-align:right;font-size:11.5px;font-weight:800;color:#cfdae8;
+    border-bottom:1px solid #1b222b;white-space:nowrap;letter-spacing:-.2px}
+  table.wt tr:nth-child(even) td{background:#121821}
+  table.wt td.dt{text-align:left;padding-left:9px;position:sticky;left:0;z-index:2;background:var(--card);font-size:11.5px;
+    color:#e6eef8;font-weight:900;border-right:1px solid #1e2631}
+  table.wt tr:nth-child(even) td.dt{background:#121821}
+  table.wt td.dt i{font-size:10px;color:var(--dim);margin-left:2px}
+  table.wt td.rng{color:var(--gold);font-weight:900}
+  table.wt td.sj{color:var(--blue)} table.wt td.sg{color:var(--red)}
+  table.wt td.gap{color:var(--dim);font-size:11px}
+
+  body.wideview .panel,body.wideview .floor{display:none}
+  body.wideview .wide{display:block}
+
+  footer{padding:13px 18px 22px;text-align:center}
+  footer p{margin:0;font-size:10px;line-height:1.7;color:var(--dim);font-weight:700;letter-spacing:.1px}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+    background:#1f2833;border:1px solid #33404f;color:#e8eef7;font-size:12px;font-weight:900;
+    padding:9px 14px;border-radius:99px;transition:.18s;z-index:50}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="rainbow"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <header class="top">
+    <div class="kb">K</div>
+    <div class="txt"><b>케비라</b><span>코스피200 선물 · 시고 / 시저</span></div>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">26년 11월물 기간</span>
+    <h1>시가에서 위로 <span class="r">시고</span><br>아래로 <span class="bl">시저</span></h1>
+    <p class="sub">10.12 (월) ~ 11.12 (목) · 24거래일 · 12월물 · 단위 p</p>
+  </section>
+
+  <section class="stats">
+    <div class="stat gold">
+      <span class="k">평균 진폭</span>
+      <b class="v">40.26<em>p</em></b>
+      <span class="x">고가 − 저가 · 최대 70.50p</span>
+    </div>
+    <div class="stat red">
+      <span class="k">평균 시고 +</span>
+      <b class="v">20.67<em>p</em></b>
+      <span class="x">최대 +54.45p · 10.19 (월)</span>
+    </div>
+    <div class="stat blue">
+      <span class="k">평균 시저 −</span>
+      <b class="v">19.59<em>p</em></b>
+      <span class="x">최저 -62.10p · 11.04 (수)</span>
+    </div>
+    <div class="stat">
+      <span class="k">최대 진폭일</span>
+      <b class="v">70.50<em>p</em></b>
+      <span class="x">11.04 (수) · 시고 +8.40</span>
+    </div>
+  </section>
+
+  <div class="switch">
+    <button id="btnCard" class="on" type="button">모바일 카드형</button>
+    <button id="btnWide" type="button">가로표형 (복사용)</button>
+  </div>
+
+  <section class="panel">
+    <div class="phead">
+      <b>일별 시가 · 시고 · 시저</b>
+      <span>막대 기준 62.10p · 24거래일</span>
+    </div>
+    <ul class="rows">
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.12</span><span class="w">월</span><span class="bg dn">▼ 9.15</span>
+          
+          <span class="rng"><i>진폭</i><b>37.15</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>1039.10</b></div>
+          <div><i>고가</i><b>1043.70</b></div>
+          <div><i>저가</i><b>1006.55</b></div>
+          <div><i>종가</i><b>1008.25</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-32.55</b></span>
+          <span class="sg"><i>시고</i><b>+4.60</b></span>
+          <span class="mbar"><i class="mu" style="height:2.0px"></i><i class="md" style="height:8.4px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.13</span><span class="w">화</span><span class="bg dn">▼ 29.35</span>
+          
+          <span class="rng"><i>진폭</i><b>51.75</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>978.90</b></div>
+          <div><i>고가</i><b>981.70</b></div>
+          <div><i>저가</i><b>929.95</b></div>
+          <div><i>종가</i><b>944.80</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-48.95</b></span>
+          <span class="sg"><i>시고</i><b>+2.80</b></span>
+          <span class="mbar"><i class="mu" style="height:2.0px"></i><i class="md" style="height:12.6px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.14</span><span class="w">수</span><span class="bg up">▲ 6.00</span>
+          
+          <span class="rng"><i>진폭</i><b>41.80</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>950.80</b></div>
+          <div><i>고가</i><b>972.55</b></div>
+          <div><i>저가</i><b>930.75</b></div>
+          <div><i>종가</i><b>944.20</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-20.05</b></span>
+          <span class="sg"><i>시고</i><b>+21.75</b></span>
+          <span class="mbar"><i class="mu" style="height:5.6px"></i><i class="md" style="height:5.2px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.15</span><span class="w">목</span><span class="bg dn">▼ 59.15</span>
+          
+          <span class="rng"><i>진폭</i><b>52.25</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>885.05</b></div>
+          <div><i>고가</i><b>900.25</b></div>
+          <div><i>저가</i><b>848.00</b></div>
+          <div><i>종가</i><b>861.30</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-37.05</b></span>
+          <span class="sg"><i>시고</i><b>+15.20</b></span>
+          <span class="mbar"><i class="mu" style="height:3.9px"></i><i class="md" style="height:9.5px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.16</span><span class="w">금</span><span class="bg up">▲ 25.70</span>
+          
+          <span class="rng"><i>진폭</i><b>34.95</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>887.00</b></div>
+          <div><i>고가</i><b>904.90</b></div>
+          <div><i>저가</i><b>869.95</b></div>
+          <div><i>종가</i><b>881.05</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-17.05</b></span>
+          <span class="sg"><i>시고</i><b>+17.90</b></span>
+          <span class="mbar"><i class="mu" style="height:4.6px"></i><i class="md" style="height:4.4px"></i></span>
+        </div>
+      </li>
+      <li class="drow mx-sg">
+        <div class="l1">
+          <span class="d">10.19</span><span class="w">월</span><span class="bg dn">▼ 41.05</span>
+          
+          <span class="rng"><i>진폭</i><b>54.45</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>840.00</b></div>
+          <div><i>고가</i><b>894.45</b></div>
+          <div><i>저가</i><b>840.00</b></div>
+          <div><i>종가</i><b>893.25</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>0.00</b></span>
+          <span class="sg"><i>시고</i><b>+54.45</b></span>
+          <span class="mbar"><i class="mu" style="height:14.0px"></i><i class="md" style="height:2.0px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.20</span><span class="w">화</span><span class="bg dn">▼ 2.50</span>
+          
+          <span class="rng"><i>진폭</i><b>41.05</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>890.75</b></div>
+          <div><i>고가</i><b>891.65</b></div>
+          <div><i>저가</i><b>850.60</b></div>
+          <div><i>종가</i><b>861.05</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-40.15</b></span>
+          <span class="sg"><i>시고</i><b>+0.90</b></span>
+          <span class="mbar"><i class="mu" style="height:2.0px"></i><i class="md" style="height:10.3px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.21</span><span class="w">수</span><span class="bg up">▲ 19.95</span>
+          
+          <span class="rng"><i>진폭</i><b>33.20</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>881.00</b></div>
+          <div><i>고가</i><b>908.40</b></div>
+          <div><i>저가</i><b>875.20</b></div>
+          <div><i>종가</i><b>893.05</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-5.80</b></span>
+          <span class="sg"><i>시고</i><b>+27.40</b></span>
+          <span class="mbar"><i class="mu" style="height:7.1px"></i><i class="md" style="height:2.0px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.22</span><span class="w">목</span><span class="bg dn">▼ 14.55</span>
+          
+          <span class="rng"><i>진폭</i><b>43.15</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>878.50</b></div>
+          <div><i>고가</i><b>895.20</b></div>
+          <div><i>저가</i><b>852.05</b></div>
+          <div><i>종가</i><b>857.00</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-26.45</b></span>
+          <span class="sg"><i>시고</i><b>+16.70</b></span>
+          <span class="mbar"><i class="mu" style="height:4.3px"></i><i class="md" style="height:6.8px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.23</span><span class="w">금</span><span class="bg dn">▼ 26.95</span>
+          
+          <span class="rng"><i>진폭</i><b>41.70</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>830.05</b></div>
+          <div><i>고가</i><b>866.35</b></div>
+          <div><i>저가</i><b>824.65</b></div>
+          <div><i>종가</i><b>863.30</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-5.40</b></span>
+          <span class="sg"><i>시고</i><b>+36.30</b></span>
+          <span class="mbar"><i class="mu" style="height:9.4px"></i><i class="md" style="height:2.0px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.26</span><span class="w">월</span><span class="bg dn">▼ 7.00</span>
+          
+          <span class="rng"><i>진폭</i><b>18.75</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>856.30</b></div>
+          <div><i>고가</i><b>868.30</b></div>
+          <div><i>저가</i><b>849.55</b></div>
+          <div><i>종가</i><b>850.00</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-6.75</b></span>
+          <span class="sg"><i>시고</i><b>+12.00</b></span>
+          <span class="mbar"><i class="mu" style="height:3.1px"></i><i class="md" style="height:2.0px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.27</span><span class="w">화</span><span class="bg up">▲ 24.45</span>
+          
+          <span class="rng"><i>진폭</i><b>25.05</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>874.45</b></div>
+          <div><i>고가</i><b>899.50</b></div>
+          <div><i>저가</i><b>874.45</b></div>
+          <div><i>종가</i><b>882.45</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>0.00</b></span>
+          <span class="sg"><i>시고</i><b>+25.05</b></span>
+          <span class="mbar"><i class="mu" style="height:6.5px"></i><i class="md" style="height:2.0px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.28</span><span class="w">수</span><span class="bg up">▲ 21.55</span>
+          
+          <span class="rng"><i>진폭</i><b>51.20</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>904.00</b></div>
+          <div><i>고가</i><b>950.15</b></div>
+          <div><i>저가</i><b>898.95</b></div>
+          <div><i>종가</i><b>945.80</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-5.05</b></span>
+          <span class="sg"><i>시고</i><b>+46.15</b></span>
+          <span class="mbar"><i class="mu" style="height:11.9px"></i><i class="md" style="height:2.0px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.29</span><span class="w">목</span><span class="bg dn">▼ 6.80</span>
+          
+          <span class="rng"><i>진폭</i><b>51.05</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>939.00</b></div>
+          <div><i>고가</i><b>966.40</b></div>
+          <div><i>저가</i><b>915.35</b></div>
+          <div><i>종가</i><b>935.00</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-23.65</b></span>
+          <span class="sg"><i>시고</i><b>+27.40</b></span>
+          <span class="mbar"><i class="mu" style="height:7.1px"></i><i class="md" style="height:6.1px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">10.30</span><span class="w">금</span><span class="bg dn">▼ 37.30</span>
+          
+          <span class="rng"><i>진폭</i><b>32.75</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>897.70</b></div>
+          <div><i>고가</i><b>910.00</b></div>
+          <div><i>저가</i><b>877.25</b></div>
+          <div><i>종가</i><b>899.45</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-20.45</b></span>
+          <span class="sg"><i>시고</i><b>+12.30</b></span>
+          <span class="mbar"><i class="mu" style="height:3.2px"></i><i class="md" style="height:5.3px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">11.02</span><span class="w">월</span><span class="bg dn">▼ 18.65</span>
+          
+          <span class="rng"><i>진폭</i><b>50.15</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>880.80</b></div>
+          <div><i>고가</i><b>930.00</b></div>
+          <div><i>저가</i><b>879.85</b></div>
+          <div><i>종가</i><b>918.65</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-0.95</b></span>
+          <span class="sg"><i>시고</i><b>+49.20</b></span>
+          <span class="mbar"><i class="mu" style="height:12.7px"></i><i class="md" style="height:2.0px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">11.03</span><span class="w">화</span><span class="bg dn">▼ 21.65</span>
+          
+          <span class="rng"><i>진폭</i><b>19.85</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>897.00</b></div>
+          <div><i>고가</i><b>899.20</b></div>
+          <div><i>저가</i><b>879.35</b></div>
+          <div><i>종가</i><b>885.15</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-17.65</b></span>
+          <span class="sg"><i>시고</i><b>+2.20</b></span>
+          <span class="mbar"><i class="mu" style="height:2.0px"></i><i class="md" style="height:4.5px"></i></span>
+        </div>
+      </li>
+      <li class="drow mx-rng mx-sj">
+        <div class="l1">
+          <span class="d">11.04</span><span class="w">수</span><span class="bg up">▲ 23.80</span>
+          <span class="rtag">최대</span>
+          <span class="rng"><i>진폭</i><b>70.50</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>908.95</b></div>
+          <div><i>고가</i><b>917.35</b></div>
+          <div><i>저가</i><b>846.85</b></div>
+          <div><i>종가</i><b>889.85</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-62.10</b></span>
+          <span class="sg"><i>시고</i><b>+8.40</b></span>
+          <span class="mbar"><i class="mu" style="height:2.2px"></i><i class="md" style="height:16.0px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">11.05</span><span class="w">목</span><span class="bg dn">▼ 14.00</span>
+          
+          <span class="rng"><i>진폭</i><b>47.75</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>875.85</b></div>
+          <div><i>고가</i><b>878.35</b></div>
+          <div><i>저가</i><b>830.60</b></div>
+          <div><i>종가</i><b>837.25</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-45.25</b></span>
+          <span class="sg"><i>시고</i><b>+2.50</b></span>
+          <span class="mbar"><i class="mu" style="height:2.0px"></i><i class="md" style="height:11.7px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">11.06</span><span class="w">금</span><span class="bg dn">▼ 66.95</span>
+          
+          <span class="rng"><i>진폭</i><b>51.20</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>770.30</b></div>
+          <div><i>고가</i><b>811.30</b></div>
+          <div><i>저가</i><b>760.10</b></div>
+          <div><i>종가</i><b>782.95</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-10.20</b></span>
+          <span class="sg"><i>시고</i><b>+41.00</b></span>
+          <span class="mbar"><i class="mu" style="height:10.6px"></i><i class="md" style="height:2.6px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">11.09</span><span class="w">월</span><span class="bg up">▲ 1.05</span>
+          
+          <span class="rng"><i>진폭</i><b>31.80</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>784.00</b></div>
+          <div><i>고가</i><b>803.35</b></div>
+          <div><i>저가</i><b>771.55</b></div>
+          <div><i>종가</i><b>775.85</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-12.45</b></span>
+          <span class="sg"><i>시고</i><b>+19.35</b></span>
+          <span class="mbar"><i class="mu" style="height:5.0px"></i><i class="md" style="height:3.2px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">11.10</span><span class="w">화</span><span class="bg up">▲ 44.85</span>
+          
+          <span class="rng"><i>진폭</i><b>22.00</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>820.70</b></div>
+          <div><i>고가</i><b>824.95</b></div>
+          <div><i>저가</i><b>802.95</b></div>
+          <div><i>종가</i><b>812.10</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-17.75</b></span>
+          <span class="sg"><i>시고</i><b>+4.25</b></span>
+          <span class="mbar"><i class="mu" style="height:2.0px"></i><i class="md" style="height:4.6px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">11.11</span><span class="w">수</span><span class="bg dn">▼ 8.90</span>
+          
+          <span class="rng"><i>진폭</i><b>35.00</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>803.20</b></div>
+          <div><i>고가</i><b>838.20</b></div>
+          <div><i>저가</i><b>803.20</b></div>
+          <div><i>종가</i><b>836.55</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>0.00</b></span>
+          <span class="sg"><i>시고</i><b>+35.00</b></span>
+          <span class="mbar"><i class="mu" style="height:9.0px"></i><i class="md" style="height:2.0px"></i></span>
+        </div>
+      </li>
+      <li class="drow ">
+        <div class="l1">
+          <span class="d">11.12</span><span class="w">목</span><span class="bg up">▲ 3.00</span>
+          
+          <span class="rng"><i>진폭</i><b>27.70</b></span>
+        </div>
+        <div class="l2">
+          <div><i>시가</i><b>839.55</b></div>
+          <div><i>고가</i><b>852.75</b></div>
+          <div><i>저가</i><b>825.05</b></div>
+          <div><i>종가</i><b>827.50</b></div>
+        </div>
+        <div class="l3">
+          <span class="sj"><i>시저</i><b>-14.50</b></span>
+          <span class="sg"><i>시고</i><b>+13.20</b></span>
+          <span class="mbar"><i class="mu" style="height:3.4px"></i><i class="md" style="height:3.7px"></i></span>
+        </div>
+      </li>
+    </ul>
+    <div class="leg">
+      <span><i class="sw r"></i>시고(+) = 고가 − 시가</span>
+      <span><i class="sw b"></i>시저(−) = 저가 − 시가</span>
+      <span><i class="sw g"></i>진폭 = 고가 − 저가</span>
+      <span>배지 ▲▼ = 시가의 전일 종가 대비 갭</span>
+    </div>
+  </section>
+
+  <section class="floor">
+    <div class="phead"><b>최대 시고 · 최대 시저</b><span>24거래일 · 막대 62.10p</span></div>
+    <div class="frow fr">
+      <span class="fc">최대 시고</span>
+      <span class="fd">10.19 <i>(월)</i></span>
+      <span class="fv">+54.45<em>p</em></span>
+      <span class="fb"><i style="width:87.7%"></i></span>
+    </div>
+    <div class="frow fb2">
+      <span class="fc">최대 시저</span>
+      <span class="fd">11.04 <i>(수)</i></span>
+      <span class="fv">-62.10<em>p</em></span>
+      <span class="fb"><i style="width:100.0%"></i></span>
+    </div>
+  </section>
+
+  <section class="wide">
+    <div class="whead">
+      <b>가로표형</b>
+      <button class="copy" id="copyBtn" type="button">표 복사</button>
+    </div>
+    <div class="scroll">
+      <table class="wt">
+        <thead><tr>
+          <th>날짜</th><th>시가</th><th>고가</th><th>저가</th><th>종가</th>
+          <th class="sj">시저</th><th class="sg">시고</th><th class="rng">진폭</th>
+        </tr></thead>
+        <tbody><tr><td class='dt'>10.12 <i>월</i></td><td>1039.10</td><td>1043.70</td><td>1006.55</td><td>1008.25</td><td class='sj'>-32.55</td><td class='sg'>+4.60</td><td class='rng'>37.15</td></tr><tr><td class='dt'>10.13 <i>화</i></td><td>978.90</td><td>981.70</td><td>929.95</td><td>944.80</td><td class='sj'>-48.95</td><td class='sg'>+2.80</td><td class='rng'>51.75</td></tr><tr><td class='dt'>10.14 <i>수</i></td><td>950.80</td><td>972.55</td><td>930.75</td><td>944.20</td><td class='sj'>-20.05</td><td class='sg'>+21.75</td><td class='rng'>41.80</td></tr><tr><td class='dt'>10.15 <i>목</i></td><td>885.05</td><td>900.25</td><td>848.00</td><td>861.30</td><td class='sj'>-37.05</td><td class='sg'>+15.20</td><td class='rng'>52.25</td></tr><tr><td class='dt'>10.16 <i>금</i></td><td>887.00</td><td>904.90</td><td>869.95</td><td>881.05</td><td class='sj'>-17.05</td><td class='sg'>+17.90</td><td class='rng'>34.95</td></tr><tr><td class='dt'>10.19 <i>월</i></td><td>840.00</td><td>894.45</td><td>840.00</td><td>893.25</td><td class='sj'>0.00</td><td class='sg'>+54.45</td><td class='rng'>54.45</td></tr><tr><td class='dt'>10.20 <i>화</i></td><td>890.75</td><td>891.65</td><td>850.60</td><td>861.05</td><td class='sj'>-40.15</td><td class='sg'>+0.90</td><td class='rng'>41.05</td></tr><tr><td class='dt'>10.21 <i>수</i></td><td>881.00</td><td>908.40</td><td>875.20</td><td>893.05</td><td class='sj'>-5.80</td><td class='sg'>+27.40</td><td class='rng'>33.20</td></tr><tr><td class='dt'>10.22 <i>목</i></td><td>878.50</td><td>895.20</td><td>852.05</td><td>857.00</td><td class='sj'>-26.45</td><td class='sg'>+16.70</td><td class='rng'>43.15</td></tr><tr><td class='dt'>10.23 <i>금</i></td><td>830.05</td><td>866.35</td><td>824.65</td><td>863.30</td><td class='sj'>-5.40</td><td class='sg'>+36.30</td><td class='rng'>41.70</td></tr><tr><td class='dt'>10.26 <i>월</i></td><td>856.30</td><td>868.30</td><td>849.55</td><td>850.00</td><td class='sj'>-6.75</td><td class='sg'>+12.00</td><td class='rng'>18.75</td></tr><tr><td class='dt'>10.27 <i>화</i></td><td>874.45</td><td>899.50</td><td>874.45</td><td>882.45</td><td class='sj'>0.00</td><td class='sg'>+25.05</td><td class='rng'>25.05</td></tr><tr><td class='dt'>10.28 <i>수</i></td><td>904.00</td><td>950.15</td><td>898.95</td><td>945.80</td><td class='sj'>-5.05</td><td class='sg'>+46.15</td><td class='rng'>51.20</td></tr><tr><td class='dt'>10.29 <i>목</i></td><td>939.00</td><td>966.40</td><td>915.35</td><td>935.00</td><td class='sj'>-23.65</td><td class='sg'>+27.40</td><td class='rng'>51.05</td></tr><tr><td class='dt'>10.30 <i>금</i></td><td>897.70</td><td>910.00</td><td>877.25</td><td>899.45</td><td class='sj'>-20.45</td><td class='sg'>+12.30</td><td class='rng'>32.75</td></tr><tr><td class='dt'>11.02 <i>월</i></td><td>880.80</td><td>930.00</td><td>879.85</td><td>918.65</td><td class='sj'>-0.95</td><td class='sg'>+49.20</td><td class='rng'>50.15</td></tr><tr><td class='dt'>11.03 <i>화</i></td><td>897.00</td><td>899.20</td><td>879.35</td><td>885.15</td><td class='sj'>-17.65</td><td class='sg'>+2.20</td><td class='rng'>19.85</td></tr><tr><td class='dt'>11.04 <i>수</i></td><td>908.95</td><td>917.35</td><td>846.85</td><td>889.85</td><td class='sj'>-62.10</td><td class='sg'>+8.40</td><td class='rng'>70.50</td></tr><tr><td class='dt'>11.05 <i>목</i></td><td>875.85</td><td>878.35</td><td>830.60</td><td>837.25</td><td class='sj'>-45.25</td><td class='sg'>+2.50</td><td class='rng'>47.75</td></tr><tr><td class='dt'>11.06 <i>금</i></td><td>770.30</td><td>811.30</td><td>760.10</td><td>782.95</td><td class='sj'>-10.20</td><td class='sg'>+41.00</td><td class='rng'>51.20</td></tr><tr><td class='dt'>11.09 <i>월</i></td><td>784.00</td><td>803.35</td><td>771.55</td><td>775.85</td><td class='sj'>-12.45</td><td class='sg'>+19.35</td><td class='rng'>31.80</td></tr><tr><td class='dt'>11.10 <i>화</i></td><td>820.70</td><td>824.95</td><td>802.95</td><td>812.10</td><td class='sj'>-17.75</td><td class='sg'>+4.25</td><td class='rng'>22.00</td></tr><tr><td class='dt'>11.11 <i>수</i></td><td>803.20</td><td>838.20</td><td>803.20</td><td>836.55</td><td class='sj'>0.00</td><td class='sg'>+35.00</td><td class='rng'>35.00</td></tr><tr><td class='dt'>11.12 <i>목</i></td><td>839.55</td><td>852.75</td><td>825.05</td><td>827.50</td><td class='sj'>-14.50</td><td class='sg'>+13.20</td><td class='rng'>27.70</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <p>코스피200 정규 선물 12월물(202612) 기준 · KRX 확정치 (네이버 금융 선물 일봉)<br>
+    교차검증 estockpost 금융위/KRX · 거래 없는 날 없음<br>
+    시고 &gt; |시저| 13일 / 24일 · 진폭 = 시고 − 시저</p>
+  </footer>
+</div>
+<div class="toast" id="toast">표를 복사했습니다</div>
+<script>
+  var TSV = "날짜\t요일\t시가\t고가\t저가\t종가\t시저\t시고\t진폭\n10.12\t월\t1039.10\t1043.70\t1006.55\t1008.25\t-32.55\t+4.60\t37.15\n10.13\t화\t978.90\t981.70\t929.95\t944.80\t-48.95\t+2.80\t51.75\n10.14\t수\t950.80\t972.55\t930.75\t944.20\t-20.05\t+21.75\t41.80\n10.15\t목\t885.05\t900.25\t848.00\t861.30\t-37.05\t+15.20\t52.25\n10.16\t금\t887.00\t904.90\t869.95\t881.05\t-17.05\t+17.90\t34.95\n10.19\t월\t840.00\t894.45\t840.00\t893.25\t0.00\t+54.45\t54.45\n10.20\t화\t890.75\t891.65\t850.60\t861.05\t-40.15\t+0.90\t41.05\n10.21\t수\t881.00\t908.40\t875.20\t893.05\t-5.80\t+27.40\t33.20\n10.22\t목\t878.50\t895.20\t852.05\t857.00\t-26.45\t+16.70\t43.15\n10.23\t금\t830.05\t866.35\t824.65\t863.30\t-5.40\t+36.30\t41.70\n10.26\t월\t856.30\t868.30\t849.55\t850.00\t-6.75\t+12.00\t18.75\n10.27\t화\t874.45\t899.50\t874.45\t882.45\t0.00\t+25.05\t25.05\n10.28\t수\t904.00\t950.15\t898.95\t945.80\t-5.05\t+46.15\t51.20\n10.29\t목\t939.00\t966.40\t915.35\t935.00\t-23.65\t+27.40\t51.05\n10.30\t금\t897.70\t910.00\t877.25\t899.45\t-20.45\t+12.30\t32.75\n11.02\t월\t880.80\t930.00\t879.85\t918.65\t-0.95\t+49.20\t50.15\n11.03\t화\t897.00\t899.20\t879.35\t885.15\t-17.65\t+2.20\t19.85\n11.04\t수\t908.95\t917.35\t846.85\t889.85\t-62.10\t+8.40\t70.50\n11.05\t목\t875.85\t878.35\t830.60\t837.25\t-45.25\t+2.50\t47.75\n11.06\t금\t770.30\t811.30\t760.10\t782.95\t-10.20\t+41.00\t51.20\n11.09\t월\t784.00\t803.35\t771.55\t775.85\t-12.45\t+19.35\t31.80\n11.10\t화\t820.70\t824.95\t802.95\t812.10\t-17.75\t+4.25\t22.00\n11.11\t수\t803.20\t838.20\t803.20\t836.55\t0.00\t+35.00\t35.00\n11.12\t목\t839.55\t852.75\t825.05\t827.50\t-14.50\t+13.20\t27.70";
+  var bC = document.getElementById('btnCard'), bW = document.getElementById('btnWide');
+  bC.onclick = function () { document.body.classList.remove('wideview'); bC.classList.add('on'); bW.classList.remove('on'); };
+  bW.onclick = function () { document.body.classList.add('wideview'); bW.classList.add('on'); bC.classList.remove('on'); };
+  document.getElementById('copyBtn').onclick = function () {
+    var t = document.getElementById('toast');
+    function done() { t.classList.add('on'); setTimeout(function () { t.classList.remove('on'); }, 1400); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(TSV).then(done, function () { fallback(); });
+    } else { fallback(); }
+    function fallback() {
+      var a = document.createElement('textarea'); a.value = TSV; a.style.position = 'fixed'; a.style.opacity = '0';
+      document.body.appendChild(a); a.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(a);
+    }
+  };
+</script>
+</body>
+</html>
