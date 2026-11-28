@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8"><title>모바일 미리보기</title>
 <style>html,body{margin:0;background:#070a0e}iframe{display:block;border:0;width:390px;margin:0 auto}</style></head>
-<body><iframe id="f" src="index.html" scrolling="no"></iframe>
-<script>const f=document.getElementById('f');f.style.height=(Number(new URLSearchParams(location.search).get('h'))||2200)+'px';</script>
+<body><iframe id="f" scrolling="no"></iframe>
+<script>
+const q=new URLSearchParams(location.search);
+const f=document.getElementById('f');
+f.style.height=(Number(q.get('h'))||2200)+'px';
+f.src='index.html?v='+Date.now();
+</script>
 </body></html>
