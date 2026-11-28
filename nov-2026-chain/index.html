@@ -98,8 +98,15 @@
   .scroll{overflow-x:auto}
   table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
   body:not(.wide) table{min-width:0}
-  thead th:nth-child(5),tbody td:nth-child(5){border-left:1px solid var(--line2)}
-  thead th:nth-child(7),tbody td:nth-child(7){border-right:1px solid var(--line2)}
+  thead th.midh{color:var(--gold);background:rgba(244,198,99,.12);letter-spacing:.8px}
+  thead th.svh{background:rgba(244,198,99,.14);color:var(--gold);font-size:11px}
+  thead th.svhc{color:var(--red2)}
+  thead th.svhp{color:var(--blue2)}
+  tbody td.sv{font-weight:900;font-size:13.5px;background:rgba(244,198,99,.06)}
+  tbody td.svc{border-left:1px solid rgba(244,198,99,.5)}
+  tbody td.svp{border-right:1px solid rgba(244,198,99,.5)}
+  tbody tr.z td.sv{background:rgba(244,198,99,.10)}
+  tbody tr.b5 td.sv{border-bottom-color:#7a6435}
   thead th{background:#131a24;color:var(--sub);font-size:10.5px;font-weight:900;
     padding:6px 3px;border-bottom:1px solid var(--line);letter-spacing:.2px}
   thead tr.g th{font-size:11px;padding:7px 3px 5px;letter-spacing:1.2px;border-bottom:none}
@@ -141,7 +148,7 @@
     <span class="eyebrow">26년 11월물 · 24거래일 복기판</span>
     <h1><span class="r">콜</span>·<span class="bl">풋</span> 가로 시세판 <span class="g">한 판</span></h1>
     <p class="sub2">2026-10-12 ~ 2026-11-12 · 정규장(주간) · <span class="hl">시가 1.00~6.99</span> 종목만<br>
-      콜·풋을 <span class="hl">시가가 비슷한 순</span>으로 마주 보게 배열 (높은 시가 → 낮은 시가) · 5행마다 구분선</p>
+      콜·풋을 <span class="hl">시가가 비슷한 순</span>으로 마주 보게 배열 (높은 시가 → 낮은 시가) · 가운데 두 칸이 <span class="hl">콜·풋 시가</span> 비교 자리</p>
   </div>
 
   <div class="stats">
@@ -154,7 +161,7 @@
   <nav class="tabs"><div class="tabrow" id="tabs"></div></nav>
 
   <div class="toolbar">
-    <div class="legend"><b>읽는 법</b> — 한 줄이 콜·풋 한 쌍입니다. 가운데 <b>행사가 두 칸이 서로 다른 것이 정상</b>입니다(같은 프리미엄끼리 맞춘 결과). 글자 색이 진할수록 프리미엄이 큽니다.</div>
+    <div class="legend"><b>읽는 법</b> — 한 줄이 콜·풋 한 쌍입니다. 가운데 두 칸이 <b>콜·풋 시가(프리미엄)</b>이고, 양옆 행사가는 서로 다른 것이 정상입니다(같은 프리미엄끼리 맞준 결과). 글자 색이 진할수록 프리미엄이 큽니다.</div>
     <label class="chk"><input type="checkbox" id="wide"> 고가·저가·종가까지</label>
   </div>
 
@@ -188,7 +195,7 @@ function cell(v, side, cls){
 
 function renderDay(d, wide){
   const rows = Math.max(d.calls.length, d.puts.length);
-  const cspan = wide ? 4 : 1, mspan = wide ? 2 : 1;
+  const cspan = wide ? 4 : 1;
   const hx = wide ? '' : ' class="x"';
   let body='';
   for(let i=0;i<rows;i++){
@@ -196,13 +203,13 @@ function renderDay(d, wide){
     const b5 = ((i+1)%5===0) ? ' b5' : '';
     const z = (Math.floor(i/5)%2===1) ? ' z' : '';
     body += `<tr class="${b5}${z}">`
-      + cell(c?c[0]:null,'c','cl')
+      + `<td class="k cl">${c?fk(c[4]):'–'}</td>`
       + cell(c?c[1]:null,'c','x')
       + cell(c?c[2]:null,'c','x')
       + cell(c?c[3]:null,'c','x')
-      + `<td class="k">${c?fk(c[4]):'–'}</td>`
-      + `<td class="k km">${p?fk(p[4]):'–'}</td>`
-      + cell(p?p[0]:null,'p','cr')
+      + cell(c?c[0]:null,'c','sv svc')
+      + cell(p?p[0]:null,'p','sv svp')
+      + `<td class="k km cr">${p?fk(p[4]):'–'}</td>`
       + cell(p?p[1]:null,'p','x cr')
       + cell(p?p[2]:null,'p','x cr')
       + cell(p?p[3]:null,'p','x cr')
@@ -226,8 +233,8 @@ function renderDay(d, wide){
     </div>
     <div class="scroll"><table>
       <thead>
-        <tr class="g"><th colspan="${cspan}" class="callh">콜 CALL</th><th colspan="${mspan}" class="midh">행사가</th><th colspan="${cspan}" class="puth">풋 PUT</th></tr>
-        <tr><th>시가</th><th${hx}>고가</th><th${hx}>저가</th><th${hx}>종가</th><th>콜</th><th>풋</th><th>시가</th><th${hx}>고가</th><th${hx}>저가</th><th${hx}>종가</th></tr>
+        <tr class="g"><th colspan="${cspan}" class="callh">콜 CALL</th><th colspan="2" class="midh">시가</th><th colspan="${cspan}" class="puth">풋 PUT</th></tr>
+        <tr><th>행사가</th><th${hx}>고가</th><th${hx}>저가</th><th${hx}>종가</th><th class="svh svhc">콜</th><th class="svh svhp">풋</th><th>행사가</th><th${hx}>고가</th><th${hx}>저가</th><th${hx}>종가</th></tr>
       </thead>
       <tbody>${body}</tbody>
     </table></div>
