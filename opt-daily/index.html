@@ -71,7 +71,8 @@
   @media (min-width:900px){.swipe{display:none}}
 
   .board{margin:8px 12px 18px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
-  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .scroll::-webkit-scrollbar{height:0;display:none}
   table{width:100%;border-collapse:collapse;font-size:11.5px;min-width:1000px;table-layout:fixed}
 
   thead th{background:#131a24;color:var(--sub);font-size:10px;font-weight:900;
