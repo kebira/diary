@@ -97,6 +97,9 @@
 
   .scroll{overflow-x:auto}
   table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}
+  body:not(.wide) table{min-width:0}
+  thead th:nth-child(5),tbody td:nth-child(5){border-left:1px solid var(--line2)}
+  thead th:nth-child(7),tbody td:nth-child(7){border-right:1px solid var(--line2)}
   thead th{background:#131a24;color:var(--sub);font-size:10.5px;font-weight:900;
     padding:6px 3px;border-bottom:1px solid var(--line);letter-spacing:.2px}
   thead tr.g th{font-size:11px;padding:7px 3px 5px;letter-spacing:1.2px;border-bottom:none}
@@ -183,8 +186,10 @@ function cell(v, side, cls){
   return `<td class="${cls||''}" style="color:${col(v,side)}">${f2(v)}</td>`;
 }
 
-function renderDay(d){
+function renderDay(d, wide){
   const rows = Math.max(d.calls.length, d.puts.length);
+  const cspan = wide ? 4 : 1, mspan = wide ? 2 : 1;
+  const hx = wide ? '' : ' class="x"';
   let body='';
   for(let i=0;i<rows;i++){
     const c = d.calls[i] || null, p = d.puts[i] || null;
@@ -221,8 +226,8 @@ function renderDay(d){
     </div>
     <div class="scroll"><table>
       <thead>
-        <tr class="g"><th colspan="4" class="callh">콜 CALL</th><th colspan="2" class="midh">행사가</th><th colspan="4" class="puth">풋 PUT</th></tr>
-        <tr><th>시가</th><th>고가</th><th>저가</th><th>종가</th><th>콜</th><th>풋</th><th>시가</th><th>고가</th><th>저가</th><th>종가</th></tr>
+        <tr class="g"><th colspan="${cspan}" class="callh">콜 CALL</th><th colspan="${mspan}" class="midh">행사가</th><th colspan="${cspan}" class="puth">풋 PUT</th></tr>
+        <tr><th>시가</th><th${hx}>고가</th><th${hx}>저가</th><th${hx}>종가</th><th>콜</th><th>풋</th><th>시가</th><th${hx}>고가</th><th${hx}>저가</th><th${hx}>종가</th></tr>
       </thead>
       <tbody>${body}</tbody>
     </table></div>
@@ -234,8 +239,9 @@ const tabs = document.getElementById('tabs');
 let cur = 'all';
 
 function paint(){
+  const wide = document.body.classList.contains('wide');
   const list = cur==='all' ? DATA.days : DATA.days.filter(d=>d.date===cur);
-  board.innerHTML = list.map(renderDay).join('') || '<p style="color:var(--sub);padding:20px 16px;font-weight:800">해당 날짜에 시가 1.00~6.99 종목이 없습니다.</p>';
+  board.innerHTML = list.map(d=>renderDay(d, wide)).join('') || '<p style="color:var(--sub);padding:20px 16px;font-weight:800">해당 날짜에 시가 1.00~6.99 종목이 없습니다.</p>';
   [...tabs.children].forEach(b=>b.classList.toggle('on', b.dataset.d===cur));
   window.scrollTo(0,0);
 }
@@ -253,10 +259,15 @@ function paint(){
   });
 })();
 
-document.getElementById('wide').addEventListener('change', e=>{
+const wideBox = document.getElementById('wide');
+wideBox.addEventListener('change', e=>{
   document.body.classList.toggle('wide', e.target.checked);
+  paint();
 });
-if(window.matchMedia('(min-width:641px)').matches) document.body.classList.add('wide');
+if(window.matchMedia('(min-width:641px)').matches){
+  document.body.classList.add('wide');
+  wideBox.checked = true;
+}
 paint();
 </script>
 </body>
